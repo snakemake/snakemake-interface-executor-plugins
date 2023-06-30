@@ -1,0 +1,15 @@
+[tool.poetry]
+authors = ["Johannes Köster <johannes.koester@uni-due.de>"]
+description = "This package provides a stable interface for interactions between Snakemake and its executor plugins."
+license = "MIT"
+name = "snakemake-executor-plugin-interface"
+packages = [{include = "snakemake_executor_plugin_interface"}]
+readme = "README.md"
+version = "0.1.0"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+
+[build-system]
+build-backend = "poetry.core.masonry.api"
+requires = ["poetry-core"]
