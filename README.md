@@ -7,6 +7,7 @@ Plugins should implement the following skeleton to comply with this interface:
 ```python
 
 from snakemake.executors import ClusterExecutor
+from snakemake_executor_plugin_interface import ExecutorSettingsBase, CommonSettings
 
 # Optional:
 # define additional settings for your executor
