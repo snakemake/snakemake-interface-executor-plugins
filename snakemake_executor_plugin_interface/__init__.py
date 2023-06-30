@@ -52,6 +52,7 @@ class ExecutorPluginRegistry:
 
     def __init__(self, executor_base_cls: type[object]):
         if hasattr(self, "executor_base_cls"):
+            # init has been called before
             return
         self.executor_base_cls = executor_base_cls
         self._collect_plugins()
