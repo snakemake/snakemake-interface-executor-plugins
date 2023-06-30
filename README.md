@@ -15,7 +15,6 @@ from snakemake_executor_plugin_interface import ExecutorSettingsBase, CommonSett
 # Omit this class if you don't need any.
 @dataclass
 class ExecutorSettings:
-    
     myparam: int=field(default=None, metadata={"help": "Some help text"})
 
 
