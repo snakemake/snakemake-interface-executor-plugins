@@ -1,0 +1,36 @@
+name: test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches-ignore: []
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+
+      - uses: actions/checkout@v2
+        if: ${{ steps.release.outputs.release_created }}
+
+      - uses: actions/setup-python@v2
+        if: ${{ steps.release.outputs.release_created }}
+        with:
+          python-version: "3.9"
+
+      - name: Setup poetry
+        if: ${{ steps.release.outputs.release_created }}
+        uses: abatilo/actions-poetry@v2.0.0
+
+      - name: Install Dependencies using Poetry
+        if: ${{ steps.release.outputs.release_created }}
+        run: poetry install
+
+      - name: Publish to PyPi
+        if: ${{ steps.release.outputs.release_created }}
+        env:
+          PYPI_USERNAME: __token__
+          PYPI_PASSWORD: ${{ secrets.PYPI_TOKEN }}
+        run: poetry publish --build --username $PYPI_USERNAME --password $PYPI_PASSWORD
