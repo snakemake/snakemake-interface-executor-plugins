@@ -23,13 +23,14 @@ jobs:
       - name: Install dependencies
         run: |
           pip install connection-pool # because it is incompatible with poetry
-          poetry install
+          pip install .
 
       - name: Install example plugin
         run: |
-          git clone https://github.com/snakemake/snakemake-executor-flux.git
-          cd snakemake-executor-flux
+          git clone https://github.com/snakemake/snakemake-executor-flux.git /tmp/plugin
+          cd /tmp/plugin
           pip install .
+          cd -
 
       - name: Run pytest
         run: poetry run coverage run -m pytest tests.py
