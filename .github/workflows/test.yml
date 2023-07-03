@@ -19,7 +19,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install connection-pool # because it is incompatible with poetry
+          pip install connection-pool
+          pip install pytest
           pip install .
 
       - name: Install example plugin
