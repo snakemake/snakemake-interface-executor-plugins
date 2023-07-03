@@ -173,3 +173,19 @@ class ExecutorPluginRegistry:
                 if is_optional:
                     continue
                 raise InvalidPluginException(name, f"plugin does not define {attr}.")
+
+            if is_optional:
+                # get inner type
+                attr_type, _ = attr_type.__args__
+            attr_value = getattr(module, attr)
+            if type(attr_type) == types.GenericAlias:
+                # check for class type
+                cls, = attr_type.__args__
+                if not issubclass(attr_value, cls):
+                    raise InvalidPluginException(name, f"{attr} must be a subclass of {cls.__module__}.{cls.__name__}.")
+            else:
+                # check for instance type
+                if not isinstance(attr_value, attr_type):
+                    raise InvalidPluginException(
+                        name, f"{attr} must be of type {attr_type}."
+                    )
