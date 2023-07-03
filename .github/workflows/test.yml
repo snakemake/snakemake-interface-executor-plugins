@@ -20,11 +20,13 @@ jobs:
       - name: Setup poetry
         uses: abatilo/actions-poetry@v2.0.0
 
-      - name: Install Dependencies using Poetry
+      - name: Install dependencies
         run: |
           pip install connection-pool # because it is incompatible with poetry
           poetry install
-          # install an example executor plugin
+
+      - name: Install example plugin
+        run: |
           pip install git+https://github.com/snakemake/snakemake-executor-flux
 
       - name: Run pytest
