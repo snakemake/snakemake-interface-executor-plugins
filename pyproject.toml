@@ -11,6 +11,26 @@ version = "0.1.0"
 python = "^3.9"
 argparse-dataclass = "^2.0.0"
 
+[tool.poetry.dev-dependencies]
+black = "^22.1.0"
+coverage = {extras = ["toml"], version = "^6.3.1"}
+flake8 = "^4.0.1"
+flake8-bugbear = "^22.1.11"
+pytest = "^7.0"
+snakemake = "*"
+
+[tool.coverage.run]
+omit = [".*", "*/site-packages/*"]
+
+[tool.coverage.report]
+# exclude CLI handling lines. They cannot be captured properly by coverage, but we have a testcase for them.
+exclude_lines = [
+  "yaml\\.dump\\(result, outfile\\)",
+  "process_yaml\\(sys.stdin, outfile=sys\\.stdout\\)",
+  "plac.call\\(cli\\)",
+]
+fail_under = 100
+
 [build-system]
 build-backend = "poetry.core.masonry.api"
 requires = ["poetry-core"]
