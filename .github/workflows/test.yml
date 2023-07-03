@@ -25,7 +25,7 @@ jobs:
           pip install connection-pool # because it is incompatible with poetry
           poetry install
           # install an example executor plugin
-          pip install git+https://github.com/snakemake/snakemake-executor-flux@update/using-snakemake-executor-plugin-interface
+          pip install git+https://github.com/snakemake/snakemake-executor-flux
 
       - name: Run pytest
         run: poetry run coverage run -m pytest tests.py
