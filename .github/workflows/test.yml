@@ -17,9 +17,6 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Setup poetry
-        uses: abatilo/actions-poetry@v2.0.0
-
       - name: Install dependencies
         run: |
           pip install connection-pool # because it is incompatible with poetry
@@ -33,7 +30,4 @@ jobs:
           cd -
 
       - name: Run pytest
-        run: poetry run coverage run -m pytest tests.py
-
-      - name: Run Coverage
-        run: poetry run coverage report -m
+        run: pytest -xs tests.py
