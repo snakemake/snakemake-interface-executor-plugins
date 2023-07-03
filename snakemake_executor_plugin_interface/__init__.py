@@ -15,11 +15,11 @@ import snakemake_executor_plugin_interface._common as common
 class CommonSettings:
     """Common Snakemake settings shared between executors that can be specified by executor plugins.
 
-    The plugin can specify an instance of this class as the value of the common_settings attribute.
+    The plugin has to specify an instance of this class as the value of the common_settings attribute.
     """
 
+    non_local_exec: bool
     use_threads: bool = False
-    flux: bool = False
 
 
 @dataclass
@@ -42,7 +42,7 @@ class Plugin:
 
     # This is the executor base class
     executor: object
-    common_settings: Optional[CommonSettings]
+    common_settings: CommonSettings
     _executor_settings_cls: Optional[type[ExecutorSettingsBase]]
 
     @property
@@ -162,7 +162,7 @@ class ExecutorPluginRegistry:
     def _validate_plugin(self, name: str, module: types.ModuleType):
         """Validate a plugin for attributes and naming"""
         expected_attributes = {
-            "common_settings": Optional[CommonSettings],
+            "common_settings": CommonSettings,
             "ExecutorSettings": Optional[type[ExecutorSettingsBase]],
             "Executor": type[self.executor_base_cls],
         }

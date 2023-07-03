@@ -8,8 +8,8 @@ readme = "README.md"
 version = "0.1.0"
 
 [tool.poetry.dependencies]
-python = "^3.9"
 argparse-dataclass = "^2.0.0"
+python = "^3.9"
 
 [tool.poetry.dev-dependencies]
 black = "^22.1.0"

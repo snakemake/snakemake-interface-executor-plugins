@@ -11,7 +11,6 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-
       - uses: actions/checkout@v2
 
       - uses: actions/setup-python@v2
@@ -25,6 +24,8 @@ jobs:
         run: |
           pip install connection-pool # because it is incompatible with poetry
           poetry install
+          # install an example executor plugin
+          pip install git+https://github.com/snakemake/snakemake-executor-flux@update/using-snakemake-executor-plugin-interface
 
       - name: Run pytest
         run: poetry run coverage run -m pytest tests.py
