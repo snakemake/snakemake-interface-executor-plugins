@@ -7,4 +7,4 @@ def test_registry():
     plugin = registry.plugins["flux"]
     assert plugin._executor_settings_cls is not None
     assert plugin.common_settings.non_local_exec is True
-    assert isinstance(plugin.executor, AbstractExecutor)
+    assert issubclass(plugin.executor, AbstractExecutor)
