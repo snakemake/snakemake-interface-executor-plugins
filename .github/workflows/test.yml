@@ -27,7 +27,7 @@ jobs:
 
       - name: Install example plugin
         run: |
-          pip install --no-dependencies git+https://github.com/snakemake/snakemake-executor-flux
+          pip install --no-dependencies git+https://github.com/snakemake/snakemake-executor-flux.git
 
       - name: Run pytest
         run: poetry run coverage run -m pytest tests.py
