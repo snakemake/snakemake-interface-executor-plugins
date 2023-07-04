@@ -18,7 +18,7 @@ jobs:
           python-version: "3.11"
 
       - name: Setup poetry
-        uses: abatilo/actions-poetry@v2.0.0
+        uses: abatilo/actions-poetry@v2
 
       - name: Install dependencies
         run: |
