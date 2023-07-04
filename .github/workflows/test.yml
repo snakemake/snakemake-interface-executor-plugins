@@ -30,7 +30,7 @@ jobs:
           pip install --no-dependencies git+https://github.com/snakemake/snakemake-executor-flux.git
 
       - name: Run pytest
-        run: poetry run coverage run -m pytest tests.py
+        run: poetry run coverage run -m pytest tests/tests.py
 
       - name: Run Coverage
         run: poetry run coverage report -m
