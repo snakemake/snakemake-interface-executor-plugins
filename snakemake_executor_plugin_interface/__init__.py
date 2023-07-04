@@ -116,12 +116,19 @@ class Plugin:
 
 class ExecutorPluginRegistry:
     """This class is a singleton that holds all registered executor plugins."""
+    _instance = None
 
-    def __init__(self, executor_base_cls: type[object]):
+    def __new__(cls):
+        if cls._instance is None:
+            cls._instance = super().__new__(cls)
+        return cls._instance
+
+    def __init__(self):
+        from snakemake.executors import AbstractExecutor
         if hasattr(self, "executor_base_cls"):
             # init has been called before
             return
-        self.executor_base_cls = executor_base_cls
+        self.executor_base_cls = AbstractExecutor
         self._collect_plugins()
 
     def register_cli_args(self, argparser):
