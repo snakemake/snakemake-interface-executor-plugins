@@ -7,6 +7,7 @@ from snakemake.executors import AbstractExecutor
 
 @pytest.fixture
 def registry():
+    # ensure that the singleton is reset
     ExecutorPluginRegistry._instance = None
     return ExecutorPluginRegistry()
 
