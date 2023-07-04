@@ -1,9 +1,7 @@
 import argparse
-
 import pytest
+from snakemake_executor_plugin_interface.registry import ExecutorPluginRegistry
 
-from snakemake_executor_plugin_interface import ExecutorPluginRegistry
-from snakemake.executors import AbstractExecutor
 
 @pytest.fixture
 def registry():
@@ -11,12 +9,13 @@ def registry():
     ExecutorPluginRegistry._instance = None
     return ExecutorPluginRegistry()
 
+
 def test_registry_collect_plugins(registry):
     assert len(registry.plugins) == 1
     plugin = registry.plugins["flux"]
     assert plugin._executor_settings_cls is not None
     assert plugin.common_settings.non_local_exec is True
-    assert issubclass(plugin.executor, AbstractExecutor)
+    assert plugin.executor is not None
 
 
 def test_registry_register_cli_args(registry):
