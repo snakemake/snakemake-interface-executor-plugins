@@ -157,7 +157,7 @@ class ExecutorPluginRegistry:
         self._validate_plugin(name, plugin)
 
         # Derive the shortened name for future access
-        plugin_name = name.replace(common.executor_plugin_module_prefix, "")
+        plugin_name = name.removeprefix(common.executor_plugin_module_prefix)
 
         self.plugins[plugin_name] = Plugin(
             plugin_name,
