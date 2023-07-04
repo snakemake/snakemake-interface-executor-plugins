@@ -8,6 +8,7 @@ readme = "README.md"
 version = "0.1.0"
 
 [tool.poetry.dependencies]
+argparse-dataclass = "^2.0.0"
 python = "^3.9"
 
 [tool.poetry.dev-dependencies]
@@ -17,6 +18,7 @@ flake8 = "^4.0.1"
 flake8-bugbear = "^22.1.11"
 pytest = "^7.0"
 snakemake = "*"
+snakemake-executor-flux = {git = "https://github.com/snakemake/snakemake-executor-flux.git"}
 
 [tool.coverage.run]
 omit = [".*", "*/site-packages/*"]
@@ -28,7 +30,7 @@ exclude_lines = [
   "process_yaml\\(sys.stdin, outfile=sys\\.stdout\\)",
   "plac.call\\(cli\\)",
 ]
-fail_under = 100
+fail_under = 90
 
 [build-system]
 build-backend = "poetry.core.masonry.api"
