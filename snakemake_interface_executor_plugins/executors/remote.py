@@ -84,8 +84,6 @@ class RemoteExecutor(RealExecutor, ABC):
         self.jobname = jobname
         self._tmpdir = None
 
-        self.restart_times = restart_times
-
         self.active_jobs = list()
         self.lock = threading.Lock()
         self.wait = True
