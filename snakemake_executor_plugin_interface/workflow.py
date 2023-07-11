@@ -148,11 +148,6 @@ class WorkflowExecutorInterface(ABC):
 
     @property
     @abstractmethod
-    def keep_metadata(self):
-        ...
-
-    @property
-    @abstractmethod
     def linemaps(self):
         ...
 

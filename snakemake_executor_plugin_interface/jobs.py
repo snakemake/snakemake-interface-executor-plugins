@@ -5,7 +5,6 @@ __license__ = "MIT"
 
 from abc import ABC, abstractmethod
 import sys
-from typing import Optional
 
 
 class ExecutorJobInterface(ABC):
@@ -46,7 +45,7 @@ class ExecutorJobInterface(ABC):
         ...
 
     @abstractmethod
-    def properties(self, omit_resources=["_cores", "_nodes"], **aux_properties):
+    def properties(self, omit_resources=("_cores", "_nodes"), **aux_properties):
         ...
 
     @property
@@ -107,11 +106,6 @@ class ExecutorJobInterface(ABC):
     @property
     @abstractmethod
     def threads(self) -> int:
-        ...
-
-    @property
-    @abstractmethod
-    def resources(self):
         ...
 
     @property

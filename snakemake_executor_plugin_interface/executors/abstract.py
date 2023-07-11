@@ -4,26 +4,6 @@ __email__ = "johannes.koester@uni-due.de"
 __license__ = "MIT"
 
 from abc import ABC, abstractmethod
-import asyncio
-import os
-import sys
-import contextlib
-import time
-import json
-import stat
-import shutil
-import shlex
-import threading
-import concurrent.futures
-import subprocess
-import tempfile
-from functools import partial
-from collections import namedtuple
-import base64
-import uuid
-import re
-import math
-from fractions import Fraction
 
 from snakemake_executor_plugin_interface.dag import DAGExecutorInterface
 from snakemake_executor_plugin_interface.jobs import ExecutorJobInterface
@@ -115,8 +95,9 @@ class AbstractExecutor(ABC):
         """Run a list of jobs that is ready at a given point in time.
 
         By default, this method just runs each job individually.
-        This method can be overwritten to submit many jobs in a more efficient way than one-by-one.
-        Note that in any case, for each job, the callback functions have to be called individually!
+        This method can be overwritten to submit many jobs in a more efficient
+        way than one-by-one. Note that in any case, for each job, the callback
+        functions have to be called individually!
         """
         for job in jobs:
             self.run(

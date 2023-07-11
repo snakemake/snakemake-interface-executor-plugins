@@ -4,11 +4,7 @@ from collections import UserDict
 import typing
 from urllib.parse import urlparse
 import collections
-from collections import namedtuple, defaultdict
-import time
-import json
-
-from snakemake_executor_plugin_interface.jobs import ExecutorJobInterface
+from collections import namedtuple
 
 
 def not_iterable(value):

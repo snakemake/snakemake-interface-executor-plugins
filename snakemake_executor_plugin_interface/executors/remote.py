@@ -22,8 +22,12 @@ from throttler import Throttler
 class RemoteExecutor(RealExecutor, ABC):
     """Backend for distributed execution.
 
-    The key idea is that a job is converted into a script that invokes Snakemake again, in whatever environment is targeted. The script is submitted to some job management platform (e.g. a cluster scheduler like slurm).
-    This class can be specialized to generate more specific backends, also for the cloud.
+    The key idea is that a job is converted into a script that invokes
+    Snakemake again, in whatever environment is targeted. The script
+    is submitted to some job management platform (e.g. a cluster scheduler
+    like slurm).
+    This class can be specialized to generate more specific backends,
+    also for the cloud.
     """
 
     default_jobscript = "jobscript.sh"
@@ -221,8 +225,10 @@ class RemoteExecutor(RealExecutor, ABC):
                 raise e
             else:
                 raise WorkflowError(
-                    f"Error formatting custom jobscript {self.workflow.jobscript}: value for {e} not found.\n"
-                    "Make sure that your custom jobscript is defined as expected."
+                    "Error formatting custom jobscript "
+                    f"{self.workflow.jobscript}: value for {e} not found.\n"
+                    "Make sure that your custom jobscript is defined as "
+                    "expected."
                 )
 
         self.logger.debug(f"Jobscript:\n{content}")
