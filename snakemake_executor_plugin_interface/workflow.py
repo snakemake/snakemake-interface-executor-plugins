@@ -5,7 +5,7 @@ __license__ = "MIT"
 
 from abc import ABC, abstractmethod
 
-from pyparsing import Optional
+from typing import Optional
 from snakemake_executor_plugin_interface.persistence import PersistenceExecutorInterface
 
 from snakemake_executor_plugin_interface.scheduler import JobSchedulerExecutorInterface

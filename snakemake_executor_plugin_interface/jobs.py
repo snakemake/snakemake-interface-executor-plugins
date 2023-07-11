@@ -4,10 +4,13 @@ __email__ = "johannes.koester@uni-due.de"
 __license__ = "MIT"
 
 from abc import ABC, abstractmethod
+import sys
 from typing import Optional
 
 
 class ExecutorJobInterface(ABC):
+    HIGHEST_PRIORITY = sys.maxsize
+
     @property
     @abstractmethod
     def name(self):
