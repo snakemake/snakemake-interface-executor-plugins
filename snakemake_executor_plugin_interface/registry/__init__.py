@@ -7,6 +7,7 @@ from snakemake_executor_plugin_interface import CommonSettings, ExecutorSettings
 
 from snakemake_executor_plugin_interface.exceptions import InvalidPluginException
 import snakemake_executor_plugin_interface._common as common
+from snakemake_executor_plugin_interface.executors.abstract import AbstractExecutor
 from snakemake_executor_plugin_interface.registry.plugin import Plugin
 
 
@@ -21,12 +22,9 @@ class ExecutorPluginRegistry:
         return cls._instance
 
     def __init__(self):
-        from snakemake.executors import AbstractExecutor
-
-        if hasattr(self, "executor_base_cls"):
+        if hasattr(self, "plugins"):
             # init has been called before
             return
-        self.executor_base_cls = AbstractExecutor
         self._collect_plugins()
 
     def register_cli_args(self, argparser):
@@ -73,7 +71,7 @@ class ExecutorPluginRegistry:
         expected_attributes = {
             "common_settings": CommonSettings,
             "ExecutorSettings": Optional[type[ExecutorSettingsBase]],
-            "Executor": type[self.executor_base_cls],
+            "Executor": type[AbstractExecutor],
         }
         for attr, attr_type in expected_attributes.items():
             # check if attr is missing and fail if it is not optional
