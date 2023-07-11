@@ -6,6 +6,8 @@ __license__ = "MIT"
 from abc import abstractmethod
 import os
 import sys
+from typing import Optional
+from snakemake_interface_executor_plugins import ExecutorSettingsBase
 from snakemake_interface_executor_plugins.dag import DAGExecutorInterface
 from snakemake_interface_executor_plugins.executors.base import AbstractExecutor
 from snakemake_interface_executor_plugins.logging import LoggerExecutorInterface
@@ -27,21 +29,16 @@ class RealExecutor(AbstractExecutor):
         dag: DAGExecutorInterface,
         stats: StatsExecutorInterface,
         logger: LoggerExecutorInterface,
-        printreason=False,
-        quiet=False,
-        printshellcmds=False,
-        assume_shared_fs=True,
-        keepincomplete=False,
+        executor_settings: Optional[ExecutorSettingsBase],
+        job_core_limit: Optional[int] = None,
     ):
         super().__init__(
             workflow,
             dag,
-            printreason=printreason,
-            quiet=quiet,
-            printshellcmds=printshellcmds,
-            keepincomplete=keepincomplete,
         )
-        self.assume_shared_fs = assume_shared_fs
+        self.cores = job_core_limit if job_core_limit else "all"
+        self.executor_settings = executor_settings
+        self.assume_shared_fs = workflow.assume_shared_fs
         self.stats = stats
         self.logger = logger
         self.snakefile = workflow.main_snakefile

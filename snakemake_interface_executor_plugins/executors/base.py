@@ -29,7 +29,7 @@ class AbstractExecutor(ABC):
         self.printshellcmds = printshellcmds
         self.printthreads = printthreads
         self.latency_wait = workflow.latency_wait
-        self.keepincomplete = keepincomplete
+        self.keepincomplete = workflow.keep_incomplete
 
     def get_default_remote_provider_args(self):
         return join_cli_args(

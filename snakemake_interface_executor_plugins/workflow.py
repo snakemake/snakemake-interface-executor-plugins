@@ -16,6 +16,16 @@ from snakemake_interface_executor_plugins.scheduler import JobSchedulerExecutorI
 class WorkflowExecutorInterface(ABC):
     @property
     @abstractmethod
+    def assume_shared_fs(self) -> bool:
+        ...
+
+    @property
+    @abstractmethod
+    def keep_incomplete(self) -> bool:
+        ...
+
+    @property
+    @abstractmethod
     def latency_wait(self) -> int:
         ...
 

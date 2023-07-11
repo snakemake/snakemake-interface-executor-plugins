@@ -12,6 +12,8 @@ import stat
 import sys
 import tempfile
 import threading
+from typing import Optional
+from snakemake_interface_executor_plugins import ExecutorSettingsBase
 from snakemake_interface_executor_plugins.dag import DAGExecutorInterface
 from snakemake_interface_executor_plugins.exceptions import WorkflowError
 from snakemake_interface_executor_plugins.executors.real import RealExecutor
@@ -43,31 +45,19 @@ class RemoteExecutor(RealExecutor, ABC):
         dag: DAGExecutorInterface,
         stats: StatsExecutorInterface,
         logger: LoggerExecutorInterface,
-        cores,
+        executor_settings: Optional[ExecutorSettingsBase],
         jobname="snakejob.{name}.{jobid}.sh",
-        printreason=False,
-        quiet=False,
-        printshellcmds=False,
-        local_input=None,
-        restart_times=None,
-        assume_shared_fs=True,
         max_status_checks_per_second=1,
         disable_default_remote_provider_args=False,
         disable_default_resources_args=False,
         disable_envvar_declarations=False,
-        keepincomplete=False,
     ):
-        local_input = local_input or []
         super().__init__(
             workflow,
             dag,
             stats,
             logger,
-            printreason=printreason,
-            quiet=quiet,
-            printshellcmds=printshellcmds,
-            assume_shared_fs=assume_shared_fs,
-            keepincomplete=keepincomplete,
+            executor_settings,
         )
         self.max_status_checks_per_second = max_status_checks_per_second
 
@@ -93,7 +83,6 @@ class RemoteExecutor(RealExecutor, ABC):
 
         self.jobname = jobname
         self._tmpdir = None
-        self.cores = cores if cores else "all"
 
         self.restart_times = restart_times
 
