@@ -5,7 +5,7 @@ class LoggerExecutorInterface(ABC):
     @abstractmethod
     def info(self, msg: str):
         ...
-    
+
     @abstractmethod
     def error(self, msg: str):
         ...

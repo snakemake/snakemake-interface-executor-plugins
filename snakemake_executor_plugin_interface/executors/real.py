@@ -1,4 +1,3 @@
-
 from abc import abstractmethod
 import os
 import sys
@@ -6,9 +5,15 @@ from snakemake_executor_plugin_interface.dag import DAGExecutorInterface
 from snakemake_executor_plugin_interface.executors.abstract import AbstractExecutor
 from snakemake_executor_plugin_interface.logging import LoggerExecutorInterface
 from snakemake_executor_plugin_interface.persistence import StatsExecutorInterface
-from snakemake_executor_plugin_interface.utils import encode_target_jobs_cli_args, format_cli_arg, join_cli_args, lazy_property
+from snakemake_executor_plugin_interface.utils import (
+    encode_target_jobs_cli_args,
+    format_cli_arg,
+    join_cli_args,
+    lazy_property,
+)
 from snakemake_executor_plugin_interface.jobs import ExecutorJobInterface
 from snakemake_executor_plugin_interface.workflow import WorkflowExecutorInterface
+
 
 class RealExecutor(AbstractExecutor):
     def __init__(
