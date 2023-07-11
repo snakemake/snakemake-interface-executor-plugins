@@ -1,3 +1,8 @@
+__author__ = "Johannes Köster"
+__copyright__ = "Copyright 2022, Johannes Köster, Vanessa Sochat"
+__email__ = "johannes.koester@uni-due.de"
+__license__ = "MIT"
+
 from argparse_dataclass import _add_dataclass_options, fields
 from dataclasses import dataclass
 from typing import Optional
