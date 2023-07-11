@@ -12,6 +12,17 @@ import collections
 from collections import namedtuple
 
 
+class ExecMode:
+    """
+    Enum for execution mode of Snakemake.
+    This handles the behavior of e.g. the logger.
+    """
+
+    default = 0
+    subprocess = 1
+    remote = 2
+
+
 def not_iterable(value):
     return (
         isinstance(value, str)

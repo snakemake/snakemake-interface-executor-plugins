@@ -18,7 +18,7 @@ from snakemake_executor_plugin_interface.executors.real import RealExecutor
 from snakemake_executor_plugin_interface.jobs import ExecutorJobInterface
 from snakemake_executor_plugin_interface.logging import LoggerExecutorInterface
 from snakemake_executor_plugin_interface.persistence import StatsExecutorInterface
-from snakemake_executor_plugin_interface.utils import format_cli_arg
+from snakemake_executor_plugin_interface.utils import ExecMode, format_cli_arg
 from snakemake_executor_plugin_interface.workflow import WorkflowExecutorInterface
 
 from throttler import Throttler
@@ -115,6 +115,9 @@ class RemoteExecutor(RealExecutor, ABC):
             rate_limit=max_status_checks_frac.numerator,
             period=max_status_checks_frac.denominator,
         )
+
+    def get_exec_mode(self):
+        return ExecMode.remote
 
     def get_default_remote_provider_args(self):
         if not self.disable_default_remote_provider_args:
