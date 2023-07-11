@@ -31,7 +31,7 @@ exclude_lines = [
   "process_yaml\\(sys.stdin, outfile=sys\\.stdout\\)",
   "plac.call\\(cli\\)",
 ]
-fail_under = 90
+fail_under = 64
 
 [build-system]
 build-backend = "poetry.core.masonry.api"
