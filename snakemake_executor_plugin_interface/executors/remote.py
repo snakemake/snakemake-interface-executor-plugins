@@ -86,7 +86,7 @@ class RemoteExecutor(RealExecutor, ABC):
         except IOError as e:
             raise WorkflowError(e)
 
-        if "{jobid}" in jobname:
+        if "{jobid}" not in jobname:
             raise WorkflowError(
                 f'Defined jobname ("{jobname}") has to contain the wildcard {{jobid}}.'
             )
