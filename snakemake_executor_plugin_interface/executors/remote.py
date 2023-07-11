@@ -88,7 +88,7 @@ class RemoteExecutor(RealExecutor, ABC):
 
         if "{jobid}" in jobname:
             raise WorkflowError(
-                'Defined jobname ("{}") has to contain the wildcard {jobid}.'
+                f'Defined jobname ("{jobname}") has to contain the wildcard {{jobid}}.'
             )
 
         self.jobname = jobname
