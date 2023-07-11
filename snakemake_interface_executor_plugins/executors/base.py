@@ -5,10 +5,10 @@ __license__ = "MIT"
 
 from abc import ABC, abstractmethod
 
-from snakemake_executor_plugin_interface.dag import DAGExecutorInterface
-from snakemake_executor_plugin_interface.jobs import ExecutorJobInterface
-from snakemake_executor_plugin_interface.utils import format_cli_arg, join_cli_args
-from snakemake_executor_plugin_interface.workflow import WorkflowExecutorInterface
+from snakemake_interface_executor_plugins.dag import DAGExecutorInterface
+from snakemake_interface_executor_plugins.jobs import ExecutorJobInterface
+from snakemake_interface_executor_plugins.utils import format_cli_arg, join_cli_args
+from snakemake_interface_executor_plugins.workflow import WorkflowExecutorInterface
 
 
 class AbstractExecutor(ABC):

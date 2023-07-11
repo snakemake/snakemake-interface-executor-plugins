@@ -8,12 +8,12 @@ from typing import Optional
 import typing
 import pkgutil
 import importlib
-from snakemake_executor_plugin_interface import CommonSettings, ExecutorSettingsBase
+from snakemake_interface_executor_plugins import CommonSettings, ExecutorSettingsBase
 
-from snakemake_executor_plugin_interface.exceptions import InvalidPluginException
-import snakemake_executor_plugin_interface._common as common
-from snakemake_executor_plugin_interface.executors.base import AbstractExecutor
-from snakemake_executor_plugin_interface.registry.plugin import Plugin
+from snakemake_interface_executor_plugins.exceptions import InvalidPluginException
+import snakemake_interface_executor_plugins._common as common
+from snakemake_interface_executor_plugins.executors.base import AbstractExecutor
+from snakemake_interface_executor_plugins.registry.plugin import Plugin
 
 
 class ExecutorPluginRegistry:

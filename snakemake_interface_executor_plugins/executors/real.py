@@ -6,18 +6,18 @@ __license__ = "MIT"
 from abc import abstractmethod
 import os
 import sys
-from snakemake_executor_plugin_interface.dag import DAGExecutorInterface
-from snakemake_executor_plugin_interface.executors.base import AbstractExecutor
-from snakemake_executor_plugin_interface.logging import LoggerExecutorInterface
-from snakemake_executor_plugin_interface.persistence import StatsExecutorInterface
-from snakemake_executor_plugin_interface.utils import (
+from snakemake_interface_executor_plugins.dag import DAGExecutorInterface
+from snakemake_interface_executor_plugins.executors.base import AbstractExecutor
+from snakemake_interface_executor_plugins.logging import LoggerExecutorInterface
+from snakemake_interface_executor_plugins.persistence import StatsExecutorInterface
+from snakemake_interface_executor_plugins.utils import (
     encode_target_jobs_cli_args,
     format_cli_arg,
     join_cli_args,
     lazy_property,
 )
-from snakemake_executor_plugin_interface.jobs import ExecutorJobInterface
-from snakemake_executor_plugin_interface.workflow import WorkflowExecutorInterface
+from snakemake_interface_executor_plugins.jobs import ExecutorJobInterface
+from snakemake_interface_executor_plugins.workflow import WorkflowExecutorInterface
 
 
 class RealExecutor(AbstractExecutor):

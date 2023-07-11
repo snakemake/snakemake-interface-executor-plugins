@@ -7,9 +7,9 @@ from argparse_dataclass import _add_dataclass_options, fields
 from dataclasses import dataclass
 from typing import Optional
 import copy
-from snakemake_executor_plugin_interface import CommonSettings, ExecutorSettingsBase
+from snakemake_interface_executor_plugins import CommonSettings, ExecutorSettingsBase
 
-import snakemake_executor_plugin_interface._common as common
+import snakemake_interface_executor_plugins._common as common
 
 # Valid Argument types (to distinguish from empty dataclasses)
 ArgTypes = (str, int, float, bool, list)

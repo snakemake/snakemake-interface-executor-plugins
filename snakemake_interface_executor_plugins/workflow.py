@@ -6,9 +6,9 @@ __license__ = "MIT"
 from abc import ABC, abstractmethod
 
 from typing import Optional
-from snakemake_executor_plugin_interface.persistence import PersistenceExecutorInterface
+from snakemake_interface_executor_plugins.persistence import PersistenceExecutorInterface
 
-from snakemake_executor_plugin_interface.scheduler import JobSchedulerExecutorInterface
+from snakemake_interface_executor_plugins.scheduler import JobSchedulerExecutorInterface
 
 
 class WorkflowExecutorInterface(ABC):
