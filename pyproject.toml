@@ -2,8 +2,8 @@
 authors = ["Johannes Köster <johannes.koester@uni-due.de>"]
 description = "This package provides a stable interface for interactions between Snakemake and its executor plugins."
 license = "MIT"
-name = "snakemake-executor-plugin-interface"
-packages = [{include = "snakemake_executor_plugin_interface"}]
+name = "snakemake-interface-executor-plugins"
+packages = [{include = "snakemake_interface_executor_plugins"}]
 readme = "README.md"
 version = "0.1.0"
 

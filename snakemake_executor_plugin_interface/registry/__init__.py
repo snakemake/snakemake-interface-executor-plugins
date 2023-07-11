@@ -51,7 +51,6 @@ class ExecutorPluginRegistry:
         for _, name, _ in pkgutil.iter_modules():
             if (
                 not name.startswith(common.executor_plugin_module_prefix)
-                or name == "snakemake_executor_plugin_interface"
             ):
                 continue
             module = importlib.import_module(name)

@@ -9,12 +9,11 @@ jobs:
   release-please:
     runs-on: ubuntu-latest
     steps:
-
       - uses: GoogleCloudPlatform/release-please-action@v3
         id: release
         with:
           release-type: python
-          package-name: snakemake-executor-plugin-interface
+          package-name: snakemake-interface-executor-plugins
 
       - uses: actions/checkout@v2
         if: ${{ steps.release.outputs.release_created }}
@@ -31,7 +30,7 @@ jobs:
       - name: Install Dependencies using Poetry
         if: ${{ steps.release.outputs.release_created }}
         run: poetry install
-      
+
       - name: Publish to PyPi
         if: ${{ steps.release.outputs.release_created }}
         env:
