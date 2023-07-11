@@ -2,7 +2,7 @@ from abc import abstractmethod
 import os
 import sys
 from snakemake_executor_plugin_interface.dag import DAGExecutorInterface
-from snakemake_executor_plugin_interface.executors.abstract import AbstractExecutor
+from snakemake_executor_plugin_interface.executors.base import AbstractExecutor
 from snakemake_executor_plugin_interface.logging import LoggerExecutorInterface
 from snakemake_executor_plugin_interface.persistence import StatsExecutorInterface
 from snakemake_executor_plugin_interface.utils import (

@@ -7,7 +7,7 @@ from snakemake_executor_plugin_interface import CommonSettings, ExecutorSettings
 
 from snakemake_executor_plugin_interface.exceptions import InvalidPluginException
 import snakemake_executor_plugin_interface._common as common
-from snakemake_executor_plugin_interface.executors.abstract import AbstractExecutor
+from snakemake_executor_plugin_interface.executors.base import AbstractExecutor
 from snakemake_executor_plugin_interface.registry.plugin import Plugin
 
 
