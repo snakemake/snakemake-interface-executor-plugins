@@ -1,6 +1,6 @@
 import argparse
 import pytest
-from snakemake_executor_plugin_interface.registry import ExecutorPluginRegistry
+from snakemake_interface_executor_plugins.registry import ExecutorPluginRegistry
 
 
 @pytest.fixture

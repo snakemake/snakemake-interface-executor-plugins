@@ -49,9 +49,7 @@ class ExecutorPluginRegistry:
         # Note that these will not be detected installed in editable
         # mode (pip install -e .).
         for _, name, _ in pkgutil.iter_modules():
-            if (
-                not name.startswith(common.executor_plugin_module_prefix)
-            ):
+            if not name.startswith(common.executor_plugin_module_prefix):
                 continue
             module = importlib.import_module(name)
             self._register_plugin(name, module)
