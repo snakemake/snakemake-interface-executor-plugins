@@ -48,11 +48,13 @@ class ExecutorPluginRegistry:
         # snakemake-executor-<name>.
         # Note that these will not be detected installed in editable
         # mode (pip install -e .).
-        for _, name, _ in pkgutil.iter_modules():
-            if not name.startswith(common.executor_plugin_module_prefix):
+        for moduleinfo in pkgutil.iter_modules():
+            if not moduleinfo.ispkg or not moduleinfo.name.startswith(
+                common.executor_plugin_module_prefix
+            ):
                 continue
-            module = importlib.import_module(name)
-            self._register_plugin(name, module)
+            module = importlib.import_module(moduleinfo.name)
+            self._register_plugin(moduleinfo.name, module)
 
     def _register_plugin(self, name: str, plugin: types.ModuleType):
         """Validate and register a plugin"""
