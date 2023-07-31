@@ -4,6 +4,7 @@ __email__ = "johannes.koester@uni-due.de"
 __license__ = "MIT"
 
 from abc import ABC, abstractmethod
+from typing import List
 
 from snakemake_interface_executor_plugins.dag import DAGExecutorInterface
 from snakemake_interface_executor_plugins.jobs import ExecutorJobInterface
@@ -87,7 +88,7 @@ class AbstractExecutor(ABC):
 
     def run_jobs(
         self,
-        jobs: list[ExecutorJobInterface],
+        jobs: List[ExecutorJobInterface],
         callback=None,
         submit_callback=None,
         error_callback=None,

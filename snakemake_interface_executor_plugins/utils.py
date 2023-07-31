@@ -6,7 +6,7 @@ __license__ = "MIT"
 import asyncio
 import os
 from collections import UserDict
-import typing
+from typing import List
 from urllib.parse import urlparse
 import collections
 from collections import namedtuple
@@ -74,8 +74,8 @@ def url_can_parse(url: str) -> bool:
 
 
 def encode_target_jobs_cli_args(
-    target_jobs: typing.List[TargetSpec],
-) -> typing.List[str]:
+    target_jobs: List[TargetSpec],
+) -> List[str]:
     items = []
     for spec in target_jobs:
         wildcards = ",".join(
