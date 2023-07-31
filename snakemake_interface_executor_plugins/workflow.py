@@ -5,7 +5,7 @@ __license__ = "MIT"
 
 from abc import ABC, abstractmethod
 
-from typing import Optional
+from typing import Dict, List, Optional
 from snakemake_interface_executor_plugins.persistence import (
     PersistenceExecutorInterface,
 )
@@ -31,7 +31,7 @@ class WorkflowExecutorInterface(ABC):
 
     @property
     @abstractmethod
-    def rerun_triggers(self) -> Optional[list[str]]:
+    def rerun_triggers(self) -> Optional[List[str]]:
         ...
 
     @property
@@ -81,12 +81,12 @@ class WorkflowExecutorInterface(ABC):
 
     @property
     @abstractmethod
-    def overwrite_threads(self) -> dict[str, int]:
+    def overwrite_threads(self) -> Dict[str, int]:
         ...
 
     @property
     @abstractmethod
-    def overwrite_scatter(self) -> dict[str, int]:
+    def overwrite_scatter(self) -> Dict[str, int]:
         ...
 
     @property
