@@ -4,7 +4,7 @@ __email__ = "johannes.koester@uni-due.de"
 __license__ = "MIT"
 
 import types
-from typing import Optional
+from typing import Optional, Type
 import typing
 import pkgutil
 import importlib
@@ -74,8 +74,8 @@ class ExecutorPluginRegistry:
         """Validate a plugin for attributes and naming"""
         expected_attributes = {
             "common_settings": CommonSettings,
-            "ExecutorSettings": Optional[type[ExecutorSettingsBase]],
-            "Executor": type[AbstractExecutor],
+            "ExecutorSettings": Optional[Type[ExecutorSettingsBase]],
+            "Executor": Type[AbstractExecutor],
         }
         for attr, attr_type in expected_attributes.items():
             # check if attr is missing and fail if it is not optional

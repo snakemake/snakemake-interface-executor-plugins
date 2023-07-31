@@ -5,7 +5,7 @@ __license__ = "MIT"
 
 from argparse_dataclass import _add_dataclass_options, fields
 from dataclasses import dataclass
-from typing import Optional
+from typing import Optional, Type
 import copy
 from snakemake_interface_executor_plugins import CommonSettings, ExecutorSettingsBase
 
@@ -22,7 +22,7 @@ class Plugin:
     # This is the executor base class
     executor: object
     common_settings: CommonSettings
-    _executor_settings_cls: Optional[type[ExecutorSettingsBase]]
+    _executor_settings_cls: Optional[Type[ExecutorSettingsBase]]
 
     @property
     def prefix(self):
