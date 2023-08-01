@@ -79,7 +79,7 @@ class ExecutorPluginRegistry:
         }
         for attr, attr_type in expected_attributes.items():
             # check if attr is missing and fail if it is not optional
-            is_optional = type(attr_type) == typing._UnionGenericAlias
+            is_optional = attr_type.__name__ == "Optional"
             if not hasattr(module, attr):
                 if is_optional:
                     continue
