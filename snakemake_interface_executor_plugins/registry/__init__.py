@@ -89,7 +89,8 @@ class ExecutorPluginRegistry:
                 # get inner type
                 attr_type, _ = attr_type.__args__
             attr_value = getattr(module, attr)
-            if type(attr_type) == types.GenericAlias:
+            is_class_type = attr_type.__name__ == "Type"
+            if is_class_type:
                 # check for class type
                 (cls,) = attr_type.__args__
                 if not issubclass(attr_value, cls):
