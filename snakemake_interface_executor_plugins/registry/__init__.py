@@ -4,8 +4,6 @@ __email__ = "johannes.koester@uni-due.de"
 __license__ = "MIT"
 
 import types
-from typing import Optional, Type
-import typing
 import pkgutil
 import importlib
 from snakemake_interface_executor_plugins import CommonSettings, ExecutorSettingsBase
