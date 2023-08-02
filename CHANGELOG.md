@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v1.0.0...v1.0.1) (2023-08-02)
+
+
+### Bug Fixes
+
+* release process fix ([b539c1b](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/b539c1b6795cfff9440bbd7e283e51c2df6518ba))
+
 ## 1.0.0 (2023-08-02)
 
 
