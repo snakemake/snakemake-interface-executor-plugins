@@ -13,6 +13,11 @@ from snakemake_interface_executor_plugins import CommonSettings, ExecutorSetting
 from snakemake_interface_executor_plugins.exceptions import InvalidPluginException
 import snakemake_interface_executor_plugins._common as common
 from snakemake_interface_executor_plugins.executors.base import AbstractExecutor
+from snakemake_interface_executor_plugins.registry.attribute_types import (
+    AttributeKind,
+    AttributeMode,
+    AttributeType,
+)
 from snakemake_interface_executor_plugins.registry.plugin import Plugin
 
 
@@ -73,35 +78,41 @@ class ExecutorPluginRegistry:
     def _validate_plugin(self, name: str, module: types.ModuleType):
         """Validate a plugin for attributes and naming"""
         expected_attributes = {
-            "common_settings": CommonSettings,
-            "ExecutorSettings": Optional[Type[ExecutorSettingsBase]],
-            "Executor": Type[AbstractExecutor],
+            "common_settings": AttributeType(
+                cls=CommonSettings,
+                mode=AttributeMode.REQUIRED,
+                kind=AttributeKind.OBJECT,
+            ),
+            "ExecutorSettings": AttributeType(
+                cls=ExecutorSettingsBase,
+                mode=AttributeMode.OPTIONAL,
+                kind=AttributeKind.CLASS,
+            ),
+            "Executor": AttributeType(
+                cls=AbstractExecutor,
+                mode=AttributeMode.REQUIRED,
+                kind=AttributeKind.CLASS,
+            ),
         }
         for attr, attr_type in expected_attributes.items():
             # check if attr is missing and fail if it is not optional
-            is_optional = attr_type.__name__ == "Optional"
             if not hasattr(module, attr):
-                if is_optional:
+                if attr_type.is_optional:
                     continue
                 raise InvalidPluginException(name, f"plugin does not define {attr}.")
 
-            if is_optional:
-                # get inner type
-                attr_type, _ = attr_type.__args__
             attr_value = getattr(module, attr)
-            is_class_type = attr_type.__name__ == "Type"
-            if is_class_type:
+            if attr_type.is_class:
                 # check for class type
-                (cls,) = attr_type.__args__
-                if not issubclass(attr_value, cls):
+                if not issubclass(attr_value, attr_type.cls):
                     raise InvalidPluginException(
                         name,
                         f"{attr} must be a subclass of "
-                        f"{cls.__module__}.{cls.__name__}.",
+                        f"{attr_type.cls.__module__}.{attr_type.cls.__name__}.",
                     )
             else:
                 # check for instance type
-                if not isinstance(attr_value, attr_type):
+                if not isinstance(attr_value, attr_type.cls):
                     raise InvalidPluginException(
-                        name, f"{attr} must be of type {attr_type}."
+                        name, f"{attr} must be of type {attr_type.cls.__name__}."
                     )
