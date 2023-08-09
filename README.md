@@ -18,13 +18,14 @@ class ExecutorSettings:
     myparam: int=field(default=None, metadata={"help": "Some help text"})
 
 
-# Optional:
-# specify common settings shared by various executors.
-# Omit this statement if you don't need any and want
-# to rely on the defaults (highly recommended unless
-# you are very sure what you do).
+# Specify common settings shared by various executors.
 common_settings = CommonSettings(
-    use_threads=True
+    # define whether your executor plugin executes locally
+    # or remotely. In virtually all cases, it will be remote execution
+    # (cluster, cloud, etc.). Only Snakemake's standard execution 
+    # plugins (snakemake-executor-plugin-dryrun, snakemake-executor-plugin-local)
+    # are expected to specify False here.
+    non_local_exec=True
 )
 
 
