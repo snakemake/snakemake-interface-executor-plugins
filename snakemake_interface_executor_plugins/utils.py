@@ -10,9 +10,10 @@ from typing import List
 from urllib.parse import urlparse
 import collections
 from collections import namedtuple
+from enum import Enum
 
 
-class ExecMode:
+class ExecMode(Enum):
     """
     Enum for execution mode of Snakemake.
     This handles the behavior of e.g. the logger.
