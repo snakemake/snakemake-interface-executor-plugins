@@ -11,17 +11,56 @@ from snakemake_interface_executor_plugins.persistence import (
 )
 
 from snakemake_interface_executor_plugins.scheduler import JobSchedulerExecutorInterface
+from snakemake_interface_executor_plugins.settings import (
+    ClusterCloudSettingsExecutorInterface,
+    ConfigSettingsExecutorInterface,
+    DeploymentSettingsExecutorInterface,
+    ExecutionSettingsExecutorInterface,
+    OutputSettingsExecutorInterface,
+    ResourceSettingsExecutorInterface,
+    StorageSettingsExecutorInterface
+)
 
 
 class WorkflowExecutorInterface(ABC):
     @property
     @abstractmethod
-    def assume_shared_fs(self) -> bool:
+    def execution_settings(self) -> ExecutionSettingsExecutorInterface:
         ...
 
     @property
     @abstractmethod
-    def keep_incomplete(self) -> bool:
+    def remote_execution_settings(self) -> ClusterCloudSettingsExecutorInterface:
+        ...
+
+    @property
+    @abstractmethod
+    def resource_settings(self) -> ResourceSettingsExecutorInterface:
+        ...
+
+    @property
+    @abstractmethod
+    def storage_settings(self) -> StorageSettingsExecutorInterface:
+        ...
+
+    @property
+    @abstractmethod
+    def deployment_settings(self) -> DeploymentSettingsExecutorInterface:
+        ...
+
+    @property
+    @abstractmethod
+    def config_settings(self) -> ConfigSettingsExecutorInterface:
+        ...
+
+    @property
+    @abstractmethod
+    def output_settings(self) -> OutputSettingsExecutorInterface:
+        ...
+
+    @property
+    @abstractmethod
+    def assume_shared_fs(self) -> bool:
         ...
 
     @property
@@ -36,27 +75,7 @@ class WorkflowExecutorInterface(ABC):
 
     @property
     @abstractmethod
-    def shadow_prefix(self) -> Optional[str]:
-        ...
-
-    @property
-    @abstractmethod
-    def conda_frontend(self) -> Optional[str]:
-        ...
-
-    @property
-    @abstractmethod
-    def conda_prefix(self) -> Optional[str]:
-        ...
-
-    @property
-    @abstractmethod
     def conda_base_path(self) -> Optional[str]:
-        ...
-
-    @property
-    @abstractmethod
-    def singularity_args(self) -> Optional[str]:
         ...
 
     @property
@@ -72,16 +91,6 @@ class WorkflowExecutorInterface(ABC):
     @property
     @abstractmethod
     def keep_metadata(self) -> bool:
-        ...
-
-    @property
-    @abstractmethod
-    def wrapper_prefix(self) -> Optional[str]:
-        ...
-
-    @property
-    @abstractmethod
-    def overwrite_threads(self) -> Dict[str, int]:
         ...
 
     @property
@@ -102,26 +111,6 @@ class WorkflowExecutorInterface(ABC):
     @property
     @abstractmethod
     def overwrite_configfiles(self):
-        ...
-
-    @property
-    @abstractmethod
-    def config_args(self):
-        ...
-
-    @property
-    @abstractmethod
-    def printshellcmds(self):
-        ...
-
-    @property
-    @abstractmethod
-    def scheduler_type(self):
-        ...
-
-    @property
-    @abstractmethod
-    def overwrite_resources(self):
         ...
 
     @property
@@ -170,22 +159,7 @@ class WorkflowExecutorInterface(ABC):
 
     @property
     @abstractmethod
-    def use_conda(self):
-        ...
-
-    @property
-    @abstractmethod
-    def use_singularity(self):
-        ...
-
-    @property
-    @abstractmethod
     def use_env_modules(self):
-        ...
-
-    @property
-    @abstractmethod
-    def debug(self):
         ...
 
     @property
@@ -205,11 +179,6 @@ class WorkflowExecutorInterface(ABC):
 
     @property
     @abstractmethod
-    def verbose(self):
-        ...
-
-    @property
-    @abstractmethod
     def jobscript(self):
         ...
 
@@ -221,11 +190,6 @@ class WorkflowExecutorInterface(ABC):
     @property
     @abstractmethod
     def scheduler(self) -> JobSchedulerExecutorInterface:
-        ...
-
-    @property
-    @abstractmethod
-    def immediate_submit(self):
         ...
 
     @property

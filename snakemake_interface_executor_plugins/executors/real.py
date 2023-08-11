@@ -93,7 +93,13 @@ class RealExecutor(AbstractExecutor):
         if skip:
             return ""
 
-        value = getattr(self.workflow, property)
+        # Get the value of the property. If property is nested, follow the hierarchy until
+        # reaching the final value.
+        query = property.split(".")
+        base = self.workflow
+        for prop in query[:-1]:
+            base = getattr(base, prop)
+        value = getattr(base, query[-1])
 
         if value is not None and attr is not None:
             value = getattr(value, attr)
@@ -126,31 +132,31 @@ class RealExecutor(AbstractExecutor):
                 "--no-hooks",
                 "--nolock",
                 "--ignore-incomplete",
-                format_cli_arg("--keep-incomplete", self.keepincomplete),
+                w2a("execution_settings.keep_incomplete")
                 w2a("rerun_triggers"),
-                w2a("cleanup_scripts", flag="--skip-script-cleanup"),
-                w2a("shadow_prefix"),
-                w2a("use_conda"),
-                w2a("conda_frontend"),
-                w2a("conda_prefix"),
+                w2a("execution_settings.cleanup_scripts", flag="--skip-script-cleanup"),
+                w2a("execution_settings.shadow_prefix"),
+                w2a("deployment_settings.use_conda"),
+                w2a("deployment_settings.conda_frontend"),
+                w2a("deployment_settings.conda_prefix"),
                 w2a("conda_base_path", skip=not self.assume_shared_fs),
-                w2a("use_singularity"),
-                w2a("singularity_prefix"),
-                w2a("singularity_args"),
+                w2a("deployment_settings.use_singularity"),
+                w2a("deployment_settings.singularity_prefix"),
+                w2a("deployment_settings.singularity_args"),
                 w2a("execute_subworkflows", flag="--no-subworkflows", invert=True),
                 w2a("max_threads"),
-                w2a("use_env_modules", flag="--use-envmodules"),
+                w2a("deployment_settings.use_env_modules", flag="--use-envmodules"),
                 w2a("keep_metadata", flag="--drop-metadata", invert=True),
-                w2a("wrapper_prefix"),
-                w2a("overwrite_threads", flag="--set-threads"),
+                w2a("execution_settings.wrapper_prefix"),
+                w2a("resource_settings.overwrite_threads", flag="--set-threads"),
                 w2a("overwrite_scatter", flag="--set-scatter"),
                 w2a("local_groupid", skip=self.job_specific_local_groupid),
                 w2a("conda_not_block_search_path_envvars"),
                 w2a("overwrite_configfiles", flag="--configfiles"),
-                w2a("config_args", flag="--config"),
-                w2a("printshellcmds"),
+                w2a("config_settings.config_args", flag="--config"),
+                w2a("output_settings.printshellcmds"),
                 w2a("latency_wait"),
-                w2a("scheduler_type", flag="--scheduler"),
+                w2a("scheduler_settings.scheduler_type", flag="--scheduler"),
                 format_cli_arg(
                     "--scheduler-solver-path",
                     os.path.dirname(sys.executable),

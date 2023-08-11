@@ -17,20 +17,10 @@ class AbstractExecutor(ABC):
         self,
         workflow: WorkflowExecutorInterface,
         dag: DAGExecutorInterface,
-        printreason=False,
-        quiet=False,
-        printshellcmds=False,
-        printthreads=True,
-        keepincomplete=False,
     ):
         self.workflow = workflow
         self.dag = dag
-        self.quiet = quiet
-        self.printreason = printreason
-        self.printshellcmds = printshellcmds
-        self.printthreads = printthreads
         self.latency_wait = workflow.latency_wait
-        self.keepincomplete = workflow.keep_incomplete
 
     def get_default_remote_provider_args(self):
         return join_cli_args(
@@ -45,10 +35,10 @@ class AbstractExecutor(ABC):
             "--set-resources",
             [
                 f"{rule}:{name}={value}"
-                for rule, res in self.workflow.overwrite_resources.items()
+                for rule, res in self.workflow.resource_settings.overwrite_resources.items()
                 for name, value in res.items()
             ],
-            skip=not self.workflow.overwrite_resources,
+            skip=not self.workflow.resource_settings.overwrite_resources,
         )
 
     def get_default_resources_args(self, default_resources=None):

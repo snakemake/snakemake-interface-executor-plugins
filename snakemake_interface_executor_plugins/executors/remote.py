@@ -171,7 +171,7 @@ class RemoteExecutor(RealExecutor, ABC):
         with self.lock:
             self.wait = False
         self.wait_thread.join()
-        if not self.workflow.immediate_submit:
+        if not self.workflow.remote_execution_settings.immediate_submit:
             # Only delete tmpdir (containing jobscripts) if not using
             # immediate_submit. With immediate_submit, jobs can be scheduled
             # after this method is completed. Hence we have to keep the
@@ -245,7 +245,7 @@ class RemoteExecutor(RealExecutor, ABC):
         # It will be removed by the CPUExecutor in case of a shared FS,
         # but we might not see the removal due to filesystem latency.
         # By removing it again, we make sure that it is gone on the host FS.
-        if not self.keepincomplete:
+        if not self.workflow.execution_settings.keep_incomplete:
             self.workflow.persistence.cleanup(job)
             # Also cleanup the jobs output files, in case the remote job
             # was not able to, due to e.g. timeout.

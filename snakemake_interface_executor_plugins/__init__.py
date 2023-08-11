@@ -16,6 +16,7 @@ class CommonSettings:
     """
 
     non_local_exec: bool
+    dryrun_exec: bool = False
     use_threads: bool = False
 
 
