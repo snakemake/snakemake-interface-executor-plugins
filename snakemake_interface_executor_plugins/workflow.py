@@ -6,6 +6,7 @@ __license__ = "MIT"
 from abc import ABC, abstractmethod
 
 from typing import Dict, List, Optional
+from snakemake_interface_executor_plugins.cli import SpawnedJobArgsExecutorInterface, SpawnedJobArgsFactoryExecutorInterface
 from snakemake_interface_executor_plugins.persistence import (
     PersistenceExecutorInterface,
 )
@@ -23,6 +24,11 @@ from snakemake_interface_executor_plugins.settings import (
 
 
 class WorkflowExecutorInterface(ABC):
+    @property
+    @abstractmethod
+    def spawend_job_args_factory(self) -> SpawnedJobArgsFactoryExecutorInterface:
+        ...
+
     @property
     @abstractmethod
     def execution_settings(self) -> ExecutionSettingsExecutorInterface:
@@ -162,10 +168,6 @@ class WorkflowExecutorInterface(ABC):
     def use_env_modules(self):
         ...
 
-    @property
-    @abstractmethod
-    def cleanup_scripts(self):
-        ...
 
     @property
     @abstractmethod

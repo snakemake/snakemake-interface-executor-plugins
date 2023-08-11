@@ -38,7 +38,7 @@ class RealExecutor(AbstractExecutor):
         )
         self.cores = job_core_limit if job_core_limit else "all"
         self.executor_settings = executor_settings
-        self.assume_shared_fs = workflow.assume_shared_fs
+        self.assume_shared_fs = workflow.storage_settings.assume_shared_fs
         self.stats = stats
         self.logger = logger
         self.snakefile = workflow.main_snakefile
@@ -85,91 +85,6 @@ class RealExecutor(AbstractExecutor):
             error=True,
             assume_shared_fs=self.assume_shared_fs,
             latency_wait=self.latency_wait,
-        )
-
-    def workflow_property_to_arg(
-        self, property, flag=None, quote=True, skip=False, invert=False, attr=None
-    ):
-        if skip:
-            return ""
-
-        # Get the value of the property. If property is nested, follow the hierarchy until
-        # reaching the final value.
-        query = property.split(".")
-        base = self.workflow
-        for prop in query[:-1]:
-            base = getattr(base, prop)
-        value = getattr(base, query[-1])
-
-        if value is not None and attr is not None:
-            value = getattr(value, attr)
-
-        if flag is None:
-            flag = f"--{property.replace('_', '-')}"
-
-        if invert and isinstance(value, bool):
-            value = not value
-
-        return format_cli_arg(flag, value, quote=quote)
-
-    @lazy_property
-    def general_args(self):
-        """Return a string to add to self.exec_job that includes additional
-        arguments from the command line. This is currently used in the
-        ClusterExecutor and CPUExecutor, as both were using the same
-        code. Both have base class of the RealExecutor.
-        """
-        w2a = self.workflow_property_to_arg
-
-        return join_cli_args(
-            [
-                "--force",
-                "--keep-target-files",
-                "--keep-remote",
-                "--max-inventory-time 0",
-                "--nocolor",
-                "--notemp",
-                "--no-hooks",
-                "--nolock",
-                "--ignore-incomplete",
-                w2a("execution_settings.keep_incomplete")
-                w2a("rerun_triggers"),
-                w2a("execution_settings.cleanup_scripts", flag="--skip-script-cleanup"),
-                w2a("execution_settings.shadow_prefix"),
-                w2a("deployment_settings.use_conda"),
-                w2a("deployment_settings.conda_frontend"),
-                w2a("deployment_settings.conda_prefix"),
-                w2a("conda_base_path", skip=not self.assume_shared_fs),
-                w2a("deployment_settings.use_singularity"),
-                w2a("deployment_settings.singularity_prefix"),
-                w2a("deployment_settings.singularity_args"),
-                w2a("execute_subworkflows", flag="--no-subworkflows", invert=True),
-                w2a("max_threads"),
-                w2a("deployment_settings.use_env_modules", flag="--use-envmodules"),
-                w2a("keep_metadata", flag="--drop-metadata", invert=True),
-                w2a("execution_settings.wrapper_prefix"),
-                w2a("resource_settings.overwrite_threads", flag="--set-threads"),
-                w2a("overwrite_scatter", flag="--set-scatter"),
-                w2a("local_groupid", skip=self.job_specific_local_groupid),
-                w2a("conda_not_block_search_path_envvars"),
-                w2a("overwrite_configfiles", flag="--configfiles"),
-                w2a("config_settings.config_args", flag="--config"),
-                w2a("output_settings.printshellcmds"),
-                w2a("latency_wait"),
-                w2a("scheduler_settings.scheduler_type", flag="--scheduler"),
-                format_cli_arg(
-                    "--scheduler-solver-path",
-                    os.path.dirname(sys.executable),
-                    skip=not self.assume_shared_fs,
-                ),
-                self.get_set_resources_args(),
-                self.get_default_remote_provider_args(),
-                self.get_default_resources_args(),
-                self.get_resource_scopes_args(),
-                self.get_workdir_arg(),
-                join_cli_args(self.additional_general_args()),
-                format_cli_arg("--mode", self.get_exec_mode()),
-            ]
         )
 
     def additional_general_args(self):
@@ -245,7 +160,13 @@ class RealExecutor(AbstractExecutor):
                 "-m snakemake",
                 format_cli_arg("--snakefile", self.get_snakefile()),
                 self.get_job_args(job),
+                self.get_default_remote_provider_args(),
+                self.get_default_resources_args(),
+                self.get_workdir_arg(),
                 self.general_args,
+                self.additional_general_args(),
+                format_cli_arg("--mode", self.get_exec_mode()),
+                format_cli_arg("--local-groupid", self.workflow.group_settings.local_groupid, skip=self.job_specific_local_groupid),
                 suffix,
             ]
         )

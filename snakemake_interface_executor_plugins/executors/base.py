@@ -12,6 +12,21 @@ from snakemake_interface_executor_plugins.utils import format_cli_arg, join_cli_
 from snakemake_interface_executor_plugins.workflow import WorkflowExecutorInterface
 
 
+class CliArgsInterface(ABC):
+    @abstractmethod
+    def get_default_remote_provider_args(self):
+        ...
+
+    @abstractmethod
+    def get_set_resources_args(self):
+        ...
+
+    @abstractmethod
+    def get_default_resources_args(self, default_resources=None):
+        ...
+
+
+
 class AbstractExecutor(ABC):
     def __init__(
         self,
@@ -25,30 +40,14 @@ class AbstractExecutor(ABC):
     def get_default_remote_provider_args(self):
         return join_cli_args(
             [
-                self.workflow_property_to_arg("default_remote_prefix"),
-                self.workflow_property_to_arg("default_remote_provider", attr="name"),
+                self.workflow_property_to_arg("storage_settings.default_remote_prefix"),
+                self.workflow_property_to_arg("storage_settings.default_remote_provider", attr="name"),
             ]
-        )
-
-    def get_set_resources_args(self):
-        return format_cli_arg(
-            "--set-resources",
-            [
-                f"{rule}:{name}={value}"
-                for rule, res in self.workflow.resource_settings.overwrite_resources.items()
-                for name, value in res.items()
-            ],
-            skip=not self.workflow.resource_settings.overwrite_resources,
         )
 
     def get_default_resources_args(self, default_resources=None):
         default_resources = default_resources or self.workflow.default_resources
         return format_cli_arg("--default-resources", default_resources.args)
-
-    def get_resource_scopes_args(self):
-        return format_cli_arg(
-            "--set-resource-scopes", self.workflow.overwrite_resource_scopes
-        )
 
     def get_resource_declarations_dict(self, job: ExecutorJobInterface):
         def isdigit(i):

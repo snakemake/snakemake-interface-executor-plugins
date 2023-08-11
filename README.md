@@ -54,4 +54,12 @@ class Executor(RemoteExecutor)
     )
     # access executor specific settings 
     self.executor_settings
+
+    # IMPORTANT: in your plugin, only access methods and properties of Snakemake objects (like Workflow, Persistence, etc.)
+    # that are defined in the interfaces found in THIS package. Other parts of those objects
+    # are NOT guaranteed to remain the same across new releases.
+    
+    # To ensure that the used interfaces are not changing, you should depend on this package as
+    # >=a.b.c,<d with d=a+1 (i.e. pin the dependency on this package to be at least the version at time of development
+    # and less than the next major version which would introduce breaking changes).
 ```

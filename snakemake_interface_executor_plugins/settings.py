@@ -16,24 +16,29 @@ class RemoteExecutionSettingsExecutorInterface(ABC):
 class ExecutionSettingsExecutorInterface(ABC):
     @property
     @abstractmethod
-    def cleanup_scripts(self) -> bool:
+    def keep_incomplete(self) -> bool:
         ...
 
 
 class ResourceSettingsExecutorInterface(ABC):
-    @property
-    @abstractmethod
-    def overwrite_resources(self) -> Dict[str, Dict[str, int]]:
-        ...
-    
-    @property
-    @abstractmethod
-    def overwrite_threads(self) -> Dict[str, int]:
-        ...
+    ...
 
 
 class StorageSettingsExecutorInterface(ABC):
-    ...
+    @property
+    @abstractmethod
+    def default_remote_prefix(self) -> Optional[str]:
+        ...
+
+    @property
+    @abstractmethod
+    def default_remote_provider(self) -> Optional[str]:
+        ...
+
+    @property
+    @abstractmethod
+    def assume_shared_fs(self) -> bool:
+        ...
 
 
 class DeploymentSettingsExecutorInterface(ABC):
@@ -41,10 +46,7 @@ class DeploymentSettingsExecutorInterface(ABC):
 
 
 class ConfigSettingsExecutorInterface(ABC):
-    @property
-    @abstractmethod
-    def config_args(self) -> Optional[str]:
-        ...
+    ...
 
 
 class OutputSettingsExecutorInterface(ABC):
