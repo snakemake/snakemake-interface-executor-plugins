@@ -61,7 +61,7 @@ class RemoteExecutor(RealExecutor, ABC):
         )
         self.max_status_checks_per_second = max_status_checks_per_second
 
-        if not self.assume_shared_fs:
+        if not self.workflow.storage_settings.assume_shared_fs:
             # use relative path to Snakefile
             self.snakefile = os.path.relpath(workflow.main_snakefile)
 
@@ -119,24 +119,24 @@ class RemoteExecutor(RealExecutor, ABC):
             return ""
 
     def get_workdir_arg(self):
-        if self.assume_shared_fs:
+        if self.workflow.storage_settings.assume_shared_fs:
             return super().get_workdir_arg()
         return ""
 
     def get_envvar_declarations(self):
         if not self.disable_envvar_declarations:
             return " ".join(
-                f"{var}={repr(os.environ[var])}" for var in self.workflow.envvars
+                f"{var}={repr(os.environ[var])}" for var in self.workflow.remote_execution_settings.envvars
             )
         else:
             return ""
 
     def get_python_executable(self):
-        return sys.executable if self.assume_shared_fs else "python"
+        return sys.executable if self.workflow.storage_settings.assume_shared_fs else "python"
 
     def get_job_args(self, job: ExecutorJobInterface):
         waitfiles_parameter = ""
-        if self.assume_shared_fs:
+        if self.workflow.storage_settings.assume_shared_fs:
             wait_for_files = []
             wait_for_files.append(self.tmpdir)
             wait_for_files.extend(job.get_wait_for_files())
@@ -182,7 +182,7 @@ class RemoteExecutor(RealExecutor, ABC):
         self.shutdown()
 
     def _run(self, job: ExecutorJobInterface, callback=None, error_callback=None):
-        if self.assume_shared_fs:
+        if self.workflow.storage_settings.assume_shared_fs:
             job.remove_existing_output()
             job.download_remote_input()
         super()._run(job, callback=callback, error_callback=error_callback)

@@ -38,7 +38,6 @@ class RealExecutor(AbstractExecutor):
         )
         self.cores = job_core_limit if job_core_limit else "all"
         self.executor_settings = executor_settings
-        self.assume_shared_fs = workflow.storage_settings.assume_shared_fs
         self.stats = stats
         self.logger = logger
         self.snakefile = workflow.main_snakefile
@@ -74,17 +73,12 @@ class RealExecutor(AbstractExecutor):
             handle_log=handle_log,
             handle_touch=handle_touch,
             ignore_missing_output=ignore_missing_output,
-            latency_wait=self.latency_wait,
-            assume_shared_fs=self.assume_shared_fs,
-            keep_metadata=self.workflow.keep_metadata,
         )
         self.stats.report_job_end(job)
 
     def handle_job_error(self, job: ExecutorJobInterface, upload_remote=True):
         job.postprocess(
             error=True,
-            assume_shared_fs=self.assume_shared_fs,
-            latency_wait=self.latency_wait,
         )
 
     def additional_general_args(self):

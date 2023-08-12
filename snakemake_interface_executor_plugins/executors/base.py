@@ -11,22 +11,6 @@ from snakemake_interface_executor_plugins.jobs import ExecutorJobInterface
 from snakemake_interface_executor_plugins.utils import format_cli_arg, join_cli_args
 from snakemake_interface_executor_plugins.workflow import WorkflowExecutorInterface
 
-
-class CliArgsInterface(ABC):
-    @abstractmethod
-    def get_default_remote_provider_args(self):
-        ...
-
-    @abstractmethod
-    def get_set_resources_args(self):
-        ...
-
-    @abstractmethod
-    def get_default_resources_args(self, default_resources=None):
-        ...
-
-
-
 class AbstractExecutor(ABC):
     def __init__(
         self,
@@ -35,7 +19,6 @@ class AbstractExecutor(ABC):
     ):
         self.workflow = workflow
         self.dag = dag
-        self.latency_wait = workflow.latency_wait
 
     def get_default_remote_provider_args(self):
         return join_cli_args(
@@ -46,7 +29,7 @@ class AbstractExecutor(ABC):
         )
 
     def get_default_resources_args(self, default_resources=None):
-        default_resources = default_resources or self.workflow.default_resources
+        default_resources = default_resources or self.workflow.resource_settings.default_resources
         return format_cli_arg("--default-resources", default_resources.args)
 
     def get_resource_declarations_dict(self, job: ExecutorJobInterface):

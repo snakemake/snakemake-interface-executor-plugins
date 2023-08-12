@@ -66,16 +66,6 @@ class WorkflowExecutorInterface(ABC):
 
     @property
     @abstractmethod
-    def assume_shared_fs(self) -> bool:
-        ...
-
-    @property
-    @abstractmethod
-    def latency_wait(self) -> int:
-        ...
-
-    @property
-    @abstractmethod
     def rerun_triggers(self) -> Optional[List[str]]:
         ...
 
@@ -96,11 +86,6 @@ class WorkflowExecutorInterface(ABC):
 
     @property
     @abstractmethod
-    def keep_metadata(self) -> bool:
-        ...
-
-    @property
-    @abstractmethod
     def overwrite_scatter(self) -> Dict[str, int]:
         ...
 
@@ -117,11 +102,6 @@ class WorkflowExecutorInterface(ABC):
     @property
     @abstractmethod
     def overwrite_configfiles(self):
-        ...
-
-    @property
-    @abstractmethod
-    def default_resources(self):
         ...
 
     @property
@@ -182,11 +162,6 @@ class WorkflowExecutorInterface(ABC):
     @property
     @abstractmethod
     def jobscript(self):
-        ...
-
-    @property
-    @abstractmethod
-    def envvars(self):
         ...
 
     @property

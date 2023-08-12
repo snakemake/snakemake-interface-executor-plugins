@@ -13,6 +13,11 @@ class RemoteExecutionSettingsExecutorInterface(ABC):
     def immediate_submit(self) -> bool:
         ...
 
+    @property
+    @abstractmethod
+    def envvars(self) -> Optional[List[str]]:
+        ...
+
 class ExecutionSettingsExecutorInterface(ABC):
     @property
     @abstractmethod
@@ -34,7 +39,7 @@ class StorageSettingsExecutorInterface(ABC):
     @abstractmethod
     def default_remote_provider(self) -> Optional[str]:
         ...
-
+    
     @property
     @abstractmethod
     def assume_shared_fs(self) -> bool:
