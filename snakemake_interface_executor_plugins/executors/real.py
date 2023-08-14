@@ -31,6 +31,9 @@ class RealExecutor(AbstractExecutor):
         logger: LoggerExecutorInterface,
         executor_settings: Optional[ExecutorSettingsBase],
         job_core_limit: Optional[int] = None,
+        pass_default_remote_provider_args: bool = True,
+        pass_default_resources_args: bool = True,
+        pass_envvar_declarations_to_cmd: bool = True,
     ):
         super().__init__(
             workflow,
@@ -41,6 +44,9 @@ class RealExecutor(AbstractExecutor):
         self.stats = stats
         self.logger = logger
         self.snakefile = workflow.main_snakefile
+        self.pass_default_remote_provider_args = pass_default_remote_provider_args
+        self.pass_default_resources_args = pass_default_resources_args
+        self.pass_envvar_declarations_to_cmd = pass_envvar_declarations_to_cmd
 
     def register_job(self, job: ExecutorJobInterface):
         job.register()
@@ -131,7 +137,12 @@ class RealExecutor(AbstractExecutor):
         ...
 
     def get_envvar_declarations(self):
-        return ""
+        if self.pass_envvar_declarations_to_cmd:
+            return " ".join(
+                f"{var}={repr(os.environ[var])}" for var in self.workflow.remote_execution_settings.envvars
+            )
+        else:
+            return ""
 
     def get_job_exec_prefix(self, job: ExecutorJobInterface):
         return ""
@@ -155,9 +166,11 @@ class RealExecutor(AbstractExecutor):
                 format_cli_arg("--snakefile", self.get_snakefile()),
                 self.get_job_args(job),
                 self.get_default_remote_provider_args(),
-                self.get_default_resources_args(),
                 self.get_workdir_arg(),
-                self.general_args,
+                self.workflow.spawned_job_args_factory.general_args(
+                    pass_default_remote_provider_args=self.pass_default_remote_provider_args,
+                    pass_default_resources_args=self.pass_default_resources_args,
+                ),
                 self.additional_general_args(),
                 format_cli_arg("--mode", self.get_exec_mode()),
                 format_cli_arg("--local-groupid", self.workflow.group_settings.local_groupid, skip=self.job_specific_local_groupid),

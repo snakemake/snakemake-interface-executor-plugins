@@ -20,18 +20,6 @@ class AbstractExecutor(ABC):
         self.workflow = workflow
         self.dag = dag
 
-    def get_default_remote_provider_args(self):
-        return join_cli_args(
-            [
-                format_cli_arg("--default-remote-prefix", self.workflow.storage_settings.default_remote_prefix),
-                format_cli_arg("--default-remote-provider", self.workflow.storage_settings.default_remote_provider.name),
-            ]
-        )
-
-    def get_default_resources_args(self, default_resources=None):
-        default_resources = default_resources or self.workflow.resource_settings.default_resources
-        return format_cli_arg("--default-resources", default_resources.args)
-
     def get_resource_declarations_dict(self, job: ExecutorJobInterface):
         def isdigit(i):
             s = str(i)

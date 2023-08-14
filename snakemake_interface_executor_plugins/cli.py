@@ -3,7 +3,10 @@ from typing import List
 
 
 class SpawnedJobArgsFactoryExecutorInterface(ABC):
-    @property
     @abstractmethod
-    def general_args(self) -> str:
+    def general_args(
+            self,
+            pass_default_remote_provider_args: bool=True, 
+            pass_default_resources_args: bool=False
+        ) -> str:
         ...

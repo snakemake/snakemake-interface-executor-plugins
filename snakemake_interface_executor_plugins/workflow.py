@@ -26,7 +26,7 @@ from snakemake_interface_executor_plugins.settings import (
 class WorkflowExecutorInterface(ABC):
     @property
     @abstractmethod
-    def spawend_job_args_factory(self) -> SpawnedJobArgsFactoryExecutorInterface:
+    def spawned_job_args_factory(self) -> SpawnedJobArgsFactoryExecutorInterface:
         ...
 
     @property

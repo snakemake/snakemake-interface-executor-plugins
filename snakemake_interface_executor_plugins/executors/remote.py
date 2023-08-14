@@ -48,9 +48,9 @@ class RemoteExecutor(RealExecutor, ABC):
         executor_settings: Optional[ExecutorSettingsBase],
         jobname="snakejob.{name}.{jobid}.sh",
         max_status_checks_per_second=1,
-        disable_default_remote_provider_args=False,
-        disable_default_resources_args=False,
-        disable_envvar_declarations=False,
+        pass_default_remote_provider_args: bool = True,
+        pass_default_resources_args: bool = True,
+        pass_envvar_declarations_to_cmd: bool = False,
     ):
         super().__init__(
             workflow,
@@ -58,6 +58,9 @@ class RemoteExecutor(RealExecutor, ABC):
             stats,
             logger,
             executor_settings,
+            pass_default_remote_provider_args=pass_default_remote_provider_args,
+            pass_default_resources_args=pass_default_resources_args,
+            pass_envvar_declarations_to_cmd=pass_envvar_declarations_to_cmd,
         )
         self.max_status_checks_per_second = max_status_checks_per_second
 
@@ -91,10 +94,6 @@ class RemoteExecutor(RealExecutor, ABC):
         self.wait_thread.daemon = True
         self.wait_thread.start()
 
-        self.disable_default_remote_provider_args = disable_default_remote_provider_args
-        self.disable_default_resources_args = disable_default_resources_args
-        self.disable_envvar_declarations = disable_envvar_declarations
-
         max_status_checks_frac = Fraction(
             max_status_checks_per_second
         ).limit_denominator()
@@ -112,24 +111,10 @@ class RemoteExecutor(RealExecutor, ABC):
         else:
             return ""
 
-    def get_default_resources_args(self, default_resources=None):
-        if not self.disable_default_resources_args:
-            return super().get_default_resources_args(default_resources)
-        else:
-            return ""
-
     def get_workdir_arg(self):
         if self.workflow.storage_settings.assume_shared_fs:
             return super().get_workdir_arg()
         return ""
-
-    def get_envvar_declarations(self):
-        if not self.disable_envvar_declarations:
-            return " ".join(
-                f"{var}={repr(os.environ[var])}" for var in self.workflow.remote_execution_settings.envvars
-            )
-        else:
-            return ""
 
     def get_python_executable(self):
         return sys.executable if self.workflow.storage_settings.assume_shared_fs else "python"
