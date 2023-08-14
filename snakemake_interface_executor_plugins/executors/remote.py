@@ -66,7 +66,7 @@ class RemoteExecutor(RealExecutor, ABC):
             self.snakefile = os.path.relpath(workflow.main_snakefile)
 
         self.is_default_jobscript = False
-        jobscript = workflow.jobscript
+        jobscript = workflow.remote_execution_settings.jobscript
         if jobscript is None:
             jobscript = os.path.join(os.path.dirname(__file__), self.default_jobscript)
             self.is_default_jobscript = True
@@ -221,7 +221,7 @@ class RemoteExecutor(RealExecutor, ABC):
             else:
                 raise WorkflowError(
                     "Error formatting custom jobscript "
-                    f"{self.workflow.jobscript}: value for {e} not found.\n"
+                    f"{self.jobscript}: value for {e} not found.\n"
                     "Make sure that your custom jobscript is defined as "
                     "expected."
                 )

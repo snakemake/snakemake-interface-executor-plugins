@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Dict, Optional
+from typing import Dict, List, Optional
 
 
 class RemoteExecutionSettingsExecutorInterface(ABC):

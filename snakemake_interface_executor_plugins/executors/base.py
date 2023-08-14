@@ -23,8 +23,8 @@ class AbstractExecutor(ABC):
     def get_default_remote_provider_args(self):
         return join_cli_args(
             [
-                self.workflow_property_to_arg("storage_settings.default_remote_prefix"),
-                self.workflow_property_to_arg("storage_settings.default_remote_provider", attr="name"),
+                format_cli_arg("--default-remote-prefix", self.workflow.storage_settings.default_remote_prefix),
+                format_cli_arg("--default-remote-provider", self.workflow.storage_settings.default_remote_provider.name),
             ]
         )
 

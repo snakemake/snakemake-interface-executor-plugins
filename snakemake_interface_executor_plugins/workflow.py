@@ -66,61 +66,11 @@ class WorkflowExecutorInterface(ABC):
 
     @property
     @abstractmethod
-    def rerun_triggers(self) -> Optional[List[str]]:
-        ...
-
-    @property
-    @abstractmethod
-    def conda_base_path(self) -> Optional[str]:
-        ...
-
-    @property
-    @abstractmethod
-    def execute_subworkflows(self) -> bool:
-        ...
-
-    @property
-    @abstractmethod
-    def max_threads(self) -> Optional[int]:
-        ...
-
-    @property
-    @abstractmethod
-    def overwrite_scatter(self) -> Dict[str, int]:
-        ...
-
-    @property
-    @abstractmethod
-    def local_groupid(self):
-        ...
-
-    @property
-    @abstractmethod
-    def conda_not_block_search_path_envvars(self):
-        ...
-
-    @property
-    @abstractmethod
-    def overwrite_configfiles(self):
-        ...
-
-    @property
-    @abstractmethod
-    def overwrite_resource_scopes(self):
-        ...
-
-    @property
-    @abstractmethod
     def resource_scopes(self):
         ...
 
     @abstractmethod
     def get_cache_mode(self, rule):
-        ...
-
-    @property
-    @abstractmethod
-    def output_file_cache(self):
         ...
 
     @property
@@ -145,40 +95,10 @@ class WorkflowExecutorInterface(ABC):
 
     @property
     @abstractmethod
-    def use_env_modules(self):
-        ...
-
-
-    @property
-    @abstractmethod
-    def edit_notebook(self):
-        ...
-
-    @property
-    @abstractmethod
     def sourcecache(self):
         ...
 
     @property
     @abstractmethod
-    def jobscript(self):
-        ...
-
-    @property
-    @abstractmethod
     def scheduler(self) -> JobSchedulerExecutorInterface:
-        ...
-
-    @property
-    @abstractmethod
-    def default_remote_prefix(self):
-        ...
-
-    @property
-    @abstractmethod
-    def rules(self):
-        ...
-
-    @abstractmethod
-    def get_rule(self, name):
         ...
