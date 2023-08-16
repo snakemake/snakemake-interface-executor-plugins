@@ -26,27 +26,28 @@ class RealExecutor(AbstractExecutor):
     def __init__(
         self,
         workflow: WorkflowExecutorInterface,
-        dag: DAGExecutorInterface,
         stats: StatsExecutorInterface,
         logger: LoggerExecutorInterface,
-        executor_settings: Optional[ExecutorSettingsBase],
-        job_core_limit: Optional[int] = None,
         pass_default_remote_provider_args: bool = True,
         pass_default_resources_args: bool = True,
         pass_envvar_declarations_to_cmd: bool = True,
     ):
         super().__init__(
             workflow,
-            dag,
+            stats,
+            logger,
         )
-        self.cores = job_core_limit if job_core_limit else "all"
-        self.executor_settings = executor_settings
-        self.stats = stats
-        self.logger = logger
+        self.executor_settings = self.workflow.executor_settings
         self.snakefile = workflow.main_snakefile
         self.pass_default_remote_provider_args = pass_default_remote_provider_args
         self.pass_default_resources_args = pass_default_resources_args
         self.pass_envvar_declarations_to_cmd = pass_envvar_declarations_to_cmd
+
+    @property
+    @abstractmethod
+    def cores(self):
+        # return "all" in case of remote executors, otherwise self.workflow.resource_settings.cores
+        ...
 
     def register_job(self, job: ExecutorJobInterface):
         job.register()

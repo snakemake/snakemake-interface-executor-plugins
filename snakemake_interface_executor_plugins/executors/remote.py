@@ -42,27 +42,22 @@ class RemoteExecutor(RealExecutor, ABC):
     def __init__(
         self,
         workflow: WorkflowExecutorInterface,
-        dag: DAGExecutorInterface,
         stats: StatsExecutorInterface,
         logger: LoggerExecutorInterface,
-        executor_settings: Optional[ExecutorSettingsBase],
-        jobname="snakejob.{name}.{jobid}.sh",
-        max_status_checks_per_second=1,
         pass_default_remote_provider_args: bool = True,
         pass_default_resources_args: bool = True,
         pass_envvar_declarations_to_cmd: bool = False,
     ):
         super().__init__(
             workflow,
-            dag,
             stats,
             logger,
-            executor_settings,
             pass_default_remote_provider_args=pass_default_remote_provider_args,
             pass_default_resources_args=pass_default_resources_args,
             pass_envvar_declarations_to_cmd=pass_envvar_declarations_to_cmd,
         )
-        self.max_status_checks_per_second = max_status_checks_per_second
+        self.max_status_checks_per_second = self.workflow.remote_execution_settings.max_status_checks_per_second
+        self.jobname = self.workflow.remote_execution_settings.jobname
 
         if not self.workflow.storage_settings.assume_shared_fs:
             # use relative path to Snakefile
@@ -79,12 +74,11 @@ class RemoteExecutor(RealExecutor, ABC):
         except IOError as e:
             raise WorkflowError(e)
 
-        if "{jobid}" not in jobname:
+        if "{jobid}" not in self.jobname:
             raise WorkflowError(
-                f'Defined jobname ("{jobname}") has to contain the wildcard {{jobid}}.'
+                f'Defined jobname ("{self.jobname}") has to contain the wildcard {{jobid}}.'
             )
 
-        self.jobname = jobname
         self._tmpdir = None
 
         self.active_jobs = list()
@@ -95,12 +89,16 @@ class RemoteExecutor(RealExecutor, ABC):
         self.wait_thread.start()
 
         max_status_checks_frac = Fraction(
-            max_status_checks_per_second
+            self.max_status_checks_per_second
         ).limit_denominator()
         self.status_rate_limiter = Throttler(
             rate_limit=max_status_checks_frac.numerator,
             period=max_status_checks_frac.denominator,
         )
+
+    @property
+    def cores(self):
+        return "all"
 
     def get_exec_mode(self):
         return ExecMode.remote

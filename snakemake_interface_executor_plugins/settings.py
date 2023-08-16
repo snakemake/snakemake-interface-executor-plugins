@@ -21,6 +21,11 @@ class RemoteExecutionSettingsExecutorInterface(ABC):
     def envvars(self) -> Optional[List[str]]:
         ...
 
+    @property
+    @abstractmethod
+    def max_status_checks_per_second(self) -> int:
+        ...
+
 class ExecutionSettingsExecutorInterface(ABC):
     @property
     @abstractmethod

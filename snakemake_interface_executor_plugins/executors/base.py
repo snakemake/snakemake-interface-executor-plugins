@@ -8,6 +8,8 @@ from typing import List
 
 from snakemake_interface_executor_plugins.dag import DAGExecutorInterface
 from snakemake_interface_executor_plugins.jobs import ExecutorJobInterface
+from snakemake_interface_executor_plugins.logging import LoggerExecutorInterface
+from snakemake_interface_executor_plugins.persistence import StatsExecutorInterface
 from snakemake_interface_executor_plugins.utils import format_cli_arg, join_cli_args
 from snakemake_interface_executor_plugins.workflow import WorkflowExecutorInterface
 
@@ -15,10 +17,13 @@ class AbstractExecutor(ABC):
     def __init__(
         self,
         workflow: WorkflowExecutorInterface,
-        dag: DAGExecutorInterface,
+        stats: StatsExecutorInterface,
+        logger: LoggerExecutorInterface,
     ):
         self.workflow = workflow
-        self.dag = dag
+        self.dag = workflow.dag
+        self.stats = stats
+        self.logger = logger
 
     def get_resource_declarations_dict(self, job: ExecutorJobInterface):
         def isdigit(i):

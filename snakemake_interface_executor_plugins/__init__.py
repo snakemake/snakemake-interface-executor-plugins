@@ -19,6 +19,10 @@ class CommonSettings:
     dryrun_exec: bool = False
     use_threads: bool = False
 
+    @property
+    def local_exec(self):
+        return not self.non_local_exec
+
 
 @dataclass
 class ExecutorSettingsBase:
