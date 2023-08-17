@@ -5,18 +5,12 @@ __license__ = "MIT"
 
 from abc import abstractmethod
 import os
-import sys
-from typing import Optional
-from snakemake_interface_executor_plugins import ExecutorSettingsBase
-from snakemake_interface_executor_plugins.dag import DAGExecutorInterface
 from snakemake_interface_executor_plugins.executors.base import AbstractExecutor
 from snakemake_interface_executor_plugins.logging import LoggerExecutorInterface
-from snakemake_interface_executor_plugins.persistence import StatsExecutorInterface
 from snakemake_interface_executor_plugins.utils import (
     encode_target_jobs_cli_args,
     format_cli_arg,
     join_cli_args,
-    lazy_property,
 )
 from snakemake_interface_executor_plugins.jobs import ExecutorJobInterface
 from snakemake_interface_executor_plugins.workflow import WorkflowExecutorInterface
@@ -26,7 +20,6 @@ class RealExecutor(AbstractExecutor):
     def __init__(
         self,
         workflow: WorkflowExecutorInterface,
-        stats: StatsExecutorInterface,
         logger: LoggerExecutorInterface,
         pass_default_remote_provider_args: bool = True,
         pass_default_resources_args: bool = True,
@@ -34,7 +27,6 @@ class RealExecutor(AbstractExecutor):
     ):
         super().__init__(
             workflow,
-            stats,
             logger,
         )
         self.executor_settings = self.workflow.executor_settings
@@ -54,7 +46,6 @@ class RealExecutor(AbstractExecutor):
 
     def _run(self, job: ExecutorJobInterface, callback=None, error_callback=None):
         super()._run(job)
-        self.stats.report_job_start(job)
 
         try:
             self.register_job(job)
@@ -81,7 +72,6 @@ class RealExecutor(AbstractExecutor):
             handle_touch=handle_touch,
             ignore_missing_output=ignore_missing_output,
         )
-        self.stats.report_job_end(job)
 
     def handle_job_error(self, job: ExecutorJobInterface, upload_remote=True):
         job.postprocess(

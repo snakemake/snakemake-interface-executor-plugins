@@ -12,14 +12,10 @@ import stat
 import sys
 import tempfile
 import threading
-from typing import Optional
-from snakemake_interface_executor_plugins import ExecutorSettingsBase
-from snakemake_interface_executor_plugins.dag import DAGExecutorInterface
 from snakemake_interface_executor_plugins.exceptions import WorkflowError
 from snakemake_interface_executor_plugins.executors.real import RealExecutor
 from snakemake_interface_executor_plugins.jobs import ExecutorJobInterface
 from snakemake_interface_executor_plugins.logging import LoggerExecutorInterface
-from snakemake_interface_executor_plugins.persistence import StatsExecutorInterface
 from snakemake_interface_executor_plugins.utils import ExecMode, format_cli_arg
 from snakemake_interface_executor_plugins.workflow import WorkflowExecutorInterface
 
@@ -42,7 +38,6 @@ class RemoteExecutor(RealExecutor, ABC):
     def __init__(
         self,
         workflow: WorkflowExecutorInterface,
-        stats: StatsExecutorInterface,
         logger: LoggerExecutorInterface,
         pass_default_remote_provider_args: bool = True,
         pass_default_resources_args: bool = True,
@@ -50,7 +45,6 @@ class RemoteExecutor(RealExecutor, ABC):
     ):
         super().__init__(
             workflow,
-            stats,
             logger,
             pass_default_remote_provider_args=pass_default_remote_provider_args,
             pass_default_resources_args=pass_default_resources_args,

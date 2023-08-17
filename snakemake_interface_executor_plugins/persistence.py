@@ -22,32 +22,3 @@ class PersistenceExecutorInterface(ABC):
     @abstractmethod
     def aux_path(self):
         ...
-
-
-class StatsExecutorInterface(ABC):
-    @abstractmethod
-    def report_job_start(self, job: ExecutorJobInterface):
-        ...
-
-    @abstractmethod
-    def report_job_end(self, job: ExecutorJobInterface):
-        ...
-
-    @property
-    @abstractmethod
-    def rule_stats(self):
-        ...
-
-    @property
-    @abstractmethod
-    def file_stats(self):
-        ...
-
-    @property
-    @abstractmethod
-    def overall_runtime(self):
-        ...
-
-    @abstractmethod
-    def to_json(self, path):
-        ...
