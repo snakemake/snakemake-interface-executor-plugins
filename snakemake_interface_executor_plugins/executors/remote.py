@@ -16,7 +16,7 @@ from snakemake_interface_executor_plugins.exceptions import WorkflowError
 from snakemake_interface_executor_plugins.executors.real import RealExecutor
 from snakemake_interface_executor_plugins.jobs import ExecutorJobInterface
 from snakemake_interface_executor_plugins.logging import LoggerExecutorInterface
-from snakemake_interface_executor_plugins.utils import ExecMode, format_cli_arg
+from snakemake_interface_executor_plugins.settings import ExecMode, format_cli_arg
 from snakemake_interface_executor_plugins.workflow import WorkflowExecutorInterface
 
 from throttler import Throttler
@@ -94,8 +94,8 @@ class RemoteExecutor(RealExecutor, ABC):
     def cores(self):
         return "all"
 
-    def get_exec_mode(self):
-        return ExecMode.remote
+    def get_exec_mode(self) -> ExecMode:
+        return ExecMode.REMOTE
 
     def get_default_remote_provider_args(self):
         if not self.disable_default_remote_provider_args:

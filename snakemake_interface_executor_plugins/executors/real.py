@@ -7,6 +7,7 @@ from abc import abstractmethod
 import os
 from snakemake_interface_executor_plugins.executors.base import AbstractExecutor
 from snakemake_interface_executor_plugins.logging import LoggerExecutorInterface
+from snakemake_interface_executor_plugins.settings import ExecMode
 from snakemake_interface_executor_plugins.utils import (
     encode_target_jobs_cli_args,
     format_cli_arg,
@@ -124,7 +125,7 @@ class RealExecutor(AbstractExecutor):
         ...
 
     @abstractmethod
-    def get_exec_mode(self):
+    def get_exec_mode(self) -> ExecMode:
         ...
 
     def get_envvar_declarations(self):
