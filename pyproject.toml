@@ -26,12 +26,6 @@ snakemake-executor-plugin-flux = {git = "https://github.com/snakemake/snakemake-
 omit = [".*", "*/site-packages/*"]
 
 [tool.coverage.report]
-# exclude CLI handling lines. They cannot be captured properly by coverage, but we have a testcase for them.
-exclude_lines = [
-  "yaml\\.dump\\(result, outfile\\)",
-  "process_yaml\\(sys.stdin, outfile=sys\\.stdout\\)",
-  "plac.call\\(cli\\)",
-]
 fail_under = 64
 
 [build-system]
