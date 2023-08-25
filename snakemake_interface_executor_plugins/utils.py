@@ -12,7 +12,7 @@ import collections
 from collections import namedtuple
 from enum import Enum
 
-from snakemake_interface_executor_plugins.settings import SettingsEnumExecutorInterface
+from snakemake_interface_executor_plugins.settings import SettingsEnumBase
 
 
 def not_iterable(value):
@@ -54,7 +54,7 @@ def format_cli_pos_arg(value, quote=True):
 
 
 def format_cli_value(value: Any) -> str:
-    if isinstance(value, SettingsEnumExecutorInterface):
+    if isinstance(value, SettingsEnumBase):
         return value.item_to_choice()
     else:
         return repr(value)

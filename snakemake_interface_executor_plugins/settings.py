@@ -3,40 +3,7 @@ from enum import Enum
 from pathlib import Path
 from typing import Dict, List, Optional, Self, Set
 
-from snakemake_interface_executor_plugins.resources import DefaultResourcesExecutorInterface
-
-
-class ParseChoicesType(Enum):
-    SET = 0
-    LIST = 1
-
-
-class SettingsEnumBase(Enum):
-    parse_choices_type: ParseChoicesType = ParseChoicesType.SET
-
-    @classmethod
-    def choices(cls) -> List[str]:
-        return sorted(item.item_to_choice() for item in cls)
-    
-    @classmethod
-    def all(cls) -> Set[Self]:
-        return {item for item in cls}
-    
-    @classmethod
-    def parse_choices(cls, choices: str) -> List[Self]:
-        container = set if cls.parse_choices_type == ParseChoicesType.SET else list
-        return container(cls.parse_choice(choice) for choice in choices)
-    
-    @classmethod
-    def parse_choice(cls, choice: str) -> Self:
-        return choice.replace("-", "_").upper()
-    
-    def item_to_choice(self) -> str:
-        return self.name.replace("_", "-").lower()
-    
-    def __str__(self):
-        return self.item_to_choice()
-
+from snakemake_interface_common.settings import SettingsEnumBase
 
 class RemoteExecutionSettingsExecutorInterface(ABC):
     @property

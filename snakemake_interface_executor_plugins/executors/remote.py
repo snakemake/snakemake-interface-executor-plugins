@@ -12,11 +12,12 @@ import stat
 import sys
 import tempfile
 import threading
-from snakemake_interface_executor_plugins.exceptions import WorkflowError
+from snakemake_interface_common.exceptions import WorkflowError
 from snakemake_interface_executor_plugins.executors.real import RealExecutor
 from snakemake_interface_executor_plugins.jobs import ExecutorJobInterface
 from snakemake_interface_executor_plugins.logging import LoggerExecutorInterface
-from snakemake_interface_executor_plugins.settings import ExecMode, format_cli_arg
+from snakemake_interface_executor_plugins.settings import ExecMode
+from snakemake_interface_executor_plugins.utils import format_cli_arg
 from snakemake_interface_executor_plugins.workflow import WorkflowExecutorInterface
 
 from throttler import Throttler
