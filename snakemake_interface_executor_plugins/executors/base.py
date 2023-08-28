@@ -11,6 +11,7 @@ from snakemake_interface_executor_plugins.logging import LoggerExecutorInterface
 from snakemake_interface_executor_plugins.utils import format_cli_arg
 from snakemake_interface_executor_plugins.workflow import WorkflowExecutorInterface
 
+
 class AbstractExecutor(ABC):
     def __init__(
         self,

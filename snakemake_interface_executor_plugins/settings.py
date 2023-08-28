@@ -4,6 +4,7 @@ from typing import List, Optional, Set
 
 from snakemake_interface_common.settings import SettingsEnumBase
 
+
 class RemoteExecutionSettingsExecutorInterface(ABC):
     @property
     @abstractmethod
@@ -47,7 +48,7 @@ class ExecutionSettingsExecutorInterface(ABC):
     @abstractmethod
     def debug(self) -> bool:
         ...
-    
+
     @property
     @abstractmethod
     def cleanup_scripts(self) -> bool:
@@ -59,16 +60,11 @@ class ExecutionSettingsExecutorInterface(ABC):
         ...
 
 
-class ResourceSettingsExecutorInterface(ABC):
-    ...
-
-
 class StorageSettingsExecutorInterface(ABC):
     @property
     @abstractmethod
     def assume_shared_fs(self) -> bool:
         ...
-
 
 
 class DeploymentMethod(SettingsEnumBase):
@@ -82,11 +78,3 @@ class DeploymentSettingsExecutorInterface(ABC):
     @abstractmethod
     def deployment_method(self) -> Set[DeploymentMethod]:
         ...
-
-
-class ConfigSettingsExecutorInterface(ABC):
-    ...
-
-
-class OutputSettingsExecutorInterface(ABC):
-    ...

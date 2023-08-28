@@ -3,8 +3,6 @@ __copyright__ = "Copyright 2023, Johannes Köster, Vanessa Sochat"
 __email__ = "johannes.koester@uni-due.de"
 __license__ = "MIT"
 
-import textwrap
-
 
 from snakemake_interface_common.exceptions import ApiError
 

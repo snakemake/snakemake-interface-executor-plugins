@@ -51,7 +51,9 @@ class RemoteExecutor(RealExecutor, ABC):
             pass_default_resources_args=pass_default_resources_args,
             pass_envvar_declarations_to_cmd=pass_envvar_declarations_to_cmd,
         )
-        self.max_status_checks_per_second = self.workflow.remote_execution_settings.max_status_checks_per_second
+        self.max_status_checks_per_second = (
+            self.workflow.remote_execution_settings.max_status_checks_per_second
+        )
         self.jobname = self.workflow.remote_execution_settings.jobname
 
         if not self.workflow.storage_settings.assume_shared_fs:
@@ -71,7 +73,8 @@ class RemoteExecutor(RealExecutor, ABC):
 
         if "{jobid}" not in self.jobname:
             raise WorkflowError(
-                f'Defined jobname ("{self.jobname}") has to contain the wildcard {{jobid}}.'
+                f'Defined jobname ("{self.jobname}") has '
+                f"to contain the wildcard {{jobid}}."
             )
 
         self._tmpdir = None
@@ -110,7 +113,11 @@ class RemoteExecutor(RealExecutor, ABC):
         return ""
 
     def get_python_executable(self):
-        return sys.executable if self.workflow.storage_settings.assume_shared_fs else "python"
+        return (
+            sys.executable
+            if self.workflow.storage_settings.assume_shared_fs
+            else "python"
+        )
 
     def get_job_args(self, job: ExecutorJobInterface):
         waitfiles_parameter = ""

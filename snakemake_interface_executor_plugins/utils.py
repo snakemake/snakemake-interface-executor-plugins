@@ -45,7 +45,9 @@ def format_cli_arg(flag, value, quote=True, skip=False):
 
 def format_cli_pos_arg(value, quote=True):
     if isinstance(value, (dict, UserDict)):
-        return join_cli_args(repr(f"{key}={format_cli_value(val)}") for key, val in value.items())
+        return join_cli_args(
+            repr(f"{key}={format_cli_value(val)}") for key, val in value.items()
+        )
     elif not_iterable(value):
         return format_cli_value(value)
     else:

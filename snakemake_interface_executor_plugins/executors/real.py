@@ -39,7 +39,8 @@ class RealExecutor(AbstractExecutor):
     @property
     @abstractmethod
     def cores(self):
-        # return "all" in case of remote executors, otherwise self.workflow.resource_settings.cores
+        # return "all" in case of remote executors,
+        # otherwise self.workflow.resource_settings.cores
         ...
 
     def register_job(self, job: ExecutorJobInterface):
@@ -131,7 +132,8 @@ class RealExecutor(AbstractExecutor):
     def get_envvar_declarations(self):
         if self.pass_envvar_declarations_to_cmd:
             return " ".join(
-                f"{var}={repr(os.environ[var])}" for var in self.workflow.remote_execution_settings.envvars
+                f"{var}={repr(os.environ[var])}"
+                for var in self.workflow.remote_execution_settings.envvars
             )
         else:
             return ""
@@ -149,6 +151,10 @@ class RealExecutor(AbstractExecutor):
         suffix = self.get_job_exec_suffix(job)
         if suffix:
             suffix = f"&& {suffix}"
+        general_args = self.workflow.spawned_job_args_factory.general_args(
+            pass_default_remote_provider_args=self.pass_default_remote_provider_args,
+            pass_default_resources_args=self.pass_default_resources_args,
+        )
         return join_cli_args(
             [
                 prefix,
@@ -159,13 +165,14 @@ class RealExecutor(AbstractExecutor):
                 self.get_job_args(job),
                 self.get_default_remote_provider_args(),
                 self.get_workdir_arg(),
-                self.workflow.spawned_job_args_factory.general_args(
-                    pass_default_remote_provider_args=self.pass_default_remote_provider_args,
-                    pass_default_resources_args=self.pass_default_resources_args,
-                ),
+                general_args,
                 self.additional_general_args(),
                 format_cli_arg("--mode", self.get_exec_mode()),
-                format_cli_arg("--local-groupid", self.workflow.group_settings.local_groupid, skip=self.job_specific_local_groupid),
+                format_cli_arg(
+                    "--local-groupid",
+                    self.workflow.group_settings.local_groupid,
+                    skip=self.job_specific_local_groupid,
+                ),
                 suffix,
             ]
         )

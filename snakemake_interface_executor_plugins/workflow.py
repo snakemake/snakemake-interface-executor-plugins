@@ -5,7 +5,9 @@ __license__ = "MIT"
 
 from abc import ABC, abstractmethod
 
-from snakemake_interface_executor_plugins.cli import SpawnedJobArgsFactoryExecutorInterface
+from snakemake_interface_executor_plugins.cli import (
+    SpawnedJobArgsFactoryExecutorInterface,
+)
 from snakemake_interface_executor_plugins.persistence import (
     PersistenceExecutorInterface,
 )
@@ -18,7 +20,7 @@ from snakemake_interface_executor_plugins.settings import (
     OutputSettingsExecutorInterface,
     RemoteExecutionSettingsExecutorInterface,
     ResourceSettingsExecutorInterface,
-    StorageSettingsExecutorInterface
+    StorageSettingsExecutorInterface,
 )
 
 
