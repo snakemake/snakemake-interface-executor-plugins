@@ -5,8 +5,6 @@ __license__ = "MIT"
 
 from abc import ABC, abstractmethod
 
-from snakemake_interface_executor_plugins.jobs import ExecutorJobInterface
-
 
 class PersistenceExecutorInterface(ABC):
     @abstractmethod

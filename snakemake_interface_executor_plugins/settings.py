@@ -1,7 +1,6 @@
 from abc import ABC, abstractmethod
-from enum import Enum
 from pathlib import Path
-from typing import Dict, List, Optional, Self, Set
+from typing import List, Optional, Set
 
 from snakemake_interface_common.settings import SettingsEnumBase
 

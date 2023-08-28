@@ -8,7 +8,7 @@ from typing import List
 
 from snakemake_interface_executor_plugins.jobs import ExecutorJobInterface
 from snakemake_interface_executor_plugins.logging import LoggerExecutorInterface
-from snakemake_interface_executor_plugins.utils import format_cli_arg, join_cli_args
+from snakemake_interface_executor_plugins.utils import format_cli_arg
 from snakemake_interface_executor_plugins.workflow import WorkflowExecutorInterface
 
 class AbstractExecutor(ABC):

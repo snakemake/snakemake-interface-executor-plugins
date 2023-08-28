@@ -10,9 +10,8 @@ from typing import Any, List
 from urllib.parse import urlparse
 import collections
 from collections import namedtuple
-from enum import Enum
 
-from snakemake_interface_executor_plugins.settings import SettingsEnumBase
+from snakemake_interface_common.settings import SettingsEnumBase
 
 
 def not_iterable(value):
