@@ -14,12 +14,9 @@ from snakemake_interface_executor_plugins.persistence import (
 
 from snakemake_interface_executor_plugins.scheduler import JobSchedulerExecutorInterface
 from snakemake_interface_executor_plugins.settings import (
-    ConfigSettingsExecutorInterface,
     DeploymentSettingsExecutorInterface,
     ExecutionSettingsExecutorInterface,
-    OutputSettingsExecutorInterface,
     RemoteExecutionSettingsExecutorInterface,
-    ResourceSettingsExecutorInterface,
     StorageSettingsExecutorInterface,
 )
 
@@ -42,27 +39,12 @@ class WorkflowExecutorInterface(ABC):
 
     @property
     @abstractmethod
-    def resource_settings(self) -> ResourceSettingsExecutorInterface:
-        ...
-
-    @property
-    @abstractmethod
     def storage_settings(self) -> StorageSettingsExecutorInterface:
         ...
 
     @property
     @abstractmethod
     def deployment_settings(self) -> DeploymentSettingsExecutorInterface:
-        ...
-
-    @property
-    @abstractmethod
-    def config_settings(self) -> ConfigSettingsExecutorInterface:
-        ...
-
-    @property
-    @abstractmethod
-    def output_settings(self) -> OutputSettingsExecutorInterface:
         ...
 
     @property
