@@ -5,133 +5,46 @@ __license__ = "MIT"
 
 from abc import ABC, abstractmethod
 
-from typing import Dict, List, Optional
+from snakemake_interface_executor_plugins.cli import (
+    SpawnedJobArgsFactoryExecutorInterface,
+)
 from snakemake_interface_executor_plugins.persistence import (
     PersistenceExecutorInterface,
 )
 
 from snakemake_interface_executor_plugins.scheduler import JobSchedulerExecutorInterface
+from snakemake_interface_executor_plugins.settings import (
+    DeploymentSettingsExecutorInterface,
+    ExecutionSettingsExecutorInterface,
+    RemoteExecutionSettingsExecutorInterface,
+    StorageSettingsExecutorInterface,
+)
 
 
 class WorkflowExecutorInterface(ABC):
     @property
     @abstractmethod
-    def assume_shared_fs(self) -> bool:
+    def spawned_job_args_factory(self) -> SpawnedJobArgsFactoryExecutorInterface:
         ...
 
     @property
     @abstractmethod
-    def keep_incomplete(self) -> bool:
+    def execution_settings(self) -> ExecutionSettingsExecutorInterface:
         ...
 
     @property
     @abstractmethod
-    def latency_wait(self) -> int:
+    def remote_execution_settings(self) -> RemoteExecutionSettingsExecutorInterface:
         ...
 
     @property
     @abstractmethod
-    def rerun_triggers(self) -> Optional[List[str]]:
+    def storage_settings(self) -> StorageSettingsExecutorInterface:
         ...
 
     @property
     @abstractmethod
-    def shadow_prefix(self) -> Optional[str]:
-        ...
-
-    @property
-    @abstractmethod
-    def conda_frontend(self) -> Optional[str]:
-        ...
-
-    @property
-    @abstractmethod
-    def conda_prefix(self) -> Optional[str]:
-        ...
-
-    @property
-    @abstractmethod
-    def conda_base_path(self) -> Optional[str]:
-        ...
-
-    @property
-    @abstractmethod
-    def singularity_args(self) -> Optional[str]:
-        ...
-
-    @property
-    @abstractmethod
-    def execute_subworkflows(self) -> bool:
-        ...
-
-    @property
-    @abstractmethod
-    def max_threads(self) -> Optional[int]:
-        ...
-
-    @property
-    @abstractmethod
-    def keep_metadata(self) -> bool:
-        ...
-
-    @property
-    @abstractmethod
-    def wrapper_prefix(self) -> Optional[str]:
-        ...
-
-    @property
-    @abstractmethod
-    def overwrite_threads(self) -> Dict[str, int]:
-        ...
-
-    @property
-    @abstractmethod
-    def overwrite_scatter(self) -> Dict[str, int]:
-        ...
-
-    @property
-    @abstractmethod
-    def local_groupid(self):
-        ...
-
-    @property
-    @abstractmethod
-    def conda_not_block_search_path_envvars(self):
-        ...
-
-    @property
-    @abstractmethod
-    def overwrite_configfiles(self):
-        ...
-
-    @property
-    @abstractmethod
-    def config_args(self):
-        ...
-
-    @property
-    @abstractmethod
-    def printshellcmds(self):
-        ...
-
-    @property
-    @abstractmethod
-    def scheduler_type(self):
-        ...
-
-    @property
-    @abstractmethod
-    def overwrite_resources(self):
-        ...
-
-    @property
-    @abstractmethod
-    def default_resources(self):
-        ...
-
-    @property
-    @abstractmethod
-    def overwrite_resource_scopes(self):
+    def deployment_settings(self) -> DeploymentSettingsExecutorInterface:
         ...
 
     @property
@@ -141,11 +54,6 @@ class WorkflowExecutorInterface(ABC):
 
     @abstractmethod
     def get_cache_mode(self, rule):
-        ...
-
-    @property
-    @abstractmethod
-    def output_file_cache(self):
         ...
 
     @property
@@ -170,74 +78,10 @@ class WorkflowExecutorInterface(ABC):
 
     @property
     @abstractmethod
-    def use_conda(self):
-        ...
-
-    @property
-    @abstractmethod
-    def use_singularity(self):
-        ...
-
-    @property
-    @abstractmethod
-    def use_env_modules(self):
-        ...
-
-    @property
-    @abstractmethod
-    def debug(self):
-        ...
-
-    @property
-    @abstractmethod
-    def cleanup_scripts(self):
-        ...
-
-    @property
-    @abstractmethod
-    def edit_notebook(self):
-        ...
-
-    @property
-    @abstractmethod
     def sourcecache(self):
         ...
 
     @property
     @abstractmethod
-    def verbose(self):
-        ...
-
-    @property
-    @abstractmethod
-    def jobscript(self):
-        ...
-
-    @property
-    @abstractmethod
-    def envvars(self):
-        ...
-
-    @property
-    @abstractmethod
     def scheduler(self) -> JobSchedulerExecutorInterface:
-        ...
-
-    @property
-    @abstractmethod
-    def immediate_submit(self):
-        ...
-
-    @property
-    @abstractmethod
-    def default_remote_prefix(self):
-        ...
-
-    @property
-    @abstractmethod
-    def rules(self):
-        ...
-
-    @abstractmethod
-    def get_rule(self, name):
         ...

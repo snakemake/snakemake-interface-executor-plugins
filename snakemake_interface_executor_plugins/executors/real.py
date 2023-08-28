@@ -5,18 +5,13 @@ __license__ = "MIT"
 
 from abc import abstractmethod
 import os
-import sys
-from typing import Optional
-from snakemake_interface_executor_plugins import ExecutorSettingsBase
-from snakemake_interface_executor_plugins.dag import DAGExecutorInterface
 from snakemake_interface_executor_plugins.executors.base import AbstractExecutor
 from snakemake_interface_executor_plugins.logging import LoggerExecutorInterface
-from snakemake_interface_executor_plugins.persistence import StatsExecutorInterface
+from snakemake_interface_executor_plugins.settings import ExecMode
 from snakemake_interface_executor_plugins.utils import (
     encode_target_jobs_cli_args,
     format_cli_arg,
     join_cli_args,
-    lazy_property,
 )
 from snakemake_interface_executor_plugins.jobs import ExecutorJobInterface
 from snakemake_interface_executor_plugins.workflow import WorkflowExecutorInterface
@@ -26,29 +21,33 @@ class RealExecutor(AbstractExecutor):
     def __init__(
         self,
         workflow: WorkflowExecutorInterface,
-        dag: DAGExecutorInterface,
-        stats: StatsExecutorInterface,
         logger: LoggerExecutorInterface,
-        executor_settings: Optional[ExecutorSettingsBase],
-        job_core_limit: Optional[int] = None,
+        pass_default_remote_provider_args: bool = True,
+        pass_default_resources_args: bool = True,
+        pass_envvar_declarations_to_cmd: bool = True,
     ):
         super().__init__(
             workflow,
-            dag,
+            logger,
         )
-        self.cores = job_core_limit if job_core_limit else "all"
-        self.executor_settings = executor_settings
-        self.assume_shared_fs = workflow.assume_shared_fs
-        self.stats = stats
-        self.logger = logger
+        self.executor_settings = self.workflow.executor_settings
         self.snakefile = workflow.main_snakefile
+        self.pass_default_remote_provider_args = pass_default_remote_provider_args
+        self.pass_default_resources_args = pass_default_resources_args
+        self.pass_envvar_declarations_to_cmd = pass_envvar_declarations_to_cmd
+
+    @property
+    @abstractmethod
+    def cores(self):
+        # return "all" in case of remote executors,
+        # otherwise self.workflow.resource_settings.cores
+        ...
 
     def register_job(self, job: ExecutorJobInterface):
         job.register()
 
     def _run(self, job: ExecutorJobInterface, callback=None, error_callback=None):
         super()._run(job)
-        self.stats.report_job_start(job)
 
         try:
             self.register_job(job)
@@ -74,96 +73,11 @@ class RealExecutor(AbstractExecutor):
             handle_log=handle_log,
             handle_touch=handle_touch,
             ignore_missing_output=ignore_missing_output,
-            latency_wait=self.latency_wait,
-            assume_shared_fs=self.assume_shared_fs,
-            keep_metadata=self.workflow.keep_metadata,
         )
-        self.stats.report_job_end(job)
 
     def handle_job_error(self, job: ExecutorJobInterface, upload_remote=True):
         job.postprocess(
             error=True,
-            assume_shared_fs=self.assume_shared_fs,
-            latency_wait=self.latency_wait,
-        )
-
-    def workflow_property_to_arg(
-        self, property, flag=None, quote=True, skip=False, invert=False, attr=None
-    ):
-        if skip:
-            return ""
-
-        value = getattr(self.workflow, property)
-
-        if value is not None and attr is not None:
-            value = getattr(value, attr)
-
-        if flag is None:
-            flag = f"--{property.replace('_', '-')}"
-
-        if invert and isinstance(value, bool):
-            value = not value
-
-        return format_cli_arg(flag, value, quote=quote)
-
-    @lazy_property
-    def general_args(self):
-        """Return a string to add to self.exec_job that includes additional
-        arguments from the command line. This is currently used in the
-        ClusterExecutor and CPUExecutor, as both were using the same
-        code. Both have base class of the RealExecutor.
-        """
-        w2a = self.workflow_property_to_arg
-
-        return join_cli_args(
-            [
-                "--force",
-                "--keep-target-files",
-                "--keep-remote",
-                "--max-inventory-time 0",
-                "--nocolor",
-                "--notemp",
-                "--no-hooks",
-                "--nolock",
-                "--ignore-incomplete",
-                format_cli_arg("--keep-incomplete", self.keepincomplete),
-                w2a("rerun_triggers"),
-                w2a("cleanup_scripts", flag="--skip-script-cleanup"),
-                w2a("shadow_prefix"),
-                w2a("use_conda"),
-                w2a("conda_frontend"),
-                w2a("conda_prefix"),
-                w2a("conda_base_path", skip=not self.assume_shared_fs),
-                w2a("use_singularity"),
-                w2a("singularity_prefix"),
-                w2a("singularity_args"),
-                w2a("execute_subworkflows", flag="--no-subworkflows", invert=True),
-                w2a("max_threads"),
-                w2a("use_env_modules", flag="--use-envmodules"),
-                w2a("keep_metadata", flag="--drop-metadata", invert=True),
-                w2a("wrapper_prefix"),
-                w2a("overwrite_threads", flag="--set-threads"),
-                w2a("overwrite_scatter", flag="--set-scatter"),
-                w2a("local_groupid", skip=self.job_specific_local_groupid),
-                w2a("conda_not_block_search_path_envvars"),
-                w2a("overwrite_configfiles", flag="--configfiles"),
-                w2a("config_args", flag="--config"),
-                w2a("printshellcmds"),
-                w2a("latency_wait"),
-                w2a("scheduler_type", flag="--scheduler"),
-                format_cli_arg(
-                    "--scheduler-solver-path",
-                    os.path.dirname(sys.executable),
-                    skip=not self.assume_shared_fs,
-                ),
-                self.get_set_resources_args(),
-                self.get_default_remote_provider_args(),
-                self.get_default_resources_args(),
-                self.get_resource_scopes_args(),
-                self.get_workdir_arg(),
-                join_cli_args(self.additional_general_args()),
-                format_cli_arg("--mode", self.get_exec_mode()),
-            ]
         )
 
     def additional_general_args(self):
@@ -212,11 +126,17 @@ class RealExecutor(AbstractExecutor):
         ...
 
     @abstractmethod
-    def get_exec_mode(self):
+    def get_exec_mode(self) -> ExecMode:
         ...
 
     def get_envvar_declarations(self):
-        return ""
+        if self.pass_envvar_declarations_to_cmd:
+            return " ".join(
+                f"{var}={repr(os.environ[var])}"
+                for var in self.workflow.remote_execution_settings.envvars
+            )
+        else:
+            return ""
 
     def get_job_exec_prefix(self, job: ExecutorJobInterface):
         return ""
@@ -231,6 +151,10 @@ class RealExecutor(AbstractExecutor):
         suffix = self.get_job_exec_suffix(job)
         if suffix:
             suffix = f"&& {suffix}"
+        general_args = self.workflow.spawned_job_args_factory.general_args(
+            pass_default_remote_provider_args=self.pass_default_remote_provider_args,
+            pass_default_resources_args=self.pass_default_resources_args,
+        )
         return join_cli_args(
             [
                 prefix,
@@ -239,7 +163,16 @@ class RealExecutor(AbstractExecutor):
                 "-m snakemake",
                 format_cli_arg("--snakefile", self.get_snakefile()),
                 self.get_job_args(job),
-                self.general_args,
+                self.get_default_remote_provider_args(),
+                self.get_workdir_arg(),
+                general_args,
+                self.additional_general_args(),
+                format_cli_arg("--mode", self.get_exec_mode()),
+                format_cli_arg(
+                    "--local-groupid",
+                    self.workflow.group_settings.local_groupid,
+                    skip=self.job_specific_local_groupid,
+                ),
                 suffix,
             ]
         )

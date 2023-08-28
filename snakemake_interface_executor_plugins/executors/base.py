@@ -6,9 +6,9 @@ __license__ = "MIT"
 from abc import ABC, abstractmethod
 from typing import List
 
-from snakemake_interface_executor_plugins.dag import DAGExecutorInterface
 from snakemake_interface_executor_plugins.jobs import ExecutorJobInterface
-from snakemake_interface_executor_plugins.utils import format_cli_arg, join_cli_args
+from snakemake_interface_executor_plugins.logging import LoggerExecutorInterface
+from snakemake_interface_executor_plugins.utils import format_cli_arg
 from snakemake_interface_executor_plugins.workflow import WorkflowExecutorInterface
 
 
@@ -16,49 +16,11 @@ class AbstractExecutor(ABC):
     def __init__(
         self,
         workflow: WorkflowExecutorInterface,
-        dag: DAGExecutorInterface,
-        printreason=False,
-        quiet=False,
-        printshellcmds=False,
-        printthreads=True,
-        keepincomplete=False,
+        logger: LoggerExecutorInterface,
     ):
         self.workflow = workflow
-        self.dag = dag
-        self.quiet = quiet
-        self.printreason = printreason
-        self.printshellcmds = printshellcmds
-        self.printthreads = printthreads
-        self.latency_wait = workflow.latency_wait
-        self.keepincomplete = workflow.keep_incomplete
-
-    def get_default_remote_provider_args(self):
-        return join_cli_args(
-            [
-                self.workflow_property_to_arg("default_remote_prefix"),
-                self.workflow_property_to_arg("default_remote_provider", attr="name"),
-            ]
-        )
-
-    def get_set_resources_args(self):
-        return format_cli_arg(
-            "--set-resources",
-            [
-                f"{rule}:{name}={value}"
-                for rule, res in self.workflow.overwrite_resources.items()
-                for name, value in res.items()
-            ],
-            skip=not self.workflow.overwrite_resources,
-        )
-
-    def get_default_resources_args(self, default_resources=None):
-        default_resources = default_resources or self.workflow.default_resources
-        return format_cli_arg("--default-resources", default_resources.args)
-
-    def get_resource_scopes_args(self):
-        return format_cli_arg(
-            "--set-resource-scopes", self.workflow.overwrite_resource_scopes
-        )
+        self.dag = workflow.dag
+        self.logger = logger
 
     def get_resource_declarations_dict(self, job: ExecutorJobInterface):
         def isdigit(i):

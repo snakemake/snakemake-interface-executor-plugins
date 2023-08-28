@@ -6,21 +6,12 @@ __license__ = "MIT"
 import asyncio
 import os
 from collections import UserDict
-from typing import List
+from typing import Any, List
 from urllib.parse import urlparse
 import collections
 from collections import namedtuple
 
-
-class ExecMode:
-    """
-    Enum for execution mode of Snakemake.
-    This handles the behavior of e.g. the logger.
-    """
-
-    default = 0
-    subprocess = 1
-    remote = 2
+from snakemake_interface_common.settings import SettingsEnumBase
 
 
 def not_iterable(value):
@@ -54,11 +45,20 @@ def format_cli_arg(flag, value, quote=True, skip=False):
 
 def format_cli_pos_arg(value, quote=True):
     if isinstance(value, (dict, UserDict)):
-        return join_cli_args(repr(f"{key}={val}") for key, val in value.items())
+        return join_cli_args(
+            repr(f"{key}={format_cli_value(val)}") for key, val in value.items()
+        )
     elif not_iterable(value):
-        return repr(value)
+        return format_cli_value(value)
     else:
-        return join_cli_args(repr(v) for v in value)
+        return join_cli_args(format_cli_value(v) for v in value)
+
+
+def format_cli_value(value: Any) -> str:
+    if isinstance(value, SettingsEnumBase):
+        return value.item_to_choice()
+    else:
+        return repr(value)
 
 
 def join_cli_args(args):

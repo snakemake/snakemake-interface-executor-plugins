@@ -63,7 +63,7 @@ class Plugin:
             self._executor_settings_cls, ExecutorSettingsBase
         )
 
-    def get_executor_settings(self, args) -> Optional[ExecutorSettingsBase]:
+    def get_executor_settings(self, args) -> ExecutorSettingsBase:
         """Return an instance of self.executor_settings with values from args.
 
         This helper function will select executor plugin namespaces arguments
