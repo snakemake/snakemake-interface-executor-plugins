@@ -42,7 +42,7 @@ class RemoteExecutor(RealExecutor, ABC):
         logger: LoggerExecutorInterface,
         pass_default_remote_provider_args: bool = True,
         pass_default_resources_args: bool = True,
-        pass_envvar_declarations_to_cmd: bool = False,
+        pass_envvar_declarations_to_cmd: bool = True,
     ):
         super().__init__(
             workflow,

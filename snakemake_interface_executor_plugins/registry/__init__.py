@@ -57,10 +57,16 @@ class ExecutorPluginRegistry:
             ):
                 continue
             module = importlib.import_module(moduleinfo.name)
-            self._register_plugin(moduleinfo.name, module)
+            self.register_plugin(moduleinfo.name, module)
 
-    def _register_plugin(self, name: str, plugin: types.ModuleType):
-        """Validate and register a plugin"""
+    def register_plugin(self, name: str, plugin: types.ModuleType):
+        """Validate and register a plugin.
+
+        Does nothing if the plugin is already registered.
+        """
+        if name in self.plugins:
+            return
+
         self._validate_plugin(name, plugin)
 
         # Derive the shortened name for future access
@@ -69,7 +75,7 @@ class ExecutorPluginRegistry:
         self.plugins[plugin_name] = Plugin(
             plugin_name,
             plugin.Executor,
-            common_settings=getattr(plugin, "common_settings", None),
+            common_settings=plugin.common_settings,
             _executor_settings_cls=getattr(plugin, "ExecutorSettings", None),
         )
 

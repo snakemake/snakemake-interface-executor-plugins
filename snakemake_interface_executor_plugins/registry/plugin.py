@@ -59,9 +59,7 @@ class Plugin:
 
     def has_executor_settings(self):
         """Determine if a plugin defines custom executor settings"""
-        return self._executor_settings_cls is not None and not isinstance(
-            self._executor_settings_cls, ExecutorSettingsBase
-        )
+        return self._executor_settings_cls is not None
 
     def get_executor_settings(self, args) -> ExecutorSettingsBase:
         """Return an instance of self.executor_settings with values from args.
