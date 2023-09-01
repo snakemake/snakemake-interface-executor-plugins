@@ -101,17 +101,6 @@ class RemoteExecutor(RealExecutor, ABC):
     def get_exec_mode(self) -> ExecMode:
         return ExecMode.REMOTE
 
-    def get_default_remote_provider_args(self):
-        if not self.disable_default_remote_provider_args:
-            return super().get_default_remote_provider_args()
-        else:
-            return ""
-
-    def get_workdir_arg(self):
-        if self.workflow.storage_settings.assume_shared_fs:
-            return super().get_workdir_arg()
-        return ""
-
     def get_python_executable(self):
         return (
             sys.executable

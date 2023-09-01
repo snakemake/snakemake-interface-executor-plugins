@@ -87,9 +87,6 @@ class RealExecutor(AbstractExecutor):
         """
         return []
 
-    def get_workdir_arg(self):
-        return self.workflow_property_to_arg("overwrite_workdir", flag="--directory")
-
     def get_job_args(self, job: ExecutorJobInterface, **kwargs):
         return join_cli_args(
             [
@@ -163,7 +160,6 @@ class RealExecutor(AbstractExecutor):
                 "-m snakemake",
                 format_cli_arg("--snakefile", self.get_snakefile()),
                 self.get_job_args(job),
-                self.get_workdir_arg(),
                 general_args,
                 self.additional_general_args(),
                 format_cli_arg("--mode", self.get_exec_mode()),

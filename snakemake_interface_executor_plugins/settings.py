@@ -8,6 +8,11 @@ from snakemake_interface_common.settings import SettingsEnumBase
 class RemoteExecutionSettingsExecutorInterface(ABC):
     @property
     @abstractmethod
+    def jobname(self) -> str:
+        ...
+
+    @property
+    @abstractmethod
     def jobscript(self) -> str:
         ...
 
