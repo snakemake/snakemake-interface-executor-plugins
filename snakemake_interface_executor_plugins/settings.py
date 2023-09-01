@@ -78,3 +78,10 @@ class DeploymentSettingsExecutorInterface(ABC):
     @abstractmethod
     def deployment_method(self) -> Set[DeploymentMethod]:
         ...
+
+
+class GroupSettingsExecutorInterface(ABC):
+    @property
+    @abstractmethod
+    def local_groupid(self) -> str:
+        ...

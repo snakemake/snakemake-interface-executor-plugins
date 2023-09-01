@@ -163,7 +163,6 @@ class RealExecutor(AbstractExecutor):
                 "-m snakemake",
                 format_cli_arg("--snakefile", self.get_snakefile()),
                 self.get_job_args(job),
-                self.get_default_remote_provider_args(),
                 self.get_workdir_arg(),
                 general_args,
                 self.additional_general_args(),

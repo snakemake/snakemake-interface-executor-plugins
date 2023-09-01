@@ -16,6 +16,7 @@ from snakemake_interface_executor_plugins.scheduler import JobSchedulerExecutorI
 from snakemake_interface_executor_plugins.settings import (
     DeploymentSettingsExecutorInterface,
     ExecutionSettingsExecutorInterface,
+    GroupSettingsExecutorInterface,
     RemoteExecutionSettingsExecutorInterface,
     StorageSettingsExecutorInterface,
 )
@@ -45,6 +46,11 @@ class WorkflowExecutorInterface(ABC):
     @property
     @abstractmethod
     def deployment_settings(self) -> DeploymentSettingsExecutorInterface:
+        ...
+
+    @property
+    @abstractmethod
+    def group_settings(self) -> GroupSettingsExecutorInterface:
         ...
 
     @property
