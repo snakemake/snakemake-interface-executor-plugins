@@ -162,7 +162,7 @@ class RealExecutor(AbstractExecutor):
                 self.get_job_args(job),
                 general_args,
                 self.additional_general_args(),
-                format_cli_arg("--mode", self.get_exec_mode()),
+                format_cli_arg("--mode", self.get_exec_mode().item_to_choice()),
                 format_cli_arg(
                     "--local-groupid",
                     self.workflow.group_settings.local_groupid,
