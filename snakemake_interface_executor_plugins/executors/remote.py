@@ -12,12 +12,14 @@ import stat
 import sys
 import tempfile
 import threading
+from typing import List
 from snakemake_interface_common.exceptions import WorkflowError
+from snakemake_interface_executor_plugins.executors.base import SubmittedJobInfo
 from snakemake_interface_executor_plugins.executors.real import RealExecutor
 from snakemake_interface_executor_plugins.jobs import ExecutorJobInterface
 from snakemake_interface_executor_plugins.logging import LoggerExecutorInterface
 from snakemake_interface_executor_plugins.settings import ExecMode
-from snakemake_interface_executor_plugins.utils import format_cli_arg
+from snakemake_interface_executor_plugins.utils import async_lock, format_cli_arg, sleep
 from snakemake_interface_executor_plugins.workflow import WorkflowExecutorInterface
 
 from throttler import Throttler
@@ -98,6 +100,20 @@ class RemoteExecutor(RealExecutor, ABC):
     def cores(self):
         return "all"
 
+    def cancel(self):
+        with self.lock:
+            active_jobs = list(self.active_jobs)
+        self.cancel_jobs(active_jobs)
+        self.shutdown()
+
+    @abstractmethod
+    def cancel_jobs(self, active_jobs: List[SubmittedJobInfo]):
+        """Cancel the given jobs.
+
+        This method is called when the workflow is cancelled.
+        """
+        ...
+
     def get_exec_mode(self) -> ExecMode:
         return ExecMode.REMOTE
 
@@ -130,9 +146,37 @@ class RemoteExecutor(RealExecutor, ABC):
 
         return f"{super().get_job_args(job)} {waitfiles_parameter}"
 
+    def report_job_submission(
+        self, job_info: SubmittedJobInfo, register_job: bool = True
+    ):
+        super().report_job_submission(job_info, register_job=register_job)
+        with self.lock:
+            self.active_jobs.append(job_info)
+
     @abstractmethod
-    async def _wait_for_jobs(self):
+    def check_active_jobs(self, active_jobs: List[SubmittedJobInfo]):
+        """Check the status of active jobs.
+
+        Jobs that are finished or error out have to be removed from the given list.
+        For jobs that have finished successfully, you have to call
+        self.report_job_success(job).
+        For jobs that have errored, you have to call
+        self.report_job_error(job).
+        """
         ...
+
+    async def _wait_for_jobs(self):
+        while True:
+            async with async_lock(self.lock):
+                if not self.wait:
+                    return
+                active_jobs = set(self.active_jobs)
+                self.active_jobs.clear()
+            self.check_active_jobs(active_jobs)
+            async with async_lock(self.lock):
+                # re-add the remaining jobs to active_jobs
+                self.active_jobs.extend(active_jobs)
+            await sleep()
 
     def _wait_thread(self):
         try:
@@ -151,9 +195,6 @@ class RemoteExecutor(RealExecutor, ABC):
             # after this method is completed. Hence we have to keep the
             # directory.
             shutil.rmtree(self.tmpdir)
-
-    def cancel(self):
-        self.shutdown()
 
     def run_job_pre(self, job: ExecutorJobInterface):
         if self.workflow.storage_settings.assume_shared_fs:

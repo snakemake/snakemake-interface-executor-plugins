@@ -6,10 +6,13 @@ __license__ = "MIT"
 import asyncio
 import os
 from collections import UserDict
+import threading
 from typing import Any, List
 from urllib.parse import urlparse
 import collections
 from collections import namedtuple
+import concurrent.futures
+import contextlib
 
 from snakemake_interface_common.settings import SettingsEnumBase
 
@@ -106,3 +109,22 @@ class lazy_property(property):
         value = self.method(instance)
         setattr(instance, self.cached, value)
         return value
+
+
+_pool = concurrent.futures.ThreadPoolExecutor()
+
+
+@contextlib.asynccontextmanager
+async def async_lock(_lock: threading.Lock):
+    """Use a threaded lock form threading.Lock in an async context
+
+    Necessary because asycio.Lock is not threadsafe, so only one thread can safely use
+    it at a time.
+    Source: https://stackoverflow.com/a/63425191
+    """
+    loop = asyncio.get_event_loop()
+    await loop.run_in_executor(_pool, _lock.acquire)
+    try:
+        yield  # the lock is held
+    finally:
+        _lock.release()

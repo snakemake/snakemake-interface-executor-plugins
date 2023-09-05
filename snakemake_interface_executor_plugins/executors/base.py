@@ -4,12 +4,20 @@ __email__ = "johannes.koester@uni-due.de"
 __license__ = "MIT"
 
 from abc import ABC, abstractmethod
-from typing import List
+from dataclasses import dataclass
+from typing import Any, Dict, List, Optional
 
 from snakemake_interface_executor_plugins.jobs import ExecutorJobInterface
 from snakemake_interface_executor_plugins.logging import LoggerExecutorInterface
 from snakemake_interface_executor_plugins.utils import format_cli_arg
 from snakemake_interface_executor_plugins.workflow import WorkflowExecutorInterface
+
+
+@dataclass
+class SubmittedJobInfo:
+    job: ExecutorJobInterface
+    external_jobid: Optional[str] = None
+    aux: Optional[Dict[Any, Any]] = None
 
 
 class AbstractExecutor(ABC):
@@ -68,22 +76,24 @@ class AbstractExecutor(ABC):
         self,
         job: ExecutorJobInterface,
     ):
-        """Run a specific job or group job."""
+        """Run a specific job or group job.
+
+        After successfull submission, you have to call self.report_job_submission(job).
+        """
         ...
 
     def run_job_pre(self, job: ExecutorJobInterface):
         job.check_protected_output()
         self.printjob(job)
-        self.report_job_submission(job)
 
     def report_job_success(self, job: ExecutorJobInterface):
         self.workflow.scheduler.finish_callback(job)
-    
+
     def report_job_error(self, job: ExecutorJobInterface):
         self.workflow.scheduler.error_callback(job)
-    
-    def report_job_submission(self, job: ExecutorJobInterface):
-        self.workflow.scheduler.submit_callback(job)
+
+    def report_job_submission(self, job_info: SubmittedJobInfo):
+        self.workflow.scheduler.submit_callback(job_info.job)
 
     @abstractmethod
     def shutdown(self):

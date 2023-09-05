@@ -5,7 +5,10 @@ __license__ = "MIT"
 
 from abc import abstractmethod
 import os
-from snakemake_interface_executor_plugins.executors.base import AbstractExecutor
+from snakemake_interface_executor_plugins.executors.base import (
+    AbstractExecutor,
+    SubmittedJobInfo,
+)
 from snakemake_interface_executor_plugins.logging import LoggerExecutorInterface
 from snakemake_interface_executor_plugins.settings import ExecMode
 from snakemake_interface_executor_plugins.utils import (
@@ -43,22 +46,22 @@ class RealExecutor(AbstractExecutor):
         # otherwise self.workflow.resource_settings.cores
         ...
 
-    def register_job(self, job: ExecutorJobInterface):
-        job.register()
+    def report_job_submission(
+        self, job_info: SubmittedJobInfo, register_job: bool = True
+    ):
+        super().report_job_submission(job_info)
 
-    def run_job_pre(self, job: ExecutorJobInterface):
-        super().run_job_pre(job)
-
-        try:
-            self.register_job(job)
-        except IOError as e:
-            self.logger.info(
-                "Failed to set marker file for job started ({}). "
-                "Snakemake will work, but cannot ensure that output files "
-                "are complete in case of a kill signal or power loss. "
-                "Please ensure write permissions for the "
-                "directory {}".format(e, self.workflow.persistence.path)
-            )
+        if register_job:
+            try:
+                job_info.job.register(external_jobid=job_info.external_jobid)
+            except IOError as e:
+                self.logger.info(
+                    f"Failed to set marker file for job started ({e}). "
+                    "Snakemake will work, but cannot ensure that output files "
+                    "are complete in case of a kill signal or power loss. "
+                    "Please ensure write permissions for the "
+                    "directory {self.workflow.persistence.path}."
+                )
 
     def handle_job_success(
         self,

@@ -78,7 +78,7 @@ class ExecutorJobInterface(ABC):
         ...
 
     @abstractmethod
-    def register(self):
+    def register(self, external_jobid: str = None):
         ...
 
     @abstractmethod
