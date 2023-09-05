@@ -5,6 +5,7 @@ __license__ = "MIT"
 
 from abc import ABC, abstractmethod
 import sys
+from typing import Optional
 
 
 class ExecutorJobInterface(ABC):
@@ -78,7 +79,7 @@ class ExecutorJobInterface(ABC):
         ...
 
     @abstractmethod
-    def register(self, external_jobid: str = None):
+    def register(self, external_jobid: Optional[str] = None):
         ...
 
     @abstractmethod
