@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.0](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v1.1.2...v1.2.0) (2023-09-05)
+
+
+### Features
+
+* simplify executor API ([7479c1c](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/7479c1c98f0fdf04ee77cea11feae4da2421ff90))
+* various API improvements ([a2808ad](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/a2808ad1ec480949e88efc442532952f42d8f450))
+
 ## [1.1.2](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v1.1.1...v1.1.2) (2023-09-01)
 
 
