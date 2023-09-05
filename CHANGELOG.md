@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.2](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v1.1.1...v1.1.2) (2023-09-01)
+
+
+### Bug Fixes
+
+* convert enum to cli choice ([a2f287c](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/a2f287c9cd66d4b4ccb847434ee9294c4749b233))
+* various adaptations to changes in Snakemake 8.0 ([58ff504](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/58ff50488b49b1a34e41c4fa9812297430cc9672))
+
 ## [1.1.1](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v1.1.0...v1.1.1) (2023-08-30)
 
 
