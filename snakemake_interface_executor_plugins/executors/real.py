@@ -46,8 +46,8 @@ class RealExecutor(AbstractExecutor):
     def register_job(self, job: ExecutorJobInterface):
         job.register()
 
-    def _run(self, job: ExecutorJobInterface, callback=None, error_callback=None):
-        super()._run(job)
+    def run_job_pre(self, job: ExecutorJobInterface):
+        super().run_job_pre(job)
 
         try:
             self.register_job(job)
@@ -152,7 +152,7 @@ class RealExecutor(AbstractExecutor):
             pass_default_remote_provider_args=self.pass_default_remote_provider_args,
             pass_default_resources_args=self.pass_default_resources_args,
         )
-        return join_cli_args(
+        args = join_cli_args(
             [
                 prefix,
                 self.get_envvar_declarations(),
@@ -171,3 +171,4 @@ class RealExecutor(AbstractExecutor):
                 suffix,
             ]
         )
+        return args

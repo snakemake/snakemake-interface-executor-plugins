@@ -155,11 +155,11 @@ class RemoteExecutor(RealExecutor, ABC):
     def cancel(self):
         self.shutdown()
 
-    def _run(self, job: ExecutorJobInterface, callback=None, error_callback=None):
+    def run_job_pre(self, job: ExecutorJobInterface):
         if self.workflow.storage_settings.assume_shared_fs:
             job.remove_existing_output()
             job.download_remote_input()
-        super()._run(job, callback=callback, error_callback=error_callback)
+        super().run_job_pre(job)
 
     @property
     def tmpdir(self):

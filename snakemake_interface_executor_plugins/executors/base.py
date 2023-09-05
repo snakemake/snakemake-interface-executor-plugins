@@ -51,9 +51,6 @@ class AbstractExecutor(ABC):
     def run_jobs(
         self,
         jobs: List[ExecutorJobInterface],
-        callback=None,
-        submit_callback=None,
-        error_callback=None,
     ):
         """Run a list of jobs that is ready at a given point in time.
 
@@ -63,23 +60,30 @@ class AbstractExecutor(ABC):
         functions have to be called individually!
         """
         for job in jobs:
-            self.run(
-                job,
-                callback=callback,
-                submit_callback=submit_callback,
-                error_callback=error_callback,
-            )
+            self.run_job_pre(job)
+            self.run_job(job)
 
-    def run(
+    @abstractmethod
+    def run_job(
         self,
         job: ExecutorJobInterface,
-        callback=None,
-        submit_callback=None,
-        error_callback=None,
     ):
         """Run a specific job or group job."""
-        self._run(job)
-        callback(job)
+        ...
+
+    def run_job_pre(self, job: ExecutorJobInterface):
+        job.check_protected_output()
+        self.printjob(job)
+        self.report_job_submission(job)
+
+    def report_job_success(self, job: ExecutorJobInterface):
+        self.workflow.scheduler.finish_callback(job)
+    
+    def report_job_error(self, job: ExecutorJobInterface):
+        self.workflow.scheduler.error_callback(job)
+    
+    def report_job_submission(self, job: ExecutorJobInterface):
+        self.workflow.scheduler.submit_callback(job)
 
     @abstractmethod
     def shutdown(self):
@@ -88,10 +92,6 @@ class AbstractExecutor(ABC):
     @abstractmethod
     def cancel(self):
         ...
-
-    def _run(self, job: ExecutorJobInterface):
-        job.check_protected_output()
-        self.printjob(job)
 
     def rule_prefix(self, job: ExecutorJobInterface):
         return "local " if job.is_local else ""
