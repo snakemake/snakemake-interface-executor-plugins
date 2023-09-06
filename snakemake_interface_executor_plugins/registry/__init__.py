@@ -35,6 +35,10 @@ class ExecutorPluginRegistry:
             return
         self._collect_plugins()
 
+    def get(self, plugin_name):
+        """Get a plugin by name."""
+        return self.plugins[plugin_name.replace("-", "_")]
+
     def register_cli_args(self, argparser):
         """Add arguments derived from self.executor_settings to given
         argparser."""

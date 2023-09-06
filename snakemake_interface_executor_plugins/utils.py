@@ -28,14 +28,6 @@ def not_iterable(value):
 TargetSpec = namedtuple("TargetSpec", ["rulename", "wildcards_dict"])
 
 
-async def sleep():
-    # do not sleep on CI. In that case we just want to quickly test everything.
-    if os.environ.get("CI") != "true":
-        await asyncio.sleep(10)
-    else:
-        await asyncio.sleep(1)
-
-
 def format_cli_arg(flag, value, quote=True, skip=False):
     if not skip and value:
         if isinstance(value, bool):

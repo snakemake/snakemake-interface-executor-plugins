@@ -12,14 +12,14 @@ import stat
 import sys
 import tempfile
 import threading
-from typing import List
+from typing import Generator, List
 from snakemake_interface_common.exceptions import WorkflowError
 from snakemake_interface_executor_plugins.executors.base import SubmittedJobInfo
 from snakemake_interface_executor_plugins.executors.real import RealExecutor
 from snakemake_interface_executor_plugins.jobs import ExecutorJobInterface
 from snakemake_interface_executor_plugins.logging import LoggerExecutorInterface
 from snakemake_interface_executor_plugins.settings import ExecMode
-from snakemake_interface_executor_plugins.utils import async_lock, format_cli_arg, sleep
+from snakemake_interface_executor_plugins.utils import async_lock, format_cli_arg
 from snakemake_interface_executor_plugins.workflow import WorkflowExecutorInterface
 
 from throttler import Throttler
@@ -154,14 +154,15 @@ class RemoteExecutor(RealExecutor, ABC):
             self.active_jobs.append(job_info)
 
     @abstractmethod
-    def check_active_jobs(self, active_jobs: List[SubmittedJobInfo]):
+    async def check_active_jobs(self, active_jobs: List[SubmittedJobInfo]) -> Generator[SubmittedJobInfo, None, None]:
         """Check the status of active jobs.
 
-        Jobs that are finished or error out have to be removed from the given list.
+        You have to iterate over the given list active_jobs.
         For jobs that have finished successfully, you have to call
         self.report_job_success(job).
         For jobs that have errored, you have to call
         self.report_job_error(job).
+        Jobs that are still running have to be yielded.
         """
         ...
 
@@ -170,13 +171,13 @@ class RemoteExecutor(RealExecutor, ABC):
             async with async_lock(self.lock):
                 if not self.wait:
                     return
-                active_jobs = set(self.active_jobs)
+                active_jobs = list(self.active_jobs)
                 self.active_jobs.clear()
-            self.check_active_jobs(active_jobs)
+            still_active_jobs = [job_info async for job_info in self.check_active_jobs(active_jobs)]
             async with async_lock(self.lock):
                 # re-add the remaining jobs to active_jobs
-                self.active_jobs.extend(active_jobs)
-            await sleep()
+                self.active_jobs.extend(still_active_jobs)
+            await self.sleep()
 
     def _wait_thread(self):
         try:
@@ -281,3 +282,6 @@ class RemoteExecutor(RealExecutor, ABC):
                 kind, jobid, job_info.jobid, job_info.jobscript
             )
         )
+
+    async def sleep(self):
+        await asyncio.sleep(self.workflow.remote_execution_settings.seconds_between_status_checks)
