@@ -21,7 +21,9 @@ class CommonSettings:
     force_no_shared_fs : bool
         Whether to the executor implies to not have a shared file system.
     dryrun_exec : bool
-        Whether to execute jobs in dry-run mode.
+        Whether to jobs will be executed in dry-run mode.
+    touch_exec : bool
+        Whether job outputs will be touched only.
     use_threads : bool
         Whether to use threads instead of processes.
     """
@@ -29,6 +31,7 @@ class CommonSettings:
     non_local_exec: bool
     implies_no_shared_fs: bool
     dryrun_exec: bool = False
+    touch_exec: bool = False
     use_threads: bool = False
 
     @property
