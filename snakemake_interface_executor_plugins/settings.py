@@ -30,7 +30,7 @@ class RemoteExecutionSettingsExecutorInterface(ABC):
     @abstractmethod
     def max_status_checks_per_second(self) -> float:
         ...
-    
+
     @property
     @abstractmethod
     def seconds_between_status_checks(self) -> int:

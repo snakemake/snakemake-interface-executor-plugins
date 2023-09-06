@@ -4,7 +4,6 @@ __email__ = "johannes.koester@uni-due.de"
 __license__ = "MIT"
 
 import asyncio
-import os
 from collections import UserDict
 import threading
 from typing import Any, List

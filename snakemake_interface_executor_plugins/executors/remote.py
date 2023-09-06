@@ -154,7 +154,9 @@ class RemoteExecutor(RealExecutor, ABC):
             self.active_jobs.append(job_info)
 
     @abstractmethod
-    async def check_active_jobs(self, active_jobs: List[SubmittedJobInfo]) -> Generator[SubmittedJobInfo, None, None]:
+    async def check_active_jobs(
+        self, active_jobs: List[SubmittedJobInfo]
+    ) -> Generator[SubmittedJobInfo, None, None]:
         """Check the status of active jobs.
 
         You have to iterate over the given list active_jobs.
@@ -173,7 +175,9 @@ class RemoteExecutor(RealExecutor, ABC):
                     return
                 active_jobs = list(self.active_jobs)
                 self.active_jobs.clear()
-            still_active_jobs = [job_info async for job_info in self.check_active_jobs(active_jobs)]
+            still_active_jobs = [
+                job_info async for job_info in self.check_active_jobs(active_jobs)
+            ]
             async with async_lock(self.lock):
                 # re-add the remaining jobs to active_jobs
                 self.active_jobs.extend(still_active_jobs)
@@ -184,7 +188,8 @@ class RemoteExecutor(RealExecutor, ABC):
             asyncio.run(self._wait_for_jobs())
         except Exception as e:
             print(e)
-            self.workflow.scheduler.executor_error_callback(e)
+            if self.workflow.scheduler is not None:
+                self.workflow.scheduler.executor_error_callback(e)
 
     def shutdown(self):
         with self.lock:
@@ -284,4 +289,6 @@ class RemoteExecutor(RealExecutor, ABC):
         )
 
     async def sleep(self):
-        await asyncio.sleep(self.workflow.remote_execution_settings.seconds_between_status_checks)
+        await asyncio.sleep(
+            self.workflow.remote_execution_settings.seconds_between_status_checks
+        )
