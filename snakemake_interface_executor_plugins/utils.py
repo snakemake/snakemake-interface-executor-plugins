@@ -5,6 +5,7 @@ __license__ = "MIT"
 
 import asyncio
 from collections import UserDict
+from pathlib import Path
 import threading
 from typing import Any, List
 from urllib.parse import urlparse
@@ -51,6 +52,8 @@ def format_cli_pos_arg(value, quote=True):
 def format_cli_value(value: Any) -> str:
     if isinstance(value, SettingsEnumBase):
         return value.item_to_choice()
+    elif isinstance(value, Path):
+        return str(value)
     else:
         return repr(value)
 
