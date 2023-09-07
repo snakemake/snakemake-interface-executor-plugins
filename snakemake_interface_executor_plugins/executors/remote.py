@@ -273,7 +273,7 @@ class RemoteExecutor(RealExecutor, ABC):
             self.logger.debug("Cleanup failed jobs output files.")
             job.cleanup()
 
-    def print_cluster_job_error(self, job_info, jobid):
+    def print_cluster_job_error(self, job_info: SubmittedJobInfo):
         job = job_info.job
         kind = (
             f"rule {job.rule.name}"
@@ -281,11 +281,9 @@ class RemoteExecutor(RealExecutor, ABC):
             else f"group job {job.groupid}"
         )
         self.logger.error(
-            "Error executing {} on cluster (jobid: {}, external: "
-            "{}, jobscript: {}). For error details see the cluster "
-            "log and the log files of the involved rule(s).".format(
-                kind, jobid, job_info.jobid, job_info.jobscript
-            )
+            f"Error executing {kind} on cluster (jobid: {job_info.job.jobid}, external: "
+            f"{job_info.external_jobid}). For error details see the cluster "
+            "log and the log files of the involved rule(s)."
         )
 
     async def sleep(self):
