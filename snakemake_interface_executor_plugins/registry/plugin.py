@@ -60,7 +60,7 @@ class Plugin:
     def has_executor_settings(self):
         """Determine if a plugin defines custom executor settings"""
         return self._executor_settings_cls is not None
-    
+
     @property
     def executor_settings_class(self):
         return self._executor_settings_cls

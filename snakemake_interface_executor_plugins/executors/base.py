@@ -109,8 +109,8 @@ class AbstractExecutor(ABC):
     def printjob(self, job: ExecutorJobInterface):
         job.log_info(skip_dynamic=True)
 
-    def print_job_error(self, job: ExecutorJobInterface, msg=None, **kwargs):
-        job.log_error(msg, **kwargs)
+    def print_job_error(self, job_info: SubmittedJobInfo, msg=None, **kwargs):
+        job_info.job.log_error(msg, **kwargs)
 
     @abstractmethod
     def handle_job_success(self, job: ExecutorJobInterface):
