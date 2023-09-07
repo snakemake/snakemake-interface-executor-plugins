@@ -53,7 +53,7 @@ class RemoteExecutor(RealExecutor, ABC):
             pass_default_resources_args=pass_default_resources_args,
             pass_envvar_declarations_to_cmd=pass_envvar_declarations_to_cmd,
         )
-        self.next_sleep_time = None
+        self.next_sleep_seconds = None
         self.max_status_checks_per_second = (
             self.workflow.remote_execution_settings.max_status_checks_per_second
         )
@@ -287,7 +287,7 @@ class RemoteExecutor(RealExecutor, ABC):
     async def sleep(self):
         duration = (
             self.workflow.remote_execution_settings.seconds_between_status_checks
-            if self.next_sleep_time is None
-            else self.next_sleep_time
+            if self.next_sleep_seconds is None
+            else self.next_sleep_seconds
         )
         await asyncio.sleep(duration)
