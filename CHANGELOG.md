@@ -1,5 +1,29 @@
 # Changelog
 
+## [2.0.0](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v1.2.0...v2.0.0) (2023-09-08)
+
+
+### ⚠ BREAKING CHANGES
+
+* rename ExecutorPluginRegistry.get to get_plugin.
+* naming
+* improved API
+
+### Features
+
+* add touch_exec ([0ac8b16](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/0ac8b16e86419267e6cea49dee3451ed22fbde80))
+* allow to set the next sleep time ([f8fde6c](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/f8fde6c0cbdbaf7cf164db65aae3ead5f5db919a))
+* allow to specify the initial amount of seconds to sleep before checking job status ([0e88e6f](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/0e88e6ff4d3547c2c0991bc9d172413c9ed0d70b))
+* improved API ([0226c9d](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/0226c9d2e7ab330f8552827f9714a43ff7f805c5))
+* naming ([978f74c](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/978f74cab5ab1e829f1636993dd46b8b51589ce8))
+* rename ExecutorPluginRegistry.get to get_plugin. ([c1b50d9](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/c1b50d9fb433d685749c10319827dea973caa8b2))
+* simplify API ([3e4be2a](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/3e4be2af66fd6fdbd3b0b60562023a4bdc64f92e))
+
+
+### Bug Fixes
+
+* API typing ([c9180fa](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/c9180fa55897e1b974edb068531f4cd6edce8d15))
+
 ## [1.2.0](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v1.1.2...v1.2.0) (2023-09-05)
 
 
