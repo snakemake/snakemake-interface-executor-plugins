@@ -30,7 +30,7 @@ def test_registry_get_executor_settings(registry):
     parser = argparse.ArgumentParser()
     registry.register_cli_args(parser)
     args = parser.parse_args([])
-    plugin = registry.plugins["cluster-generic"]
+    plugin = registry.get_plugin("cluster-generic")
     settings = plugin.get_executor_settings(args)
     print(settings, plugin._executor_settings_cls)
     assert isinstance(settings, plugin._executor_settings_cls)
