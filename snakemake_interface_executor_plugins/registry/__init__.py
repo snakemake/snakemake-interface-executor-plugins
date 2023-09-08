@@ -35,7 +35,7 @@ class ExecutorPluginRegistry:
             return
         self._collect_plugins()
 
-    def get(self, plugin_name):
+    def get_plugin(self, plugin_name):
         """Get a plugin by name."""
         return self.plugins[plugin_name.replace("-", "_")]
 

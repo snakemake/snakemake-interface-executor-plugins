@@ -12,7 +12,7 @@ def registry():
 
 def test_registry_collect_plugins(registry):
     assert len(registry.plugins) == 1
-    plugin = registry.plugins["cluster-generic"]
+    plugin = registry.get_plugin("cluster-generic")
     assert plugin._executor_settings_cls is not None
     assert plugin.common_settings.non_local_exec is True
     assert plugin.executor is not None
