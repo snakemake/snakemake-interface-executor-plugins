@@ -5,9 +5,16 @@ This package provides a stable interface for interactions between Snakemake and 
 Plugins should implement the following skeleton to comply with this interface:
 
 ```python
-
+from dataclasses import dataclass, field
+from typing import List, Generator, Optional
+from snakemake_interface_executor_plugins.executors.base import SubmittedJobInfo
 from snakemake_interface_executor_plugins.executors.remote import RemoteExecutor
 from snakemake_interface_executor_plugins import ExecutorSettingsBase, CommonSettings
+from snakemake_interface_executor_plugins.workflow import WorkflowExecutorInterface
+from snakemake_interface_executor_plugins.logging import LoggerExecutorInterface
+from snakemake_interface_executor_plugins.jobs import (
+    ExecutorJobInterface,
+)
 
 # Optional:
 # Define additional settings for your executor.
