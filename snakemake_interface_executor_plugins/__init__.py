@@ -3,7 +3,7 @@ __copyright__ = "Copyright 2022, Johannes Köster, Vanessa Sochat"
 __email__ = "johannes.koester@uni-due.de"
 __license__ = "MIT"
 
-from dataclasses import dataclass
+from dataclasses import dataclass, fields
 
 
 @dataclass
@@ -47,4 +47,10 @@ class ExecutorSettingsBase:
     named 'ExecutorSettings'.
     """
 
-    pass
+    def get_items_by_category(self, category: str):
+        """Yield all items (name, value) of the given group (as defined by the)
+        optional category field in the metadata.
+        """
+        for field in fields(self.__class__):
+            if field.metadata.get("subgroup") == category:
+                yield field.name, getattr(self, field.name)
