@@ -3,7 +3,7 @@ __copyright__ = "Copyright 2022, Johannes Köster, Vanessa Sochat"
 __email__ = "johannes.koester@uni-due.de"
 __license__ = "MIT"
 
-from argparse_dataclass import field_to_argument_args, fields
+from argparse_dataclass import fields
 from dataclasses import MISSING, Field, dataclass
 from typing import Any, Optional, Type
 import copy
@@ -12,6 +12,9 @@ import snakemake_interface_executor_plugins._common as common
 from snakemake_interface_common.exceptions import WorkflowError
 
 from snakemake_interface_executor_plugins.exceptions import InvalidPluginException
+from snakemake_interface_executor_plugins._common import (
+    dataclass_field_to_argument_args,
+)
 
 # Valid Argument types (to distinguish from empty dataclasses)
 ArgTypes = (str, int, float, bool, list)
@@ -67,7 +70,7 @@ class Plugin:
         settings = argparser.add_argument_group(f"{self.name} executor settings")
 
         for field in fields(dc):
-            args, kwargs = field_to_argument_args(field)
+            args, kwargs = dataclass_field_to_argument_args(field)
 
             if field.metadata.get("env_var"):
                 kwargs["env_var"] = f"SNAKEMAKE_{prefixed_name.upper()}"
