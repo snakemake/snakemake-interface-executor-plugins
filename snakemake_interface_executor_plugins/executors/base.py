@@ -86,11 +86,12 @@ class AbstractExecutor(ABC):
         job.check_protected_output()
         self.printjob(job)
 
-    def report_job_success(self, job: ExecutorJobInterface):
-        self.workflow.scheduler.finish_callback(job)
+    def report_job_success(self, job_info: SubmittedJobInfo):
+        self.workflow.scheduler.finish_callback(job_info.job)
 
-    def report_job_error(self, job: ExecutorJobInterface):
-        self.workflow.scheduler.error_callback(job)
+    def report_job_error(self, job_info: SubmittedJobInfo, msg=None, **kwargs):
+        self.print_job_error(job_info, msg, **kwargs)
+        self.workflow.scheduler.error_callback(job_info.job)
 
     def report_job_submission(self, job_info: SubmittedJobInfo):
         self.workflow.scheduler.submit_callback(job_info.job)
