@@ -3,7 +3,7 @@ __copyright__ = "Copyright 2022, Johannes Köster, Vanessa Sochat"
 __email__ = "johannes.koester@uni-due.de"
 __license__ = "MIT"
 
-from argparse_dataclass import _add_dataclass_options, fields
+from argparse_dataclass import field_to_argument_args, field_to_argument_kwargs, fields
 from dataclasses import dataclass
 from typing import Optional, Type
 import copy
@@ -53,9 +53,15 @@ class Plugin:
             field.name = prefixed_name
             dc.__dataclass_fields__[field.name] = field
 
-        # When we get here, we have a namespaced dataclass.
-        # If there is overlap in snakemake args, it should error
-        _add_dataclass_options(dc, argparser)
+        settings = argparser.add_argument_group(f"{self.name} executor settings")
+
+        for field in fields(dc):
+            args = field_to_argument_args(field)
+            kwargs = field_to_argument_kwargs(field)
+            
+            if field.metadata.get("env_var"):
+                kwargs["env_var"] = f"SNAKEMAKE_{prefixed_name.upper()}"
+            settings.add_argument(*args, **kwargs)
 
     def has_executor_settings(self):
         """Determine if a plugin defines custom executor settings"""

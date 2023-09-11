@@ -15,7 +15,16 @@ from snakemake_interface_executor_plugins import ExecutorSettingsBase, CommonSet
 # Omit this class if you don't need any.
 @dataclass
 class ExecutorSettings:
-    myparam: int=field(default=None, metadata={"help": "Some help text"})
+    myparam: int=field(
+        default=None,
+        metadata={
+            "help": "Some help text", 
+            # optionally request that argument is also available for specification
+            # via an environment variable. The variable will be named automatically as
+            # SNAKEMAKE_<executor-name>_<param-name>, all upper case.
+            "env_var": True
+        }
+    )
 
 
 # Required:
@@ -36,13 +45,11 @@ class Executor(RemoteExecutor)
     def __init__(
         self,
         workflow: WorkflowExecutorInterface,
-        dag: DAGExecutorInterface,
         logger: LoggerExecutorInterface,
 
     ):
         super().__init__(
             workflow,
-            dag,
             logger,
             executor_settings,
             # configure behavior of RemoteExecutor below
