@@ -1,5 +1,25 @@
 # Changelog
 
+## [3.0.0](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v2.0.0...v3.0.0) (2023-09-11)
+
+
+### ⚠ BREAKING CHANGES
+
+* unify self.report_job_error and self.print_job_error.
+
+### Features
+
+* add further metadata to ExecutorSettings ([30f0977](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/30f0977a646f13bc86a649e3e76ddfbf417f3ace))
+* add get_items_by_category method to ExecutorSettings ([7f62bb9](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/7f62bb9d15aa80f87964974d7a0bca504990e540))
+* add support for env_var specification in ExecutorSettings ([a1e3123](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/a1e3123a80db7b96bdb3cca11fa3faa21ab90ab3))
+* unify self.report_job_error and self.print_job_error. ([2f24fb9](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/2f24fb938cef05abf912e4a66a066fdce414f06b))
+
+
+### Documentation
+
+* update readme ([100bdc0](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/100bdc015ef2e8af4aa35fb2a027f46aeb73d244))
+* update readme ([836b893](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/836b893287c8abed89dc738f9a3f48c335d9827a))
+
 ## [2.0.0](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v1.2.0...v2.0.0) (2023-09-08)
 
 
