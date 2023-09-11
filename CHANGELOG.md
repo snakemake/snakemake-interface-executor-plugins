@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.0.1](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v3.0.0...v3.0.1) (2023-09-11)
+
+
+### Bug Fixes
+
+* avoid dependeing on argparse_dataclass fork ([0a1f02d](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/0a1f02d5facf81a48ab687d8cb2809aebd6518d8))
+* fix NoneType definition ([1654a41](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/1654a4140b7ee91c5e7f7370795fd67e5e70014b))
+
 ## [3.0.0](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v2.0.0...v3.0.0) (2023-09-11)
 
 
