@@ -4,13 +4,16 @@ __email__ = "johannes.koester@uni-due.de"
 __license__ = "MIT"
 
 from dataclasses import MISSING, Field
-from types import NoneType
 from typing import Any, Dict, List, Literal, Tuple, Union, get_args, get_origin
 from argparse_dataclass import _handle_bool_type
 
 
 executor_plugin_prefix = "snakemake-executor-plugin-"
 executor_plugin_module_prefix = executor_plugin_prefix.replace("-", "_")
+
+
+# In Python 3.10, we can use types.NoneType
+NoneType = type(None)
 
 
 # Taken from https://github.com/mivade/argparse_dataclass/pull/59/files.
