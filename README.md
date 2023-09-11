@@ -56,36 +56,87 @@ common_settings = CommonSettings(
 
 # Required:
 # Implementation of your executor
-class Executor(RemoteExecutor)
+class Executor(RemoteExecutor):
     def __init__(
         self,
         workflow: WorkflowExecutorInterface,
         logger: LoggerExecutorInterface,
-
     ):
         super().__init__(
             workflow,
             logger,
-            executor_settings,
             # configure behavior of RemoteExecutor below
-            pass_default_remote_provider_args=True,  # whether arguments for setting the remote provider shall  be passed to jobs
-            pass_default_resources_args=True,  # whether arguments for setting default resources shall be passed to jobs
-            pass_envvar_declarations_to_cmd=True,  # whether environment variables shall be passed to jobs
+            # whether arguments for setting the remote provider shall  be passed to jobs
+            pass_default_remote_provider_args=True,
+            # whether arguments for setting default resources shall be passed to jobs
+            pass_default_resources_args=True,
+            # whether environment variables shall be passed to jobs
+            pass_envvar_declarations_to_cmd=True,
+            # specify initial amount of seconds to sleep before checking for job status
+            init_sleep_seconds=0,
         )
-        # access executor specific settings 
-        self.executor_settings
         # access workflow
         self.workflow
+        # access executor specific settings
+        self.workflow.executor_settings
 
-        # IMPORTANT: in your plugin, only access methods and properties of Snakemake objects (like Workflow, Persistence, etc.)
-        # that are defined in the interfaces found in THIS package. Other parts of those objects
-        # are NOT guaranteed to remain the same across new releases.
+        # IMPORTANT: in your plugin, only access methods and properties of
+        # Snakemake objects (like Workflow, Persistence, etc.) that are
+        # defined in the interfaces found in the
+        # snakemake-interface-executor-plugins and the
+        # snakemake-interface-common package.
+        # Other parts of those objects are NOT guaranteed to remain
+        # stable across new releases.
 
-        # To ensure that the used interfaces are not changing, you should depend on this package as
-        # >=a.b.c,<d with d=a+1 (i.e. pin the dependency on this package to be at least the version at time of development
-        # and less than the next major version which would introduce breaking changes).
+        # To ensure that the used interfaces are not changing, you should
+        # depend on these packages as >=a.b.c,<d with d=a+1 (i.e. pin the
+        # dependency on this package to be at least the version at time
+        # of development and less than the next major version which would
+        # introduce breaking changes).
 
-    async def _wait_for_jobs(self):
-        # implement here a loop that checks which jobs are already finished
-        
+        # In case of errors outside of jobs, please raise a WorkflowError
+
+    def run_job(self, job: ExecutorJobInterface):
+        # Implement here how to run a job.
+        # You can access the job's resources, etc.
+        # via the job object.
+        # After submitting the job, you have to call
+        # self.report_job_submission(job_info).
+        # with job_info being of type
+        # snakemake_interface_executor_plugins.executors.base.SubmittedJobInfo.
+        # If required, make sure to pass the job's id to the job_info object, as keyword
+        # argument 'external_job_id'.
+
+        ...
+
+    async def check_active_jobs(
+        self, active_jobs: List[SubmittedJobInfo]
+    ) -> Generator[SubmittedJobInfo, None, None]:
+        # Check the status of active jobs.
+
+        # You have to iterate over the given list active_jobs.
+        # If you provided it above, each will have its external_jobid set according
+        # to the information you provided at submission time.
+        # For jobs that have finished successfully, you have to call
+        # self.report_job_success(active_job).
+        # For jobs that have errored, you have to call
+        # self.report_job_error(active_job).
+        # This will also take care of providing a proper error message.
+        # Usually there is no need to perform additional logging here.
+        # Jobs that are still running have to be yielded.
+        #
+        # For queries to the remote middleware, please use
+        # self.status_rate_limiter like this:
+        #
+        # async with self.status_rate_limiter:
+        #    # query remote middleware here
+        #
+        # To modify the time until the next call of this method,
+        # you can set self.next_sleep_seconds here.
+        ...
+
+    def cancel_jobs(self, active_jobs: List[SubmittedJobInfo]):
+        # Cancel all active jobs.
+        # This method is called when Snakemake is interrupted.
+        ...
 ```
