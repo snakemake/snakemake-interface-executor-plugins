@@ -3,13 +3,15 @@ __copyright__ = "Copyright 2022, Johannes Köster, Vanessa Sochat"
 __email__ = "johannes.koester@uni-due.de"
 __license__ = "MIT"
 
-from argparse_dataclass import field_to_argument_args, field_to_argument_kwargs, fields
-from dataclasses import dataclass
-from typing import Optional, Type
+from argparse_dataclass import field_to_argument_args, fields
+from dataclasses import MISSING, Field, dataclass
+from typing import Any, Optional, Type
 import copy
 from snakemake_interface_executor_plugins import CommonSettings, ExecutorSettingsBase
-
 import snakemake_interface_executor_plugins._common as common
+from snakemake_interface_common.exceptions import WorkflowError
+
+from snakemake_interface_executor_plugins.exceptions import InvalidPluginException
 
 # Valid Argument types (to distinguish from empty dataclasses)
 ArgTypes = (str, int, float, bool, list)
@@ -43,9 +45,18 @@ class Plugin:
         # fields are stored at dc.__dataclass_fields__
         dc = copy.deepcopy(params)
         for field in fields(params):
+            if "help" not in field.metadata:
+                raise InvalidPluginException(
+                    "Fields of ExecutorSettings must have a help string."
+                )
+            if field.default is MISSING and field.default_factory is MISSING:
+                raise InvalidPluginException(
+                    "Fields of ExecutorSettings must have a default value."
+                )
+
             # Executor plugin dataclass members get prefixed with their
             # name when passed into snakemake args.
-            prefixed_name = f"{self.prefix}_{field.name}"
+            prefixed_name = self._get_prefixed_name(field)
 
             # Since we use the helper function below, we
             # need a new dataclass that has these prefixes
@@ -56,9 +67,8 @@ class Plugin:
         settings = argparser.add_argument_group(f"{self.name} executor settings")
 
         for field in fields(dc):
-            args = field_to_argument_args(field)
-            kwargs = field_to_argument_kwargs(field)
-            
+            args, kwargs = field_to_argument_args(field)
+
             if field.metadata.get("env_var"):
                 kwargs["env_var"] = f"SNAKEMAKE_{prefixed_name.upper()}"
             settings.add_argument(*args, **kwargs)
@@ -93,6 +103,12 @@ class Plugin:
             name = field.name.replace(f"{self.name}_", "", 1)
             value = getattr(args, field.name, None)
 
+            if field.metadata.get("required") and value is None:
+                cli_arg = self._get_cli_arg(field)
+                raise WorkflowError(
+                    f"Missing required argument {cli_arg} for executor {self.name}."
+                )
+
             # This will only add instantiated values, and
             # skip over dataclasses._MISSING_TYPE and similar
             if isinstance(value, ArgTypes):
@@ -100,3 +116,9 @@ class Plugin:
 
         # At this point we want to convert back to the original dataclass
         return dc(**kwargs)
+
+    def _get_cli_arg(self, field: Field[Any]):
+        return self._get_prefixed_name(field).replace("_", "-")
+
+    def _get_prefixed_name(self, field: Field[Any]):
+        return f"{self.prefix}_{field.name}"

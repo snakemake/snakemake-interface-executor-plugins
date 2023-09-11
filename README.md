@@ -10,19 +10,27 @@ from snakemake_interface_executor_plugins.executors.remote import RemoteExecutor
 from snakemake_interface_executor_plugins import ExecutorSettingsBase, CommonSettings
 
 # Optional:
-# define additional settings for your executor
+# Define additional settings for your executor.
 # They will occur in the Snakemake CLI as --<executor-name>-<param-name>
 # Omit this class if you don't need any.
+# Make sure that all defined fields are Optional and specify a default value
+# of None or anything else that makes sense in your case.
 @dataclass
-class ExecutorSettings:
-    myparam: int=field(
+class ExecutorSettings(ExecutorSettingsBase):
+    myparam: Optional[int]=field(
         default=None,
         metadata={
             "help": "Some help text", 
-            # optionally request that argument is also available for specification
+            # Optionally request that setting is also available for specification
             # via an environment variable. The variable will be named automatically as
             # SNAKEMAKE_<executor-name>_<param-name>, all upper case.
-            "env_var": True
+            # This mechanism should only be used for passwords and usernames.
+            # For other items, we rather recommend to let people use a profile
+            # for setting defaults
+            # (https://snakemake.readthedocs.io/en/stable/executing/cli.html#profiles).
+            "env_var": False,
+            # Optionally specify that setting is required when the executor is in use.
+            "required": True
         }
     )
 
