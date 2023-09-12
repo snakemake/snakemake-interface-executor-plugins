@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.0.2](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v3.0.1...v3.0.2) (2023-09-12)
+
+
+### Bug Fixes
+
+* add error details in case of improper join_cli_args usage ([cb0245f](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/cb0245fe47adfc73e07600821b5813687025ad9c))
+
 ## [3.0.1](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v3.0.0...v3.0.1) (2023-09-11)
 
 
