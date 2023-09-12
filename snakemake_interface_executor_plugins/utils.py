@@ -59,7 +59,12 @@ def format_cli_value(value: Any) -> str:
 
 
 def join_cli_args(args):
-    return " ".join(arg for arg in args if arg)
+    try:
+        return " ".join(arg for arg in args if arg)
+    except TypeError:
+        raise TypeError(
+            f"bug: join_cli_args expects iterable of strings. Given: {args}"
+        )
 
 
 def url_can_parse(url: str) -> bool:
