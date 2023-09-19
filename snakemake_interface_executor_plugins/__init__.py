@@ -3,8 +3,8 @@ __copyright__ = "Copyright 2022, Johannes Köster, Vanessa Sochat"
 __email__ = "johannes.koester@uni-due.de"
 __license__ = "MIT"
 
-from dataclasses import dataclass, fields
-import snakemake_interface_common.registry.plugin
+from dataclasses import dataclass
+import snakemake_interface_common.plugin_registry.plugin
 
 
 @dataclass
@@ -41,10 +41,13 @@ class CommonSettings:
 
 
 @dataclass
-class ExecutorSettingsBase(snakemake_interface_common.registry.plugin.SettingsBase):
+class ExecutorSettingsBase(
+    snakemake_interface_common.plugin_registry.plugin.SettingsBase
+):
     """Base class for executor settings.
 
     Executor plugins can define a subclass of this class,
     named 'ExecutorSettings'.
     """
+
     pass

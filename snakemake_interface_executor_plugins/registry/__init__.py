@@ -4,20 +4,17 @@ __email__ = "johannes.koester@uni-due.de"
 __license__ = "MIT"
 
 import types
-import pkgutil
-import importlib
 from typing import Mapping
 from snakemake_interface_executor_plugins import CommonSettings, ExecutorSettingsBase
 
-from snakemake_interface_executor_plugins.exceptions import InvalidPluginException
 from snakemake_interface_executor_plugins.executors.base import AbstractExecutor
-from snakemake_interface_common.registry.attribute_types import (
+from snakemake_interface_common.plugin_registry.attribute_types import (
     AttributeKind,
     AttributeMode,
     AttributeType,
 )
 from snakemake_interface_executor_plugins.registry.plugin import Plugin
-from snakemake_interface_common import PluginRegistryBase
+from snakemake_interface_common.plugin_registry import PluginRegistryBase
 from snakemake_interface_executor_plugins import _common as common
 
 
@@ -31,8 +28,8 @@ class ExecutorPluginRegistry(PluginRegistryBase):
     def load_plugin(self, name: str, module: types.ModuleType) -> Plugin:
         """Load a plugin by name."""
         return Plugin(
-            name,
-            module.Executor,
+            _name=name,
+            executor=module.Executor,
             common_settings=module.common_settings,
             _executor_settings_cls=getattr(module, "ExecutorSettings", None),
         )
