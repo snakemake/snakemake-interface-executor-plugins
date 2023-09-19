@@ -19,7 +19,7 @@ coverage = {extras = ["toml"], version = "^6.3.1"}
 flake8 = "^4.0.1"
 flake8-bugbear = "^22.1.11"
 pytest = "^7.0"
-snakemake = {git="https://github.com/snakemake/snakemake.git", branch="refactor/cleanup-interfaces"}
+snakemake = {git="https://github.com/snakemake/snakemake.git"}
 snakemake-executor-plugin-cluster-generic = {git = "https://github.com/snakemake/snakemake-executor-plugin-cluster-generic.git"}
 
 [tool.coverage.run]
