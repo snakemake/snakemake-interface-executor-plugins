@@ -74,7 +74,7 @@ class JobExecutorInterface(ABC):
 
     @property
     @abstractmethod
-    def is_udpated(self) -> bool:
+    def is_updated(self) -> bool:
         ...
 
     @property
