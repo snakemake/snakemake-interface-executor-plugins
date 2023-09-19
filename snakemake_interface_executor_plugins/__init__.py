@@ -4,6 +4,7 @@ __email__ = "johannes.koester@uni-due.de"
 __license__ = "MIT"
 
 from dataclasses import dataclass, fields
+import snakemake_interface_common.registry.plugin
 
 
 @dataclass
@@ -40,17 +41,10 @@ class CommonSettings:
 
 
 @dataclass
-class ExecutorSettingsBase:
+class ExecutorSettingsBase(snakemake_interface_common.registry.plugin.SettingsBase):
     """Base class for executor settings.
 
     Executor plugins can define a subclass of this class,
     named 'ExecutorSettings'.
     """
-
-    def get_items_by_category(self, category: str):
-        """Yield all items (name, value) of the given group (as defined by the)
-        optional category field in the metadata.
-        """
-        for field in fields(self.__class__):
-            if field.metadata.get("subgroup") == category:
-                yield field.name, getattr(self, field.name)
+    pass
