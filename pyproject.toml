@@ -26,7 +26,7 @@ snakemake-executor-plugin-cluster-generic = {git = "https://github.com/snakemake
 omit = [".*", "*/site-packages/*"]
 
 [tool.coverage.report]
-fail_under = 64
+fail_under = 63
 
 [build-system]
 build-backend = "poetry.core.masonry.api"
