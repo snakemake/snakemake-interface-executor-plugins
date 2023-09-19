@@ -4,23 +4,16 @@ __email__ = "johannes.koester@uni-due.de"
 __license__ = "MIT"
 
 from abc import ABC, abstractmethod
+from typing import Iterable
 
-from snakemake_interface_executor_plugins.jobs import ExecutorJobInterface
+from snakemake_interface_executor_plugins.jobs import JobExecutorInterface
 
 
 class DAGExecutorInterface(ABC):
     @abstractmethod
-    def is_edit_notebook_job(self, job: ExecutorJobInterface):
+    def incomplete_external_jobid(self, job: JobExecutorInterface):
         ...
 
     @abstractmethod
-    def incomplete_external_jobid(self, job: ExecutorJobInterface):
-        ...
-
-    @abstractmethod
-    def jobid(self, job: ExecutorJobInterface):
-        ...
-
-    @abstractmethod
-    def get_sources(self):
+    def get_sources(self) -> Iterable[str]:
         ...

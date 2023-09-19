@@ -8,13 +8,13 @@ from abc import ABC, abstractmethod
 
 class LoggerExecutorInterface(ABC):
     @abstractmethod
-    def info(self, msg: str):
+    def info(self, msg: str) -> None:
         ...
 
     @abstractmethod
-    def error(self, msg: str):
+    def error(self, msg: str) -> None:
         ...
 
     @abstractmethod
-    def debug(self, msg: str):
+    def debug(self, msg: str) -> None:
         ...

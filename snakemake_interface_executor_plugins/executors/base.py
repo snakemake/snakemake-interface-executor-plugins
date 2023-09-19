@@ -7,7 +7,7 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional
 
-from snakemake_interface_executor_plugins.jobs import ExecutorJobInterface
+from snakemake_interface_executor_plugins.jobs import JobExecutorInterface
 from snakemake_interface_executor_plugins.logging import LoggerExecutorInterface
 from snakemake_interface_executor_plugins.utils import format_cli_arg
 from snakemake_interface_executor_plugins.workflow import WorkflowExecutorInterface
@@ -15,7 +15,7 @@ from snakemake_interface_executor_plugins.workflow import WorkflowExecutorInterf
 
 @dataclass
 class SubmittedJobInfo:
-    job: ExecutorJobInterface
+    job: JobExecutorInterface
     external_jobid: Optional[str] = None
     aux: Optional[Dict[Any, Any]] = None
 
@@ -30,7 +30,7 @@ class AbstractExecutor(ABC):
         self.dag = workflow.dag
         self.logger = logger
 
-    def get_resource_declarations_dict(self, job: ExecutorJobInterface):
+    def get_resource_declarations_dict(self, job: JobExecutorInterface):
         def isdigit(i):
             s = str(i)
             # Adapted from https://stackoverflow.com/a/1265696
@@ -49,7 +49,7 @@ class AbstractExecutor(ABC):
             and isdigit(value) and resource not in excluded_resources
         }
 
-    def get_resource_declarations(self, job: ExecutorJobInterface):
+    def get_resource_declarations(self, job: JobExecutorInterface):
         resources = [
             f"{resource}={value}"
             for resource, value in self.get_resource_declarations_dict(job).items()
@@ -58,7 +58,7 @@ class AbstractExecutor(ABC):
 
     def run_jobs(
         self,
-        jobs: List[ExecutorJobInterface],
+        jobs: List[JobExecutorInterface],
     ):
         """Run a list of jobs that is ready at a given point in time.
 
@@ -74,7 +74,7 @@ class AbstractExecutor(ABC):
     @abstractmethod
     def run_job(
         self,
-        job: ExecutorJobInterface,
+        job: JobExecutorInterface,
     ):
         """Run a specific job or group job.
 
@@ -82,7 +82,7 @@ class AbstractExecutor(ABC):
         """
         ...
 
-    def run_job_pre(self, job: ExecutorJobInterface):
+    def run_job_pre(self, job: JobExecutorInterface):
         job.check_protected_output()
         self.printjob(job)
 
@@ -104,19 +104,19 @@ class AbstractExecutor(ABC):
     def cancel(self):
         ...
 
-    def rule_prefix(self, job: ExecutorJobInterface):
+    def rule_prefix(self, job: JobExecutorInterface):
         return "local " if job.is_local else ""
 
-    def printjob(self, job: ExecutorJobInterface):
+    def printjob(self, job: JobExecutorInterface):
         job.log_info(skip_dynamic=True)
 
     def print_job_error(self, job_info: SubmittedJobInfo, msg=None, **kwargs):
         job_info.job.log_error(msg, **kwargs)
 
     @abstractmethod
-    def handle_job_success(self, job: ExecutorJobInterface):
+    def handle_job_success(self, job: JobExecutorInterface):
         ...
 
     @abstractmethod
-    def handle_job_error(self, job: ExecutorJobInterface):
+    def handle_job_error(self, job: JobExecutorInterface):
         ...

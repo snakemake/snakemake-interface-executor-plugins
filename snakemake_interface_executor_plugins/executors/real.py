@@ -16,7 +16,7 @@ from snakemake_interface_executor_plugins.utils import (
     format_cli_arg,
     join_cli_args,
 )
-from snakemake_interface_executor_plugins.jobs import ExecutorJobInterface
+from snakemake_interface_executor_plugins.jobs import JobExecutorInterface
 from snakemake_interface_executor_plugins.workflow import WorkflowExecutorInterface
 
 
@@ -65,7 +65,7 @@ class RealExecutor(AbstractExecutor):
 
     def handle_job_success(
         self,
-        job: ExecutorJobInterface,
+        job: JobExecutorInterface,
         upload_remote=True,
         handle_log=True,
         handle_touch=True,
@@ -78,7 +78,7 @@ class RealExecutor(AbstractExecutor):
             ignore_missing_output=ignore_missing_output,
         )
 
-    def handle_job_error(self, job: ExecutorJobInterface, upload_remote=True):
+    def handle_job_error(self, job: JobExecutorInterface, upload_remote=True):
         job.postprocess(
             error=True,
         )
@@ -90,7 +90,7 @@ class RealExecutor(AbstractExecutor):
         """
         return []
 
-    def get_job_args(self, job: ExecutorJobInterface, **kwargs):
+    def get_job_args(self, job: JobExecutorInterface, **kwargs):
         return join_cli_args(
             [
                 format_cli_arg(
@@ -138,13 +138,13 @@ class RealExecutor(AbstractExecutor):
         else:
             return ""
 
-    def get_job_exec_prefix(self, job: ExecutorJobInterface):
+    def get_job_exec_prefix(self, job: JobExecutorInterface):
         return ""
 
-    def get_job_exec_suffix(self, job: ExecutorJobInterface):
+    def get_job_exec_suffix(self, job: JobExecutorInterface):
         return ""
 
-    def format_job_exec(self, job: ExecutorJobInterface):
+    def format_job_exec(self, job: JobExecutorInterface):
         prefix = self.get_job_exec_prefix(job)
         if prefix:
             prefix += " &&"

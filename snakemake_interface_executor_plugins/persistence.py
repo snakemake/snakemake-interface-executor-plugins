@@ -4,6 +4,7 @@ __email__ = "johannes.koester@uni-due.de"
 __license__ = "MIT"
 
 from abc import ABC, abstractmethod
+from pathlib import Path
 
 
 class PersistenceExecutorInterface(ABC):
@@ -13,10 +14,10 @@ class PersistenceExecutorInterface(ABC):
 
     @property
     @abstractmethod
-    def path(self):
+    def path(self) -> Path:
         ...
 
     @property
     @abstractmethod
-    def aux_path(self):
+    def aux_path(self) -> Path:
         ...

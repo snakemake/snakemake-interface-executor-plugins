@@ -5,20 +5,22 @@ __license__ = "MIT"
 
 from abc import ABC, abstractmethod
 import sys
-from typing import Optional
+from typing import Any, Iterable, Mapping, Optional, Sequence, Union
+
+from snakemake_interface_common.rules import RuleInterface
 
 
-class ExecutorJobInterface(ABC):
+class JobExecutorInterface(ABC):
     HIGHEST_PRIORITY = sys.maxsize
 
     @property
     @abstractmethod
-    def name(self):
+    def name(self) -> str:
         ...
 
     @property
     @abstractmethod
-    def jobid(self):
+    def jobid(self) -> int:
         ...
 
     @abstractmethod
@@ -26,82 +28,84 @@ class ExecutorJobInterface(ABC):
         ...
 
     @abstractmethod
-    def is_group(self):
+    def is_group(self) -> bool:
         ...
 
     @abstractmethod
-    def log_info(self, skip_dynamic=False):
+    def log_info(self, skip_dynamic: bool = False) -> None:
         ...
 
     @abstractmethod
-    def log_error(self, msg=None, **kwargs):
+    def log_error(self, msg: Optional[str] = None, **kwargs) -> None:
         ...
 
     @abstractmethod
-    def remove_existing_output(self):
+    def remove_existing_output(self) -> None:
         ...
 
     @abstractmethod
-    def download_remote_input(self):
+    def download_remote_input(self) -> None:
         ...
 
     @abstractmethod
-    def properties(self, omit_resources=("_cores", "_nodes"), **aux_properties):
-        ...
-
-    @property
-    @abstractmethod
-    def resources(self):
-        ...
-
-    @abstractmethod
-    def check_protected_output(self):
+    def properties(
+        self, omit_resources: Sequence[str] = ("_cores", "_nodes"), **aux_properties
+    ) -> Mapping[str, Any]:
         ...
 
     @property
     @abstractmethod
-    def is_local(self):
+    def resources(self) -> Mapping[str, Union[int, str]]:
+        ...
+
+    @abstractmethod
+    def check_protected_output(self) -> None:
         ...
 
     @property
     @abstractmethod
-    def is_branched(self):
+    def is_local(self) -> bool:
         ...
 
     @property
     @abstractmethod
-    def is_updated(self):
+    def is_branched(self) -> bool:
         ...
 
     @property
     @abstractmethod
-    def output(self):
-        ...
-
-    @abstractmethod
-    def register(self, external_jobid: Optional[str] = None):
-        ...
-
-    @abstractmethod
-    def postprocess(self):
-        ...
-
-    @abstractmethod
-    def get_target_spec(self):
-        ...
-
-    @abstractmethod
-    def rules(self):
+    def is_udpated(self) -> bool:
         ...
 
     @property
     @abstractmethod
-    def attempt(self):
+    def output(self) -> Iterable[str]:
+        ...
+
+    @abstractmethod
+    def register(self, external_jobid: Optional[str] = None) -> None:
+        ...
+
+    @abstractmethod
+    def postprocess(self) -> None:
+        ...
+
+    @abstractmethod
+    def get_target_spec(self) -> str:
+        ...
+
+    @abstractmethod
+    def rules(self) -> Iterable[RuleInterface]:
         ...
 
     @property
     @abstractmethod
-    def input(self):
+    def attempt(self) -> int:
+        ...
+
+    @property
+    @abstractmethod
+    def input(self) -> Iterable[str]:
         ...
 
     @property
@@ -111,90 +115,36 @@ class ExecutorJobInterface(ABC):
 
     @property
     @abstractmethod
-    def log(self):
+    def log(self) -> Iterable[str]:
         ...
 
     @abstractmethod
-    def cleanup(self):
+    def cleanup(self) -> None:
         ...
 
     @abstractmethod
-    def get_wait_for_files(self):
+    def get_wait_for_files(self) -> Iterable[str]:
         ...
 
     @abstractmethod
-    def format_wildcards(self, string, **variables):
+    def format_wildcards(self, string, **variables) -> str:
         ...
 
     @property
     @abstractmethod
-    def needs_singularity(self):
+    def is_containerized(self) -> bool:
         ...
 
 
 class SingleJobExecutorInterface(ABC):
     @property
     @abstractmethod
-    def rule(self):
-        ...
-
-    @abstractmethod
-    def prepare(self):
+    def rule(self) -> RuleInterface:
         ...
 
     @property
     @abstractmethod
-    def conda_env(self):
-        ...
-
-    @property
-    @abstractmethod
-    def container_img_path(self):
-        ...
-
-    @property
-    @abstractmethod
-    def env_modules(self):
-        ...
-
-    @property
-    @abstractmethod
-    def benchmark_repeats(self):
-        ...
-
-    @property
-    @abstractmethod
-    def benchmark(self):
-        ...
-
-    @property
-    @abstractmethod
-    def params(self):
-        ...
-
-    @property
-    @abstractmethod
-    def wildcards(self):
-        ...
-
-    @property
-    @abstractmethod
-    def shadow_dir(self):
-        ...
-
-    @property
-    @abstractmethod
-    def is_shadow(self):
-        ...
-
-    @property
-    @abstractmethod
-    def is_run(self):
-        ...
-
-    @property
-    @abstractmethod
-    def is_template_engine(self):
+    def benchmark(self) -> Optional[str]:
         ...
 
     @property

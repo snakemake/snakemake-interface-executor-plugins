@@ -16,7 +16,7 @@ from typing import Generator, List
 from snakemake_interface_common.exceptions import WorkflowError
 from snakemake_interface_executor_plugins.executors.base import SubmittedJobInfo
 from snakemake_interface_executor_plugins.executors.real import RealExecutor
-from snakemake_interface_executor_plugins.jobs import ExecutorJobInterface
+from snakemake_interface_executor_plugins.jobs import JobExecutorInterface
 from snakemake_interface_executor_plugins.logging import LoggerExecutorInterface
 from snakemake_interface_executor_plugins.settings import ExecMode
 from snakemake_interface_executor_plugins.utils import async_lock, format_cli_arg
@@ -127,7 +127,7 @@ class RemoteExecutor(RealExecutor, ABC):
             else "python"
         )
 
-    def get_job_args(self, job: ExecutorJobInterface):
+    def get_job_args(self, job: JobExecutorInterface):
         waitfiles_parameter = ""
         if self.workflow.storage_settings.assume_shared_fs:
             wait_for_files = []
@@ -206,7 +206,7 @@ class RemoteExecutor(RealExecutor, ABC):
             # directory.
             shutil.rmtree(self.tmpdir)
 
-    def run_job_pre(self, job: ExecutorJobInterface):
+    def run_job_pre(self, job: JobExecutorInterface):
         if self.workflow.storage_settings.assume_shared_fs:
             job.remove_existing_output()
             job.download_remote_input()
@@ -218,10 +218,10 @@ class RemoteExecutor(RealExecutor, ABC):
             self._tmpdir = tempfile.mkdtemp(dir=".snakemake", prefix="tmp.")
         return os.path.abspath(self._tmpdir)
 
-    def get_jobname(self, job: ExecutorJobInterface):
+    def get_jobname(self, job: JobExecutorInterface):
         return job.format_wildcards(self.jobname)
 
-    def get_jobscript(self, job: ExecutorJobInterface):
+    def get_jobscript(self, job: JobExecutorInterface):
         f = self.get_jobname(job)
 
         if os.path.sep in f:
@@ -232,7 +232,7 @@ class RemoteExecutor(RealExecutor, ABC):
 
         return os.path.join(self.tmpdir, f)
 
-    def write_jobscript(self, job: ExecutorJobInterface, jobscript):
+    def write_jobscript(self, job: JobExecutorInterface, jobscript):
         exec_job = self.format_job_exec(job)
 
         try:
@@ -256,12 +256,12 @@ class RemoteExecutor(RealExecutor, ABC):
             print(content, file=f)
         os.chmod(jobscript, os.stat(jobscript).st_mode | stat.S_IXUSR | stat.S_IRUSR)
 
-    def handle_job_success(self, job: ExecutorJobInterface):
+    def handle_job_success(self, job: JobExecutorInterface):
         super().handle_job_success(
             job, upload_remote=False, handle_log=False, handle_touch=False
         )
 
-    def handle_job_error(self, job: ExecutorJobInterface):
+    def handle_job_error(self, job: JobExecutorInterface):
         # TODO what about removing empty remote dirs?? This cannot be decided
         # on the cluster node.
         super().handle_job_error(job, upload_remote=False)

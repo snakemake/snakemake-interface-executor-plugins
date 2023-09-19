@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-from pathlib import Path
 from typing import List, Optional, Set
 
 from snakemake_interface_common.settings import SettingsEnumBase
@@ -52,21 +51,6 @@ class ExecutionSettingsExecutorInterface(ABC):
     @property
     @abstractmethod
     def keep_incomplete(self) -> bool:
-        ...
-
-    @property
-    @abstractmethod
-    def debug(self) -> bool:
-        ...
-
-    @property
-    @abstractmethod
-    def cleanup_scripts(self) -> bool:
-        ...
-
-    @property
-    @abstractmethod
-    def edit_notebook(self) -> Optional[Path]:
         ...
 
 

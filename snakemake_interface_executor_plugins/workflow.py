@@ -58,10 +58,6 @@ class WorkflowExecutorInterface(ABC):
     def resource_scopes(self):
         ...
 
-    @abstractmethod
-    def get_cache_mode(self, rule):
-        ...
-
     @property
     @abstractmethod
     def main_snakefile(self):
@@ -74,17 +70,7 @@ class WorkflowExecutorInterface(ABC):
 
     @property
     @abstractmethod
-    def linemaps(self):
-        ...
-
-    @property
-    @abstractmethod
     def workdir_init(self):
-        ...
-
-    @property
-    @abstractmethod
-    def sourcecache(self):
         ...
 
     @property

@@ -8,5 +8,5 @@ from abc import ABC, abstractmethod
 
 class JobSchedulerExecutorInterface(ABC):
     @abstractmethod
-    def executor_error_callback(self, exception):
+    def executor_error_callback(self, exception: Exception) -> None:
         ...

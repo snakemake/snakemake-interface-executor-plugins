@@ -1,9 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List
+from abc import ABC
 
 
-class DefaultResourcesExecutorInterface(ABC):
-    @property
-    @abstractmethod
-    def args(self) -> List[str]:
-        ...
+class DefaultResourcesExecutorInterface(ABC):  # noqa: B024
+    pass
