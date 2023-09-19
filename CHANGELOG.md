@@ -1,5 +1,16 @@
 # Changelog
 
+## [4.0.0](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v3.0.2...v4.0.0) (2023-09-19)
+
+
+### ⚠ BREAKING CHANGES
+
+* rename ExecutorJobInterface into JobExecutorInterface
+
+### Code Refactoring
+
+* rename ExecutorJobInterface into JobExecutorInterface ([9f61b6a](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/9f61b6a5f16ab39582429b813640fa08f3e0231c))
+
 ## [3.0.2](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v3.0.1...v3.0.2) (2023-09-12)
 
 
