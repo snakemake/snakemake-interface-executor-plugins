@@ -300,7 +300,7 @@ class RemoteExecutor(RealExecutor, ABC):
         if self._next_seconds_between_status_checks is None:
             return self.workflow.remote_execution_settings.seconds_between_status_checks
         else:
-            self._next_seconds_between_status_checks
+            return self._next_seconds_between_status_checks
 
     @next_seconds_between_status_checks.setter
     def next_seconds_between_status_checks(self, value):
