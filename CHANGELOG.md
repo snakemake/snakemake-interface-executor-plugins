@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.0.1](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v4.0.0...v4.0.1) (2023-09-20)
+
+
+### Bug Fixes
+
+* return correct value for next_seconds_between_status_checks ([0606922](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/06069228debfc55629f2eb6f2e88ac1b81ad90c8))
+
 ## [4.0.0](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v3.0.2...v4.0.0) (2023-09-19)
 
 
