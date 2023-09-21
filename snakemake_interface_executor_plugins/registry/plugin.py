@@ -5,7 +5,10 @@ __license__ = "MIT"
 
 from dataclasses import dataclass
 from typing import Optional, Type
-from snakemake_interface_executor_plugins import CommonSettings, ExecutorSettingsBase
+from snakemake_interface_executor_plugins.settings import (
+    CommonSettings,
+    ExecutorSettingsBase,
+)
 import snakemake_interface_executor_plugins._common as common
 
 from snakemake_interface_common.plugin_registry.plugin import PluginBase

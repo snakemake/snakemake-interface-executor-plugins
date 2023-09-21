@@ -5,7 +5,10 @@ __license__ = "MIT"
 
 import types
 from typing import Mapping
-from snakemake_interface_executor_plugins import CommonSettings, ExecutorSettingsBase
+from snakemake_interface_executor_plugins.settings import (
+    CommonSettings,
+    ExecutorSettingsBase,
+)
 
 from snakemake_interface_executor_plugins.executors.base import AbstractExecutor
 from snakemake_interface_common.plugin_registry.attribute_types import (
