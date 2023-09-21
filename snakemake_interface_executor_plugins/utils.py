@@ -9,20 +9,12 @@ from pathlib import Path
 import threading
 from typing import Any, List
 from urllib.parse import urlparse
-import collections
 from collections import namedtuple
 import concurrent.futures
 import contextlib
 
 from snakemake_interface_common.settings import SettingsEnumBase
-
-
-def not_iterable(value):
-    return (
-        isinstance(value, str)
-        or isinstance(value, dict)
-        or not isinstance(value, collections.abc.Iterable)
-    )
+from snakemake_interface_common.utils import not_iterable
 
 
 TargetSpec = namedtuple("TargetSpec", ["rulename", "wildcards_dict"])
@@ -85,29 +77,6 @@ def encode_target_jobs_cli_args(
         )
         items.append(f"{spec.rulename}:{wildcards}")
     return items
-
-
-class lazy_property(property):
-    __slots__ = ["method", "cached", "__doc__"]
-
-    @staticmethod
-    def clean(instance, method):
-        delattr(instance, method)
-
-    def __init__(self, method):
-        self.method = method
-        self.cached = f"_{method.__name__}"
-        super().__init__(method, doc=method.__doc__)
-
-    def __get__(self, instance, owner):
-        cached = (
-            getattr(instance, self.cached) if hasattr(instance, self.cached) else None
-        )
-        if cached is not None:
-            return cached
-        value = self.method(instance)
-        setattr(instance, self.cached, value)
-        return value
 
 
 _pool = concurrent.futures.ThreadPoolExecutor()

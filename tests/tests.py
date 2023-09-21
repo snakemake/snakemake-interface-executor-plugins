@@ -1,36 +1,25 @@
 import argparse
 import pytest
 from snakemake_interface_executor_plugins.registry import ExecutorPluginRegistry
+from snakemake_interface_common.plugin_registry.tests import TestRegistryBase
+from snakemake_interface_common.plugin_registry.plugin import PluginBase, SettingsBase
+from snakemake_interface_common.plugin_registry import PluginRegistryBase
 
+class TestRegistry(TestRegistryBase):
+    __test__ = True
 
-@pytest.fixture
-def registry():
-    # ensure that the singleton is reset
-    ExecutorPluginRegistry._instance = None
-    return ExecutorPluginRegistry()
-
-
-def test_registry_collect_plugins(registry):
-    assert len(registry.plugins) == 1
-    plugin = registry.get_plugin("cluster-generic")
-    assert plugin._executor_settings_cls is not None
-    assert plugin.common_settings.non_local_exec is True
-    assert plugin.executor is not None
-
-
-def test_registry_register_cli_args(registry):
-    parser = argparse.ArgumentParser()
-    registry.register_cli_args(parser)
-    for action in parser._actions:
-        if not action.dest == "help":
-            assert action.dest.startswith("cluster_generic")
-
-
-def test_registry_get_executor_settings(registry):
-    parser = argparse.ArgumentParser()
-    registry.register_cli_args(parser)
-    args = parser.parse_args([])
-    plugin = registry.get_plugin("cluster-generic")
-    settings = plugin.get_settings(args)
-    print(settings, plugin._executor_settings_cls)
-    assert isinstance(settings, plugin._executor_settings_cls)
+    def get_registry(self) -> PluginRegistryBase:
+        # ensure that the singleton is reset
+        ExecutorPluginRegistry._instance = None
+        return ExecutorPluginRegistry()
+    
+    def get_test_plugin_name(self) -> str:
+        return "cluster-generic"
+    
+    def validate_plugin(self, plugin: PluginBase):
+        assert plugin._executor_settings_cls is not None
+        assert plugin.common_settings.non_local_exec is True
+        assert plugin.executor is not None
+    
+    def validate_settings(self, settings: SettingsBase, plugin: PluginBase):
+        assert isinstance(settings, plugin._executor_settings_cls)
