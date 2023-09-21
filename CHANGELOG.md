@@ -1,5 +1,17 @@
 # Changelog
 
+## [5.0.0](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v4.0.1...v5.0.0) (2023-09-21)
+
+
+### ⚠ BREAKING CHANGES
+
+* maintain Python 3.7 compatibility by moving settings base classes to the settings module
+
+### Bug Fixes
+
+* maintain Python 3.7 compatibility by moving settings base classes to the settings module ([71c976e](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/71c976ea2a51afa418683effd3db9d80dca15150))
+* use bugfix release of snakemake-interface-common ([2441fc3](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/2441fc36fc0cfc404aafeb0d8b86e7f107c7ebb6))
+
 ## [4.0.1](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v4.0.0...v4.0.1) (2023-09-20)
 
 
