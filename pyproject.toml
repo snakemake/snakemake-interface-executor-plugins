@@ -11,7 +11,7 @@ version = "5.0.0"
 argparse-dataclass = "^2.0.0"
 python = "^3.9"
 throttler = "^1.2.2"
-snakemake-interface-common = "^1.7.1"
+snakemake-interface-common = "^1.7.3"
 
 [tool.poetry.dev-dependencies]
 black = "^22.1.0"
