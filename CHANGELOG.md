@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.0.2](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v5.0.1...v5.0.2) (2023-09-22)
+
+
+### Documentation
+
+* mention poetry plugin ([733f2f9](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/733f2f93b0e1fedb9aeda21ea6987b7b7059be11))
+
 ## [5.0.1](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v5.0.0...v5.0.1) (2023-09-22)
 
 
