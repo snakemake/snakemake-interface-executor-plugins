@@ -44,10 +44,6 @@ class JobExecutorInterface(ABC):
         ...
 
     @abstractmethod
-    def download_remote_input(self) -> None:
-        ...
-
-    @abstractmethod
     def properties(
         self, omit_resources: Sequence[str] = ("_cores", "_nodes"), **aux_properties
     ) -> Mapping[str, Any]:
@@ -87,7 +83,14 @@ class JobExecutorInterface(ABC):
         ...
 
     @abstractmethod
-    def postprocess(self) -> None:
+    def postprocess(
+        self,
+        store_in_storage: bool=True,
+        handle_log: bool=True,
+        handle_touch: bool=True,
+        error: bool=False,
+        ignore_missing_output: bool=False,
+    ) -> None:
         ...
 
     @abstractmethod

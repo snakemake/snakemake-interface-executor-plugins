@@ -42,7 +42,7 @@ class RemoteExecutor(RealExecutor, ABC):
         self,
         workflow: WorkflowExecutorInterface,
         logger: LoggerExecutorInterface,
-        pass_default_remote_provider_args: bool = True,
+        pass_default_storage_provider_args: bool = True,
         pass_default_resources_args: bool = True,
         pass_envvar_declarations_to_cmd: bool = True,
         init_seconds_before_status_checks: int = 0,
@@ -50,7 +50,7 @@ class RemoteExecutor(RealExecutor, ABC):
         super().__init__(
             workflow,
             logger,
-            pass_default_remote_provider_args=pass_default_remote_provider_args,
+            pass_default_storage_provider_args=pass_default_storage_provider_args,
             pass_default_resources_args=pass_default_resources_args,
             pass_envvar_declarations_to_cmd=pass_envvar_declarations_to_cmd,
         )
@@ -258,13 +258,13 @@ class RemoteExecutor(RealExecutor, ABC):
 
     def handle_job_success(self, job: JobExecutorInterface):
         super().handle_job_success(
-            job, upload_remote=False, handle_log=False, handle_touch=False
+            job, store_in_storage=False, handle_log=False, handle_touch=False
         )
 
     def handle_job_error(self, job: JobExecutorInterface):
         # TODO what about removing empty remote dirs?? This cannot be decided
         # on the cluster node.
-        super().handle_job_error(job, upload_remote=False)
+        super().handle_job_error(job)
         self.logger.debug("Cleanup job metadata.")
         # We have to remove metadata here as well.
         # It will be removed by the CPUExecutor in case of a shared FS,

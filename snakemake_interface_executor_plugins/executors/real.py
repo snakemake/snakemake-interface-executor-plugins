@@ -25,7 +25,7 @@ class RealExecutor(AbstractExecutor):
         self,
         workflow: WorkflowExecutorInterface,
         logger: LoggerExecutorInterface,
-        pass_default_remote_provider_args: bool = True,
+        pass_default_storage_provider_args: bool = True,
         pass_default_resources_args: bool = True,
         pass_envvar_declarations_to_cmd: bool = True,
     ):
@@ -35,7 +35,7 @@ class RealExecutor(AbstractExecutor):
         )
         self.executor_settings = self.workflow.executor_settings
         self.snakefile = workflow.main_snakefile
-        self.pass_default_remote_provider_args = pass_default_remote_provider_args
+        self.pass_default_storage_provider_args = pass_default_storage_provider_args
         self.pass_default_resources_args = pass_default_resources_args
         self.pass_envvar_declarations_to_cmd = pass_envvar_declarations_to_cmd
 
@@ -66,19 +66,19 @@ class RealExecutor(AbstractExecutor):
     def handle_job_success(
         self,
         job: JobExecutorInterface,
-        upload_remote=True,
+        store_in_storage=True,
         handle_log=True,
         handle_touch=True,
         ignore_missing_output=False,
     ):
         job.postprocess(
-            upload_remote=upload_remote,
+            store_in_storage=store_in_storage,
             handle_log=handle_log,
             handle_touch=handle_touch,
             ignore_missing_output=ignore_missing_output,
         )
 
-    def handle_job_error(self, job: JobExecutorInterface, upload_remote=True):
+    def handle_job_error(self, job: JobExecutorInterface):
         job.postprocess(
             error=True,
         )
@@ -152,7 +152,7 @@ class RealExecutor(AbstractExecutor):
         if suffix:
             suffix = f"&& {suffix}"
         general_args = self.workflow.spawned_job_args_factory.general_args(
-            pass_default_remote_provider_args=self.pass_default_remote_provider_args,
+            pass_default_storage_provider_args=self.pass_default_storage_provider_args,
             pass_default_resources_args=self.pass_default_resources_args,
         )
         args = join_cli_args(

@@ -2,7 +2,8 @@
 
 This package provides a stable interface for interactions between Snakemake and its executor plugins (WIP).
 
-Plugins should implement the following skeleton to comply with this interface:
+Plugins should implement the following skeleton to comply with this interface.
+This is best achieved by using the poetry-snakemake-plugin, see [here](https://github.com/snakemake/poetry-snakemake-plugin).
 
 ```python
 from dataclasses import dataclass, field
@@ -69,7 +70,7 @@ class Executor(RemoteExecutor):
             logger,
             # configure behavior of RemoteExecutor below
             # whether arguments for setting the remote provider shall  be passed to jobs
-            pass_default_remote_provider_args=True,
+            pass_default_storage_provider_args=True,
             # whether arguments for setting default resources shall be passed to jobs
             pass_default_resources_args=True,
             # whether environment variables shall be passed to jobs
