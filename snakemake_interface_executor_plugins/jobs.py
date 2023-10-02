@@ -85,11 +85,11 @@ class JobExecutorInterface(ABC):
     @abstractmethod
     def postprocess(
         self,
-        store_in_storage: bool=True,
-        handle_log: bool=True,
-        handle_touch: bool=True,
-        error: bool=False,
-        ignore_missing_output: bool=False,
+        store_in_storage: bool = True,
+        handle_log: bool = True,
+        handle_touch: bool = True,
+        error: bool = False,
+        ignore_missing_output: bool = False,
     ) -> None:
         ...
 

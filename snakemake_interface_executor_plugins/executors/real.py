@@ -133,7 +133,7 @@ class RealExecutor(AbstractExecutor):
         if self.pass_envvar_declarations_to_cmd:
             return " ".join(
                 f"{var}={repr(os.environ[var])}"
-                for var in self.workflow.remote_execution_settings.envvars
+                for var in self.workflow.remote_execution_settings.envvars or {}
             )
         else:
             return ""
