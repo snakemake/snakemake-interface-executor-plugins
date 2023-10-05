@@ -209,7 +209,7 @@ class RemoteExecutor(RealExecutor, ABC):
     def run_job_pre(self, job: JobExecutorInterface):
         if self.workflow.storage_settings.assume_shared_fs:
             job.remove_existing_output()
-            job.download_remote_input()
+            job.retrieve_storage_input()
         super().run_job_pre(job)
 
     @property
@@ -258,7 +258,7 @@ class RemoteExecutor(RealExecutor, ABC):
 
     def handle_job_success(self, job: JobExecutorInterface):
         super().handle_job_success(
-            job, store_in_storage=False, handle_log=False, handle_touch=False
+            job, store_in_storage=True, handle_log=False, handle_touch=False
         )
 
     def handle_job_error(self, job: JobExecutorInterface):

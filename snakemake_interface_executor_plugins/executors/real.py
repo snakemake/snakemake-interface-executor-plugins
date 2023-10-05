@@ -4,7 +4,7 @@ __email__ = "johannes.koester@uni-due.de"
 __license__ = "MIT"
 
 from abc import abstractmethod
-import os
+from typing import Dict
 from snakemake_interface_executor_plugins.executors.base import (
     AbstractExecutor,
     SubmittedJobInfo,
@@ -131,10 +131,7 @@ class RealExecutor(AbstractExecutor):
 
     def get_envvar_declarations(self):
         if self.pass_envvar_declarations_to_cmd:
-            return " ".join(
-                f"{var}={repr(os.environ[var])}"
-                for var in self.workflow.remote_execution_settings.envvars
-            )
+            return " ".join(f"{var}={repr(value)}" for var, value in self.envvars())
         else:
             return ""
 
@@ -144,7 +141,7 @@ class RealExecutor(AbstractExecutor):
     def get_job_exec_suffix(self, job: JobExecutorInterface):
         return ""
 
-    def format_job_exec(self, job: JobExecutorInterface):
+    def format_job_exec(self, job: JobExecutorInterface) -> str:
         prefix = self.get_job_exec_prefix(job)
         if prefix:
             prefix += " &&"
@@ -175,3 +172,6 @@ class RealExecutor(AbstractExecutor):
             ]
         )
         return args
+
+    def envvars(self) -> Dict[str, str]:
+        return self.workflow.spawned_job_args_factory.envvars()

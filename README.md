@@ -73,7 +73,9 @@ class Executor(RemoteExecutor):
             pass_default_storage_provider_args=True,
             # whether arguments for setting default resources shall be passed to jobs
             pass_default_resources_args=True,
-            # whether environment variables shall be passed to jobs
+            # whether environment variables shall be passed to jobs (if False, use 
+            # self.envvars() to obtain a dict of environment variables and their values
+            # and pass them e.g. as secrets to the execution backend)
             pass_envvar_declarations_to_cmd=True,
             # specify initial amount of seconds to sleep before checking for job status
             init_sleep_seconds=0,
