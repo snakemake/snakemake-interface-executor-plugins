@@ -63,25 +63,11 @@ class RealExecutor(AbstractExecutor):
                     "directory {self.workflow.persistence.path}."
                 )
 
-    def handle_job_success(
-        self,
-        job: JobExecutorInterface,
-        store_in_storage=True,
-        handle_log=True,
-        handle_touch=True,
-        ignore_missing_output=False,
-    ):
-        job.postprocess(
-            store_in_storage=store_in_storage,
-            handle_log=handle_log,
-            handle_touch=handle_touch,
-            ignore_missing_output=ignore_missing_output,
-        )
+    def handle_job_success(self, job: JobExecutorInterface):
+        pass
 
     def handle_job_error(self, job: JobExecutorInterface):
-        job.postprocess(
-            error=True,
-        )
+        pass
 
     def additional_general_args(self):
         """Inherit this method to add stuff to the general args.

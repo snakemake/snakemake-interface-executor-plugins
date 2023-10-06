@@ -206,12 +206,6 @@ class RemoteExecutor(RealExecutor, ABC):
             # directory.
             shutil.rmtree(self.tmpdir)
 
-    def run_job_pre(self, job: JobExecutorInterface):
-        if self.workflow.storage_settings.assume_shared_fs:
-            job.remove_existing_output()
-            job.retrieve_storage_input()
-        super().run_job_pre(job)
-
     @property
     def tmpdir(self):
         if self._tmpdir is None:
@@ -257,25 +251,7 @@ class RemoteExecutor(RealExecutor, ABC):
         os.chmod(jobscript, os.stat(jobscript).st_mode | stat.S_IXUSR | stat.S_IRUSR)
 
     def handle_job_success(self, job: JobExecutorInterface):
-        super().handle_job_success(
-            job, store_in_storage=True, handle_log=False, handle_touch=False
-        )
-
-    def handle_job_error(self, job: JobExecutorInterface):
-        # TODO what about removing empty remote dirs?? This cannot be decided
-        # on the cluster node.
-        super().handle_job_error(job)
-        self.logger.debug("Cleanup job metadata.")
-        # We have to remove metadata here as well.
-        # It will be removed by the CPUExecutor in case of a shared FS,
-        # but we might not see the removal due to filesystem latency.
-        # By removing it again, we make sure that it is gone on the host FS.
-        if not self.workflow.execution_settings.keep_incomplete:
-            self.workflow.persistence.cleanup(job)
-            # Also cleanup the jobs output files, in case the remote job
-            # was not able to, due to e.g. timeout.
-            self.logger.debug("Cleanup failed jobs output files.")
-            job.cleanup()
+        super().handle_job_success(job)
 
     def print_job_error(self, job_info: SubmittedJobInfo, msg=None, **kwargs):
         msg = msg or ""
