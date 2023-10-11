@@ -89,7 +89,7 @@ class RealExecutor(AbstractExecutor):
                     "--allowed-rules",
                     job.rules,
                     quote=False,
-                    skip=job.is_branched or job.is_updated,
+                    skip=job.is_updated,
                 ),
                 # Ensure that a group uses its proper local groupid.
                 format_cli_arg("--local-groupid", job.jobid, skip=not job.is_group()),

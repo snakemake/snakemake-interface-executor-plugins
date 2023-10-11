@@ -40,10 +40,6 @@ class JobExecutorInterface(ABC):
         ...
 
     @abstractmethod
-    def remove_existing_output(self) -> None:
-        ...
-
-    @abstractmethod
     def properties(
         self, omit_resources: Sequence[str] = ("_cores", "_nodes"), **aux_properties
     ) -> Mapping[str, Any]:
@@ -54,18 +50,9 @@ class JobExecutorInterface(ABC):
     def resources(self) -> Mapping[str, Union[int, str]]:
         ...
 
-    @abstractmethod
-    def check_protected_output(self) -> None:
-        ...
-
     @property
     @abstractmethod
     def is_local(self) -> bool:
-        ...
-
-    @property
-    @abstractmethod
-    def is_branched(self) -> bool:
         ...
 
     @property
@@ -80,17 +67,6 @@ class JobExecutorInterface(ABC):
 
     @abstractmethod
     def register(self, external_jobid: Optional[str] = None) -> None:
-        ...
-
-    @abstractmethod
-    def postprocess(
-        self,
-        store_in_storage: bool = True,
-        handle_log: bool = True,
-        handle_touch: bool = True,
-        error: bool = False,
-        ignore_missing_output: bool = False,
-    ) -> None:
         ...
 
     @abstractmethod
@@ -119,14 +95,6 @@ class JobExecutorInterface(ABC):
     @property
     @abstractmethod
     def log(self) -> Iterable[str]:
-        ...
-
-    @abstractmethod
-    def cleanup(self) -> None:
-        ...
-
-    @abstractmethod
-    def get_wait_for_files(self) -> Iterable[str]:
         ...
 
     @abstractmethod
