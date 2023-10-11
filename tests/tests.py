@@ -22,3 +22,6 @@ class TestRegistry(TestRegistryBase):
 
     def validate_settings(self, settings: SettingsBase, plugin: PluginBase):
         assert isinstance(settings, plugin._executor_settings_cls)
+
+    def get_example_args(self) -> List[str]:
+        return ["--cluster-generic-submit-cmd", "qsub"]
