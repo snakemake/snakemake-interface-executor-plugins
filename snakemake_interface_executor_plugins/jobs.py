@@ -98,6 +98,10 @@ class JobExecutorInterface(ABC):
         ...
 
     @abstractmethod
+    def get_wait_for_files(self) -> Iterable[str]:
+        ...
+
+    @abstractmethod
     def format_wildcards(self, string, **variables) -> str:
         ...
 

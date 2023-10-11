@@ -8,10 +8,6 @@ from pathlib import Path
 
 
 class PersistenceExecutorInterface(ABC):
-    @abstractmethod
-    def cleanup(self):
-        ...
-
     @property
     @abstractmethod
     def path(self) -> Path:
