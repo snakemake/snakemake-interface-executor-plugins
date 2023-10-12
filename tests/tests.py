@@ -1,3 +1,4 @@
+from typing import List
 from snakemake_interface_executor_plugins.registry import ExecutorPluginRegistry
 from snakemake_interface_common.plugin_registry.tests import TestRegistryBase
 from snakemake_interface_common.plugin_registry.plugin import PluginBase, SettingsBase
