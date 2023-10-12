@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import List, Optional, Set
+from typing import Sequence, Set
 
 from snakemake_interface_common.settings import SettingsEnumBase
 
@@ -72,7 +72,7 @@ class RemoteExecutionSettingsExecutorInterface(ABC):
 
     @property
     @abstractmethod
-    def envvars(self) -> Optional[List[str]]:
+    def envvars(self) -> Sequence[str]:
         ...
 
     @property
