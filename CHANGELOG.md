@@ -1,5 +1,23 @@
 # Changelog
 
+## [6.0.0](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v5.0.2...v6.0.0) (2023-10-12)
+
+
+### ⚠ BREAKING CHANGES
+
+* adapt to API changes
+
+### Features
+
+* adapt to API changes ([f74151b](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/f74151b32a9b98a323bbbf88a818b7da5fe97427))
+
+
+### Bug Fixes
+
+* adapt to changes in snakemake ([e572f02](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/e572f02c7b5270fc02fc871ac6197575ce42ad5c))
+* cleanup interfaces ([88c6554](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/88c65546db32fc5e48827173bb016d69691c41cb))
+* udpate deps ([99b5b1e](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/99b5b1e61302d75fb6ca7a959fda18cceaf12703))
+
 ## [5.0.2](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v5.0.1...v5.0.2) (2023-09-22)
 
 
