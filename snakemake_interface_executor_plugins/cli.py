@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from typing import Mapping
 
 
 class SpawnedJobArgsFactoryExecutorInterface(ABC):
@@ -8,4 +9,12 @@ class SpawnedJobArgsFactoryExecutorInterface(ABC):
         pass_default_storage_provider_args: bool = True,
         pass_default_resources_args: bool = False,
     ) -> str:
+        ...
+
+    @abstractmethod
+    def precommand(self) -> str:
+        ...
+
+    @abstractmethod
+    def envvars(self) -> Mapping[str, str]:
         ...

@@ -138,10 +138,13 @@ class RealExecutor(AbstractExecutor):
             pass_default_storage_provider_args=self.pass_default_storage_provider_args,
             pass_default_resources_args=self.pass_default_resources_args,
         )
+        precommand = self.workflow.spawned_job_args_factory.precommand()
+        
         args = join_cli_args(
             [
                 prefix,
                 self.get_envvar_declarations(),
+                precommand,
                 self.get_python_executable(),
                 "-m snakemake",
                 format_cli_arg("--snakefile", self.get_snakefile()),
