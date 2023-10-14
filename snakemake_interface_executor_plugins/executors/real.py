@@ -146,6 +146,8 @@ class RealExecutor(AbstractExecutor):
         precommand = self.workflow.spawned_job_args_factory.precommand(
             auto_deploy_default_storage_provider=self.common_settings.auto_deploy_default_storage_provider
         )
+        if precommand:
+            precommand += " &&"
 
         args = join_cli_args(
             [
