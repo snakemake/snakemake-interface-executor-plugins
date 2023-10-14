@@ -53,33 +53,28 @@ common_settings = CommonSettings(
     # (cluster, cloud, etc.). Only Snakemake's standard execution 
     # plugins (snakemake-executor-plugin-dryrun, snakemake-executor-plugin-local)
     # are expected to specify False here.
-    non_local_exec=True
+    non_local_exec=True,
+    implies_no_shared_fs=True,
+    # whether arguments for setting the storage provider shall be passed to jobs
+    pass_default_storage_provider_args=True,
+    # whether arguments for setting default resources shall be passed to jobs
+    pass_default_resources_args=True,
+    # whether environment variables shall be passed to jobs (if False, use 
+    # self.envvars() to obtain a dict of environment variables and their values
+    # and pass them e.g. as secrets to the execution backend)
+    pass_envvar_declarations_to_cmd=True,
+    # whether the default storage provider shall be deployed before the job is run on 
+    # the remote node. Usually set to True if the executor does not assume a shared fs
+    auto_deploy_default_storage_provider=True,
+    # specify initial amount of seconds to sleep before checking for job status
+    init_seconds_before_status_checks=0,
 )
 
 
 # Required:
 # Implementation of your executor
 class Executor(RemoteExecutor):
-    def __init__(
-        self,
-        workflow: WorkflowExecutorInterface,
-        logger: LoggerExecutorInterface,
-    ):
-        super().__init__(
-            workflow,
-            logger,
-            # configure behavior of RemoteExecutor below
-            # whether arguments for setting the remote provider shall  be passed to jobs
-            pass_default_storage_provider_args=True,
-            # whether arguments for setting default resources shall be passed to jobs
-            pass_default_resources_args=True,
-            # whether environment variables shall be passed to jobs (if False, use 
-            # self.envvars() to obtain a dict of environment variables and their values
-            # and pass them e.g. as secrets to the execution backend)
-            pass_envvar_declarations_to_cmd=True,
-            # specify initial amount of seconds to sleep before checking for job status
-            init_sleep_seconds=0,
-        )
+    def __post_init__(self):
         # access workflow
         self.workflow
         # access executor specific settings

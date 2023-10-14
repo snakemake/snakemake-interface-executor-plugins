@@ -42,19 +42,12 @@ class RemoteExecutor(RealExecutor, ABC):
         self,
         workflow: WorkflowExecutorInterface,
         logger: LoggerExecutorInterface,
-        pass_default_storage_provider_args: bool = True,
-        pass_default_resources_args: bool = True,
-        pass_envvar_declarations_to_cmd: bool = True,
-        init_seconds_before_status_checks: int = 0,
     ):
         super().__init__(
             workflow,
             logger,
-            pass_default_storage_provider_args=pass_default_storage_provider_args,
-            pass_default_resources_args=pass_default_resources_args,
-            pass_envvar_declarations_to_cmd=pass_envvar_declarations_to_cmd,
+            post_init=False,  # we call __post_init__ ourselves
         )
-        self.init_seconds_before_status_checks = init_seconds_before_status_checks
         self._next_seconds_between_status_checks = None
         self.max_status_checks_per_second = (
             self.workflow.remote_execution_settings.max_status_checks_per_second
@@ -98,6 +91,8 @@ class RemoteExecutor(RealExecutor, ABC):
             rate_limit=max_status_checks_frac.numerator,
             period=max_status_checks_frac.denominator,
         )
+
+        self.__post_init__()
 
     @property
     def cores(self):
@@ -172,7 +167,9 @@ class RemoteExecutor(RealExecutor, ABC):
         ...
 
     async def _wait_for_jobs(self):
-        await asyncio.sleep(self.init_seconds_before_status_checks)
+        await asyncio.sleep(
+            self.workflow.executor_plugin.common_settings.init_seconds_before_status_checks
+        )
         while True:
             async with async_lock(self.lock):
                 if not self.wait:

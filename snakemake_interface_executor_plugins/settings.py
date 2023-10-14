@@ -28,6 +28,20 @@ class CommonSettings:
         Whether job outputs will be touched only.
     use_threads : bool
         Whether to use threads instead of processes.
+    pass_default_storage_provider_args : bool
+        Whether to pass default storage provider arguments to spawned jobs.
+    pass_default_resources_args : bool
+        Whether to pass default resources arguments to spawned jobs.
+    pass_envvar_declarations_to_cmd : bool
+        Whether envvars shall be declared in the job command. If false, envvars
+        have to be declared in a different way by the executor, e.g. by passing
+        them as secrets (see snakemake-executor-plugin-kubernetes).
+    auto_deploy_default_storage_provider : bool
+        Whether to automatically deploy the default storage provider in the spawned
+        job via pip. This is usually needed in case the executor does not have a
+        shared file system.
+    init_seconds_before_status_checks : int
+        Number of seconds to wait before starting to check the status of spawned jobs.
     """
 
     non_local_exec: bool
@@ -35,6 +49,11 @@ class CommonSettings:
     dryrun_exec: bool = False
     touch_exec: bool = False
     use_threads: bool = False
+    pass_default_storage_provider_args: bool = True
+    pass_default_resources_args: bool = True
+    pass_envvar_declarations_to_cmd: bool = True
+    auto_deploy_default_storage_provider: bool = True
+    init_seconds_before_status_checks: int = 0
 
     @property
     def local_exec(self):

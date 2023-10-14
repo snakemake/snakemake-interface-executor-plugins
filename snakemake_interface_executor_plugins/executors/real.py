@@ -25,9 +25,7 @@ class RealExecutor(AbstractExecutor):
         self,
         workflow: WorkflowExecutorInterface,
         logger: LoggerExecutorInterface,
-        pass_default_storage_provider_args: bool = True,
-        pass_default_resources_args: bool = True,
-        pass_envvar_declarations_to_cmd: bool = True,
+        post_init: bool = True,
     ):
         super().__init__(
             workflow,
@@ -35,9 +33,12 @@ class RealExecutor(AbstractExecutor):
         )
         self.executor_settings = self.workflow.executor_settings
         self.snakefile = workflow.main_snakefile
-        self.pass_default_storage_provider_args = pass_default_storage_provider_args
-        self.pass_default_resources_args = pass_default_resources_args
-        self.pass_envvar_declarations_to_cmd = pass_envvar_declarations_to_cmd
+        if post_init:
+            self.__post_init__()
+
+    def __post_init__(self):
+        """This method is called after the constructor. By default, it does nothing."""
+        pass
 
     @property
     @abstractmethod
@@ -115,8 +116,12 @@ class RealExecutor(AbstractExecutor):
     def get_exec_mode(self) -> ExecMode:
         ...
 
+    @property
+    def common_settings(self):
+        return self.workflow.executor_plugin.common_settings
+
     def get_envvar_declarations(self):
-        if self.pass_envvar_declarations_to_cmd:
+        if self.common_settings.pass_envvar_declarations_to_cmd:
             return " ".join(f"{var}={repr(value)}" for var, value in self.envvars())
         else:
             return ""
@@ -135,11 +140,13 @@ class RealExecutor(AbstractExecutor):
         if suffix:
             suffix = f"&& {suffix}"
         general_args = self.workflow.spawned_job_args_factory.general_args(
-            pass_default_storage_provider_args=self.pass_default_storage_provider_args,
-            pass_default_resources_args=self.pass_default_resources_args,
+            pass_default_storage_provider_args=self.common_settings.pass_default_storage_provider_args,
+            pass_default_resources_args=self.common_settings.pass_default_resources_args,
         )
-        precommand = self.workflow.spawned_job_args_factory.precommand()
-        
+        precommand = self.workflow.spawned_job_args_factory.precommand(
+            auto_deploy_default_storage_provider=self.common_settings.auto_deploy_default_storage_provider
+        )
+
         args = join_cli_args(
             [
                 prefix,

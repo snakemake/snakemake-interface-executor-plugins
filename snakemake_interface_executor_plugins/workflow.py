@@ -4,6 +4,7 @@ __email__ = "johannes.koester@uni-due.de"
 __license__ = "MIT"
 
 from abc import ABC, abstractmethod
+from typing import Optional
 
 from snakemake_interface_executor_plugins.cli import (
     SpawnedJobArgsFactoryExecutorInterface,
@@ -11,6 +12,7 @@ from snakemake_interface_executor_plugins.cli import (
 from snakemake_interface_executor_plugins.persistence import (
     PersistenceExecutorInterface,
 )
+from snakemake_interface_executor_plugins.registry.plugin import Plugin
 
 from snakemake_interface_executor_plugins.scheduler import JobSchedulerExecutorInterface
 from snakemake_interface_executor_plugins.settings import (
@@ -51,6 +53,11 @@ class WorkflowExecutorInterface(ABC):
     @property
     @abstractmethod
     def group_settings(self) -> GroupSettingsExecutorInterface:
+        ...
+
+    @property
+    @abstractmethod
+    def executor_plugin(self) -> Optional[Plugin]:
         ...
 
     @property
