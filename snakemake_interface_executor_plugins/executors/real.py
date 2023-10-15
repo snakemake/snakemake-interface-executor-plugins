@@ -152,8 +152,8 @@ class RealExecutor(AbstractExecutor):
         args = join_cli_args(
             [
                 prefix,
-                self.get_envvar_declarations(),
                 precommand,
+                self.get_envvar_declarations(),
                 self.get_python_executable(),
                 "-m snakemake",
                 format_cli_arg("--snakefile", self.get_snakefile()),
