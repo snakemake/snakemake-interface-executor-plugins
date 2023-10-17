@@ -1,5 +1,17 @@
 # Changelog
 
+## [7.0.0](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v6.0.0...v7.0.0) (2023-10-17)
+
+
+### ⚠ BREAKING CHANGES
+
+* move behavior args into common settings and use __post_init__ method for additional initialization
+
+### Features
+
+* move behavior args into common settings and use __post_init__ method for additional initialization ([c6cb3c9](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/c6cb3c9c02de7e7aeba241558ba549a65abcfc2b))
+* support precommand ([32da209](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/32da20943b1afe8854566356ed448015e4f67e6c))
+
 ## [6.0.0](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v5.0.2...v6.0.0) (2023-10-12)
 
 
