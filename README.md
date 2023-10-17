@@ -27,10 +27,10 @@ from snakemake_interface_executor_plugins.jobs import (
 # of None or anything else that makes sense in your case.
 @dataclass
 class ExecutorSettings(ExecutorSettingsBase):
-    myparam: Optional[int]=field(
+    myparam: Optional[int] = field(
         default=None,
         metadata={
-            "help": "Some help text", 
+            "help": "Some help text",
             # Optionally request that setting is also available for specification
             # via an environment variable. The variable will be named automatically as
             # SNAKEMAKE_<executor-name>_<param-name>, all upper case.
@@ -39,9 +39,15 @@ class ExecutorSettings(ExecutorSettingsBase):
             # for setting defaults
             # (https://snakemake.readthedocs.io/en/stable/executing/cli.html#profiles).
             "env_var": False,
+            # Optionally specify a function that parses the value given by the user.
+            # This is useful to create complex types from the user input.
+            "parse_func": ...,
+            # If a parse_func is specified, you also have to specify an unparse_func
+            # that converts the parsed value back to a string.
+            "unparse_func": ...,
             # Optionally specify that setting is required when the executor is in use.
-            "required": True
-        }
+            "required": True,
+        },
     )
 
 
