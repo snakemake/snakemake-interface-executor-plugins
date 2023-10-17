@@ -1,5 +1,12 @@
 # Changelog
 
+## [7.0.1](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v7.0.0...v7.0.1) (2023-10-17)
+
+
+### Miscellaneous Chores
+
+* release 7.0.1 ([c51e47b](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/c51e47b5b3eed7a5d52e27dead1d51659563aa9d))
+
 ## [7.0.0](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v6.0.0...v7.0.0) (2023-10-17)
 
 
