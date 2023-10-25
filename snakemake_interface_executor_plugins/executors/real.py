@@ -122,7 +122,8 @@ class RealExecutor(AbstractExecutor):
 
     def get_envvar_declarations(self):
         if self.common_settings.pass_envvar_declarations_to_cmd:
-            return " ".join(f"{var}={repr(value)}" for var, value in self.envvars())
+            defs = " ".join(f"{var}={repr(value)}" for var, value in self.envvars())
+            return f"export {defs} &&"
         else:
             return ""
 
@@ -153,7 +154,6 @@ class RealExecutor(AbstractExecutor):
             [
                 prefix,
                 self.get_envvar_declarations(),
-                "(",
                 precommand,
                 self.get_python_executable(),
                 "-m snakemake",
@@ -167,7 +167,6 @@ class RealExecutor(AbstractExecutor):
                     self.workflow.group_settings.local_groupid,
                     skip=self.job_specific_local_groupid,
                 ),
-                ")",
                 suffix,
             ]
         )
