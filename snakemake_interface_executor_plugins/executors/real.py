@@ -152,8 +152,9 @@ class RealExecutor(AbstractExecutor):
         args = join_cli_args(
             [
                 prefix,
-                precommand,
                 self.get_envvar_declarations(),
+                "(",
+                precommand,
                 self.get_python_executable(),
                 "-m snakemake",
                 format_cli_arg("--snakefile", self.get_snakefile()),
@@ -166,6 +167,7 @@ class RealExecutor(AbstractExecutor):
                     self.workflow.group_settings.local_groupid,
                     skip=self.job_specific_local_groupid,
                 ),
+                ")",
                 suffix,
             ]
         )
