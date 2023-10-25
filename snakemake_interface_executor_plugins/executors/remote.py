@@ -201,7 +201,7 @@ class RemoteExecutor(RealExecutor, ABC):
             # immediate_submit. With immediate_submit, jobs can be scheduled
             # after this method is completed. Hence we have to keep the
             # directory.
-            shutil.rmtree(self.tmpdir)
+            shutil.rmtree(self.tmpdir, ignore_errors=True)
 
     @property
     def tmpdir(self):

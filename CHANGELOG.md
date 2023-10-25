@@ -1,5 +1,12 @@
 # Changelog
 
+## [7.0.2](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v7.0.1...v7.0.2) (2023-10-20)
+
+
+### Bug Fixes
+
+* ignore errors when trying to delete tmpdir upon shutdown ([#39](https://github.com/snakemake/snakemake-interface-executor-plugins/issues/39)) ([406422c](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/406422c967ebd33227c34e257b0a1a5cdd0a3e4d))
+
 ## [7.0.1](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v7.0.0...v7.0.1) (2023-10-17)
 
 
