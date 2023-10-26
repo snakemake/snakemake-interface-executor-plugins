@@ -122,7 +122,9 @@ class RealExecutor(AbstractExecutor):
 
     def get_envvar_declarations(self):
         if self.common_settings.pass_envvar_declarations_to_cmd:
-            defs = " ".join(f"{var}={repr(value)}" for var, value in self.envvars().items())
+            defs = " ".join(
+                f"{var}={repr(value)}" for var, value in self.envvars().items()
+            )
             return f"export {defs} &&"
         else:
             return ""
