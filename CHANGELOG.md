@@ -1,5 +1,13 @@
 # Changelog
 
+## [7.0.3](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v7.0.2...v7.0.3) (2023-10-26)
+
+
+### Bug Fixes
+
+* fix envvar declarations code ([fc31775](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/fc31775075f8b6ac6317b3762bcd385f31a8b746))
+* improved precommand handling ([af1f010](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/af1f01006fd5e7a493659e0bcb80e570628e5176))
+
 ## [7.0.2](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v7.0.1...v7.0.2) (2023-10-20)
 
 
