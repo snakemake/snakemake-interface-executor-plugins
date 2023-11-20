@@ -1,5 +1,13 @@
 # Changelog
 
+## [8.0.1](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v8.0.0...v8.0.1) (2023-11-20)
+
+
+### Bug Fixes
+
+* cleanup ci ([061ff4c](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/061ff4ce7a6ef699dfff58c149195425bef13e86))
+* fix method name ([16138ad](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/16138ad9e085a289590b8308cc954662e8df0ffe))
+
 ## [8.0.0](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v7.0.3...v8.0.0) (2023-11-20)
 
 
