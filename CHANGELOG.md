@@ -1,5 +1,16 @@
 # Changelog
 
+## [8.0.0](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v7.0.3...v8.0.0) (2023-11-20)
+
+
+### ⚠ BREAKING CHANGES
+
+* added common setting for defining whether workflow sources shall be deployed.
+
+### Features
+
+* added common setting for defining whether workflow sources shall be deployed. ([04319bb](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/04319bbe410275eea28cbe47d2abfe9b0b50c3e5))
+
 ## [7.0.3](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v7.0.2...v7.0.3) (2023-10-26)
 
 
