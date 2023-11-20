@@ -78,6 +78,7 @@ class RealExecutor(AbstractExecutor):
         return []
 
     def get_job_args(self, job: JobExecutorInterface, **kwargs):
+        unneeded_temp_files = list(self.workflow.dag.get_unneeded_temp_files(job))
         return join_cli_args(
             [
                 format_cli_arg(
@@ -99,7 +100,8 @@ class RealExecutor(AbstractExecutor):
                 format_cli_arg("--force-use-threads", not job.is_group()),
                 format_cli_arg(
                     "--unneeded-temp-files",
-                    self.workflow.dag.get_unneeded_temp_files(job),
+                    unneeded_temp_files,
+                    skip=not unneeded_temp_files,
                 ),
                 self.get_resource_declarations(job),
             ]
