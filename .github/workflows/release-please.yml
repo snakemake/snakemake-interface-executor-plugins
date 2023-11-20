@@ -41,7 +41,6 @@ jobs:
 
       - name: Install Dependencies using Poetry
         run: |
-          pip install connection-pool # because it is incompatible with poetry
           poetry install
 
       - name: Publish to PyPi
