@@ -17,3 +17,7 @@ class DAGExecutorInterface(ABC):
     @abstractmethod
     def get_sources(self) -> Iterable[str]:
         ...
+
+    @abstractmethod
+    def get_unneeded_temp_files(self, job: JobExecutorInterface) -> Iterable[str]:
+        ...

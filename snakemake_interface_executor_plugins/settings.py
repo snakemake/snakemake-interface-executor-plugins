@@ -24,6 +24,10 @@ class CommonSettings:
         Whether to the executor implies to not have a shared file system.
     dryrun_exec : bool
         Whether to jobs will be executed in dry-run mode.
+    job_deploy_sources : bool
+        Whether to deploy workflow sources before job execution. This is e.g.
+        needed when remote jobs are guaranteed to be not executed on a shared
+        filesystem. For example, this is True in the kubernetes executor plugin.
     touch_exec : bool
         Whether job outputs will be touched only.
     use_threads : bool
@@ -46,6 +50,7 @@ class CommonSettings:
 
     non_local_exec: bool
     implies_no_shared_fs: bool
+    job_deploy_sources: bool
     dryrun_exec: bool = False
     touch_exec: bool = False
     use_threads: bool = False
