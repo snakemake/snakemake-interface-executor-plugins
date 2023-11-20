@@ -98,7 +98,8 @@ class RealExecutor(AbstractExecutor):
                 format_cli_arg("--attempt", job.attempt),
                 format_cli_arg("--force-use-threads", not job.is_group()),
                 format_cli_arg(
-                    "--unneeded-temp-files", self.workflow.dag.get_unneeded_temp_files(job)
+                    "--unneeded-temp-files",
+                    self.workflow.dag.get_unneeded_temp_files(job),
                 ),
                 self.get_resource_declarations(job),
             ]
