@@ -1,5 +1,12 @@
 # Changelog
 
+## [8.0.2](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v8.0.1...v8.0.2) (2023-11-20)
+
+
+### Bug Fixes
+
+* fix arg passing ([caee462](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/caee46241f4fc639ed585761421d335f7783399c))
+
 ## [8.0.1](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v8.0.0...v8.0.1) (2023-11-20)
 
 
