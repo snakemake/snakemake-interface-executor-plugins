@@ -128,10 +128,19 @@ class ExecutionSettingsExecutorInterface(ABC):
         ...
 
 
+class SharedFSUsage(SettingsEnumBase):
+    PERSISTENCE = 0
+    INPUT_OUTPUT = 1
+    SOFTWARE_DEPLOYMENT = 2
+    SOURCES = 3
+    STORAGE_LOCAL_COPIES = 4
+    SOURCE_CACHE = 5
+
+
 class StorageSettingsExecutorInterface(ABC):
     @property
     @abstractmethod
-    def assume_shared_fs(self) -> bool:
+    def shared_fs_usage(self) -> Set[SharedFSUsage]:
         ...
 
 

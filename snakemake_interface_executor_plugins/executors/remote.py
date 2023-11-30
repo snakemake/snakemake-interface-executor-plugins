@@ -18,7 +18,7 @@ from snakemake_interface_executor_plugins.executors.base import SubmittedJobInfo
 from snakemake_interface_executor_plugins.executors.real import RealExecutor
 from snakemake_interface_executor_plugins.jobs import JobExecutorInterface
 from snakemake_interface_executor_plugins.logging import LoggerExecutorInterface
-from snakemake_interface_executor_plugins.settings import ExecMode
+from snakemake_interface_executor_plugins.settings import ExecMode, SharedFSUsage
 from snakemake_interface_executor_plugins.utils import async_lock, format_cli_arg
 from snakemake_interface_executor_plugins.workflow import WorkflowExecutorInterface
 
@@ -54,7 +54,7 @@ class RemoteExecutor(RealExecutor, ABC):
         )
         self.jobname = self.workflow.remote_execution_settings.jobname
 
-        if not self.workflow.storage_settings.assume_shared_fs:
+        if SharedFSUsage.SOURCES not in self.workflow.storage_settings.shared_fs_usage:
             # use relative path to Snakefile
             self.snakefile = os.path.relpath(workflow.main_snakefile)
 
@@ -118,13 +118,14 @@ class RemoteExecutor(RealExecutor, ABC):
     def get_python_executable(self):
         return (
             sys.executable
-            if self.workflow.storage_settings.assume_shared_fs
+            if SharedFSUsage.SOFTWARE_DEPLOYMENT
+            in self.workflow.storage_settings.shared_fs_usage
             else "python"
         )
 
     def get_job_args(self, job: JobExecutorInterface):
         waitfiles_parameter = ""
-        if self.workflow.storage_settings.assume_shared_fs:
+        if SharedFSUsage.INPUT_OUTPUT in self.workflow.storage_settings.shared_fs_usage:
             wait_for_files = []
             wait_for_files.append(self.tmpdir)
             wait_for_files.extend(job.get_wait_for_files())
