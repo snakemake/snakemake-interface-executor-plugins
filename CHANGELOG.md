@@ -1,5 +1,17 @@
 # Changelog
 
+## [8.1.0](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v8.0.2...v8.1.0) (2023-11-30)
+
+
+### Features
+
+* add method for checking whether there is a common workdir assumed in storage settings ([29dc8dd](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/29dc8dd43ba4bd8d33eeda14a3dff9272d3751f0))
+
+
+### Bug Fixes
+
+* adapt to API changes ([21cae32](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/21cae32a8a69b58b732b773a849abfb02b533575))
+
 ## [8.0.2](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v8.0.1...v8.0.2) (2023-11-20)
 
 
