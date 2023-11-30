@@ -143,6 +143,17 @@ class StorageSettingsExecutorInterface(ABC):
     def shared_fs_usage(self) -> Set[SharedFSUsage]:
         ...
 
+    @property
+    def assume_common_workdir(self) -> bool:
+        return any(
+            usage in self.shared_fs_usage
+            for usage in (
+                SharedFSUsage.PERSISTENCE,
+                SharedFSUsage.INPUT_OUTPUT,
+                SharedFSUsage.SOFTWARE_DEPLOYMENT,
+            )
+        )
+
 
 class DeploymentMethod(SettingsEnumBase):
     CONDA = 0
