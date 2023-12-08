@@ -1,8 +1,8 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import Sequence, Set
+from typing import List, Sequence, Set
 
-from snakemake_interface_common.settings import SettingsEnumBase
+from snakemake_interface_common.settings import SettingsEnumBase, TSettingsEnumBase
 
 
 import snakemake_interface_common.plugin_registry.plugin
@@ -135,6 +135,21 @@ class SharedFSUsage(SettingsEnumBase):
     SOURCES = 3
     STORAGE_LOCAL_COPIES = 4
     SOURCE_CACHE = 5
+
+    @classmethod
+    def choices(cls) -> List[str]:
+        return super().choices() + ["none"]
+
+    @classmethod
+    def _parse_choices_into(cls, choices: str, container) -> List[TSettingsEnumBase]:
+        if "none" in choices:
+            if len(choices) > 1:
+                raise ValueError(
+                    "Cannot specify 'none' together with other shared filesystem usages."
+                )
+            return container([])
+        else:
+            return container(cls.parse_choice(choice) for choice in choices)
 
 
 class StorageSettingsExecutorInterface(ABC):
