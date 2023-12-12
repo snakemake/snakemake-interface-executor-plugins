@@ -20,10 +20,10 @@ class CommonSettings:
     ----------
     non_local_exec : bool
         Whether to execute jobs locally or on a cluster.
-    force_no_shared_fs : bool
-        Whether to the executor implies to not have a shared file system.
+    implies_no_shared_fs : bool
+        Whether the executor implies to not have a shared file system.
     dryrun_exec : bool
-        Whether to jobs will be executed in dry-run mode.
+        Whether jobs will be executed in dry-run mode.
     job_deploy_sources : bool
         Whether to deploy workflow sources before job execution. This is e.g.
         needed when remote jobs are guaranteed to be not executed on a shared
