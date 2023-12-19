@@ -1,5 +1,19 @@
 # Changelog
 
+## [8.1.2](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v8.1.1...v8.1.2) (2023-12-12)
+
+
+### Documentation
+
+* CommonSettings ([#50](https://github.com/snakemake/snakemake-interface-executor-plugins/issues/50)) ([85b995d](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/85b995d726cd941ea0f6e43b6217e95140a82327))
+
+## [8.1.1](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v8.1.0...v8.1.1) (2023-12-08)
+
+
+### Bug Fixes
+
+* allow value of none for shared fs usage setting ([d334869](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/d33486933f41f2bccd099e2cab90b2d1a854def2))
+
 ## [8.1.0](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v8.0.2...v8.1.0) (2023-11-30)
 
 
