@@ -39,6 +39,7 @@ class ExecutorPluginRegistry(PluginRegistryBase):
     def expected_attributes(self) -> Mapping[str, AttributeType]:
         # break otherwise circular import
         from snakemake_interface_executor_plugins.executors.base import AbstractExecutor
+
         return {
             "common_settings": AttributeType(
                 cls=CommonSettings,
