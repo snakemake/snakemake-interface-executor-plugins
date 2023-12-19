@@ -1,5 +1,12 @@
 # Changelog
 
+## [8.1.3](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v8.1.2...v8.1.3) (2023-12-19)
+
+
+### Bug Fixes
+
+* break circular import ([aed33aa](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/aed33aa2aba20e229398deb5ad486d3b0ec7e213))
+
 ## [8.1.2](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v8.1.1...v8.1.2) (2023-12-12)
 
 
