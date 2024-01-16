@@ -1,5 +1,12 @@
 # Changelog
 
+## [8.2.0](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v8.1.3...v8.2.0) (2024-01-16)
+
+
+### Features
+
+* add ability to pass group args to remote jobs ([bcfd819](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/bcfd81953b3feeaac6669a3487cc1eab3d5a2727))
+
 ## [8.1.3](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v8.1.2...v8.1.3) (2023-12-19)
 
 
