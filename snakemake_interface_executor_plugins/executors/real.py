@@ -151,6 +151,7 @@ class RealExecutor(AbstractExecutor):
         general_args = self.workflow.spawned_job_args_factory.general_args(
             pass_default_storage_provider_args=self.common_settings.pass_default_storage_provider_args,
             pass_default_resources_args=self.common_settings.pass_default_resources_args,
+            pass_group_args=self.common_settings.pass_group_args,
         )
         precommand = self.workflow.spawned_job_args_factory.precommand(
             auto_deploy_default_storage_provider=self.common_settings.auto_deploy_default_storage_provider

@@ -59,6 +59,7 @@ class CommonSettings:
     pass_envvar_declarations_to_cmd: bool = True
     auto_deploy_default_storage_provider: bool = True
     init_seconds_before_status_checks: int = 0
+    pass_group_args: bool = False
 
     @property
     def local_exec(self):
