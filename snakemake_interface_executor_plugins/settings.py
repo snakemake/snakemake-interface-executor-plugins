@@ -46,6 +46,8 @@ class CommonSettings:
         shared file system.
     init_seconds_before_status_checks : int
         Number of seconds to wait before starting to check the status of spawned jobs.
+    pass_group_args : bool
+        Whether to pass group arguments to spawned jobs.
     """
 
     non_local_exec: bool
