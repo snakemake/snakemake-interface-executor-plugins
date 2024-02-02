@@ -127,13 +127,13 @@ class RealExecutor(AbstractExecutor):
         return self.workflow.executor_plugin.common_settings
 
     def get_envvar_declarations(self):
-        if self.common_settings.pass_envvar_declarations_to_cmd:
-            defs = " ".join(
-                f"{var}={repr(value)}" for var, value in self.envvars().items()
-            )
-            return f"export {defs} &&"
-        else:
-            return ""
+        declaration = ""
+        if self.common_settings.pass_envvar_declarations_to_cmd and (
+            envars := self.envvars()
+        ):
+            defs = " ".join(f"{var}={repr(value)}" for var, value in envars)
+            declaration = f"export {defs} &&"
+        return declaration
 
     def get_job_exec_prefix(self, job: JobExecutorInterface):
         return ""
