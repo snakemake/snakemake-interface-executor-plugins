@@ -46,6 +46,8 @@ class CommonSettings:
         shared file system.
     init_seconds_before_status_checks : int
         Number of seconds to wait before starting to check the status of spawned jobs.
+    pass_group_args : bool
+        Whether to pass group arguments to spawned jobs.
     """
 
     non_local_exec: bool
@@ -59,6 +61,7 @@ class CommonSettings:
     pass_envvar_declarations_to_cmd: bool = True
     auto_deploy_default_storage_provider: bool = True
     init_seconds_before_status_checks: int = 0
+    pass_group_args: bool = False
 
     @property
     def local_exec(self):
