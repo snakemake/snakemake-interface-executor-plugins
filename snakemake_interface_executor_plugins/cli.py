@@ -8,6 +8,7 @@ class SpawnedJobArgsFactoryExecutorInterface(ABC):
         self,
         pass_default_storage_provider_args: bool = True,
         pass_default_resources_args: bool = False,
+        non_local_exec: bool = True,
     ) -> str:
         ...
 
