@@ -45,7 +45,7 @@ def format_cli_value(value: Any) -> str:
     if isinstance(value, SettingsEnumBase):
         return value.item_to_choice()
     elif isinstance(value, Path):
-        return str(value)
+        return repr(str(value))
     else:
         return repr(value)
 
