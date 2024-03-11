@@ -73,12 +73,6 @@ class CommonSettings:
     def local_exec(self):
         return not self.non_local_exec
 
-    def __post_init__(self):
-        if self.implies_shared_fs and self.implies_no_shared_fs:
-            raise ValueError(
-                "An executor cannot imply both shared and no shared filesystem."
-            )
-
 
 @dataclass
 class ExecutorSettingsBase(
