@@ -47,8 +47,10 @@ def format_cli_value(value: Any) -> str:
         return value.item_to_choice()
     elif isinstance(value, Path):
         return shlex.quote(str(value))
-    else:
+    elif isinstance(value, str):
         return shlex.quote(value)
+    else:
+        return repr(value)
 
 
 def join_cli_args(args):
