@@ -6,6 +6,7 @@ __license__ = "MIT"
 import asyncio
 from collections import UserDict
 from pathlib import Path
+import shlex
 import threading
 from typing import Any, List
 from urllib.parse import urlparse
@@ -45,7 +46,9 @@ def format_cli_value(value: Any) -> str:
     if isinstance(value, SettingsEnumBase):
         return value.item_to_choice()
     elif isinstance(value, Path):
-        return str(value)
+        return shlex.quote(str(value))
+    elif isinstance(value, str):
+        return shlex.quote(value)
     else:
         return repr(value)
 

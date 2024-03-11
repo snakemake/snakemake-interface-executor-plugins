@@ -131,7 +131,10 @@ class RealExecutor(AbstractExecutor):
             defs = " ".join(
                 f"{var}={repr(value)}" for var, value in self.envvars().items()
             )
-            return f"export {defs} &&"
+            if defs:
+                return f"export {defs} &&"
+            else:
+                return ""
         else:
             return ""
 
@@ -149,12 +152,10 @@ class RealExecutor(AbstractExecutor):
         if suffix:
             suffix = f"&& {suffix}"
         general_args = self.workflow.spawned_job_args_factory.general_args(
-            pass_default_storage_provider_args=self.common_settings.pass_default_storage_provider_args,
-            pass_default_resources_args=self.common_settings.pass_default_resources_args,
-            pass_group_args=self.common_settings.pass_group_args,
+            executor_common_settings=self.common_settings
         )
         precommand = self.workflow.spawned_job_args_factory.precommand(
-            auto_deploy_default_storage_provider=self.common_settings.auto_deploy_default_storage_provider
+            executor_common_settings=self.common_settings
         )
         if precommand:
             precommand += " &&"

@@ -48,6 +48,11 @@ class CommonSettings:
         Number of seconds to wait before starting to check the status of spawned jobs.
     pass_group_args : bool
         Whether to pass group arguments to spawned jobs.
+    spawned_jobs_assume_shared_fs: bool
+        Whether spawned jobs in the executor should always assume a shared FS regardless
+        of the user provided settings. This should be True if the executor spawns
+        another non-local executor that runs jobs on the same node.
+        For example, it is used in snakemake-executor-plugin-slurm-jobstep.
     """
 
     non_local_exec: bool
@@ -62,6 +67,7 @@ class CommonSettings:
     auto_deploy_default_storage_provider: bool = True
     init_seconds_before_status_checks: int = 0
     pass_group_args: bool = False
+    spawned_jobs_assume_shared_fs: bool = False
 
     @property
     def local_exec(self):
