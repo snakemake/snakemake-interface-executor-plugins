@@ -1,5 +1,16 @@
 # Changelog
 
+## [9.0.0](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v8.2.0...v9.0.0) (2024-03-11)
+
+
+### ⚠ BREAKING CHANGES
+
+* pass common settings to SpawedJobArgsFactory; shell command arg quoting fixes ([#58](https://github.com/snakemake/snakemake-interface-executor-plugins/issues/58))
+
+### Features
+
+* pass common settings to SpawedJobArgsFactory; shell command arg quoting fixes ([#58](https://github.com/snakemake/snakemake-interface-executor-plugins/issues/58)) ([867a027](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/867a027e8abbfa8937900b648aeade91b01c2c38))
+
 ## [8.2.0](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v8.1.3...v8.2.0) (2024-01-16)
 
 
