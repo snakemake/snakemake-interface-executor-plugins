@@ -3,6 +3,7 @@ from snakemake_interface_executor_plugins.registry import ExecutorPluginRegistry
 from snakemake_interface_common.plugin_registry.tests import TestRegistryBase
 from snakemake_interface_common.plugin_registry.plugin import PluginBase, SettingsBase
 from snakemake_interface_common.plugin_registry import PluginRegistryBase
+from snakemake_interface_executor_plugins.utils import format_cli_arg
 
 
 class TestRegistry(TestRegistryBase):
@@ -26,3 +27,8 @@ class TestRegistry(TestRegistryBase):
 
     def get_example_args(self) -> List[str]:
         return ["--cluster-generic-submit-cmd", "qsub"]
+
+
+def test_format_cli_arg():
+    fmt = format_cli_arg("--default-resources", {"slurm_extra": "'--gres=gpu:1'"})
+    assert fmt == "--default-resources \"slurm_extra='--gres=gpu:1'\""

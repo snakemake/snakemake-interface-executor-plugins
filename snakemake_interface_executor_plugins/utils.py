@@ -6,6 +6,7 @@ __license__ = "MIT"
 import asyncio
 from collections import UserDict
 from pathlib import Path
+import re
 import shlex
 import threading
 from typing import Any, List
@@ -48,7 +49,10 @@ def format_cli_value(value: Any) -> str:
     elif isinstance(value, Path):
         return shlex.quote(str(value))
     elif isinstance(value, str):
-        return shlex.quote(value)
+        if is_quoted(value):
+            return value
+        else:
+            return shlex.quote(value)
     else:
         return repr(value)
 
@@ -99,3 +103,9 @@ async def async_lock(_lock: threading.Lock):
         yield  # the lock is held
     finally:
         _lock.release()
+
+
+_is_quoted_re = re.compile(r"^['\"].+['\"]")
+
+def is_quoted(value: str) -> bool:
+    return _is_quoted_re.match(value) is not None
