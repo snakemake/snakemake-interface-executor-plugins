@@ -49,3 +49,10 @@ def test_format_cli_arg_expr():
         "--default-resources", {"mem_mb": "min(2 * input.size_mb, 2000)"}
     )
     assert fmt == "--default-resources 'mem_mb=min(2 * input.size_mb, 2000)'"
+
+
+def test_format_cli_arg_list():
+    fmt = format_cli_arg(
+        "--config", ["foo={'bar': 1}"]
+    )
+    assert fmt == "--config \"foo={'bar': 1}\""
