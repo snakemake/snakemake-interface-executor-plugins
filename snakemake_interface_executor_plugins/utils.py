@@ -49,10 +49,10 @@ def format_cli_value(value: Any) -> str:
     elif isinstance(value, Path):
         return shlex.quote(str(value))
     elif isinstance(value, str):
-        if is_quoted(value):
-            return value
-        else:
-            return shlex.quote(value)
+        # if the value is already quoted, do not quote again
+        # otherwise, also not quoting is necessary because it interpreted as a python 
+        # expression
+        return value
     else:
         return repr(value)
 

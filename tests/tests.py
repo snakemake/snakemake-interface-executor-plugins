@@ -42,3 +42,7 @@ def test_format_cli_arg_double_quote():
 def test_format_cli_arg_int():
     fmt = format_cli_arg("--default-resources", {"mem_mb": 200})
     assert fmt == "--default-resources 'mem_mb=200'"
+
+def test_format_cli_arg_expr():
+    fmt = format_cli_arg("--default-resources", {"mem_mb": 'min(2 * input.size_mb, 2000)'})
+    assert fmt == "--default-resources 'mem_mb=min(2 * input.size_mb, 2000)'"
