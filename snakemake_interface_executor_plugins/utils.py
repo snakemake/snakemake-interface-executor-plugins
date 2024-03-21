@@ -6,6 +6,7 @@ __license__ = "MIT"
 import asyncio
 from collections import UserDict
 from pathlib import Path
+import re
 import shlex
 import threading
 from typing import Any, List
@@ -39,16 +40,25 @@ def format_cli_pos_arg(value, quote=True):
     elif not_iterable(value):
         return format_cli_value(value)
     else:
-        return join_cli_args(format_cli_value(v) for v in value)
+        return join_cli_args(
+            format_cli_value(v, quote_if_contains_whitespace=True) for v in value
+        )
 
 
-def format_cli_value(value: Any) -> str:
+def format_cli_value(value: Any, quote_if_contains_whitespace: bool = False) -> str:
     if isinstance(value, SettingsEnumBase):
         return value.item_to_choice()
     elif isinstance(value, Path):
         return shlex.quote(str(value))
     elif isinstance(value, str):
-        return shlex.quote(value)
+        if is_quoted(value):
+            # the value is already quoted, do not quote again
+            return value
+        elif quote_if_contains_whitespace and " " in value:
+            # may be expression
+            return repr(value)
+        else:
+            return value
     else:
         return repr(value)
 
@@ -99,3 +109,10 @@ async def async_lock(_lock: threading.Lock):
         yield  # the lock is held
     finally:
         _lock.release()
+
+
+_is_quoted_re = re.compile(r"^['\"].+['\"]")
+
+
+def is_quoted(value: str) -> bool:
+    return _is_quoted_re.match(value) is not None
