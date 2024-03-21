@@ -40,10 +40,12 @@ def format_cli_pos_arg(value, quote=True):
     elif not_iterable(value):
         return format_cli_value(value)
     else:
-        return join_cli_args(format_cli_value(v, quote_if_contains_whitespace=True) for v in value)
+        return join_cli_args(
+            format_cli_value(v, quote_if_contains_whitespace=True) for v in value
+        )
 
 
-def format_cli_value(value: Any, quote_if_contains_whitespace: bool=False) -> str:
+def format_cli_value(value: Any, quote_if_contains_whitespace: bool = False) -> str:
     if isinstance(value, SettingsEnumBase):
         return value.item_to_choice()
     elif isinstance(value, Path):

@@ -52,7 +52,5 @@ def test_format_cli_arg_expr():
 
 
 def test_format_cli_arg_list():
-    fmt = format_cli_arg(
-        "--config", ["foo={'bar': 1}"]
-    )
+    fmt = format_cli_arg("--config", ["foo={'bar': 1}"])
     assert fmt == "--config \"foo={'bar': 1}\""
