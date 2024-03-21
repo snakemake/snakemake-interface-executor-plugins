@@ -37,3 +37,8 @@ def test_format_cli_arg_single_quote():
 def test_format_cli_arg_double_quote():
     fmt = format_cli_arg("--default-resources", {"slurm_extra": '"--gres=gpu:1"'})
     assert fmt == "--default-resources 'slurm_extra=\"--gres=gpu:1\"'"
+
+
+def test_format_cli_arg_int():
+    fmt = format_cli_arg("--default-resources", {"mem_mb": 200})
+    assert fmt == "--default-resources 'mem_mb=200'"
