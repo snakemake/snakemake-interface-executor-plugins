@@ -107,5 +107,6 @@ async def async_lock(_lock: threading.Lock):
 
 _is_quoted_re = re.compile(r"^['\"].+['\"]")
 
+
 def is_quoted(value: str) -> bool:
     return _is_quoted_re.match(value) is not None

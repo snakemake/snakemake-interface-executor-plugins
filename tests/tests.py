@@ -29,6 +29,11 @@ class TestRegistry(TestRegistryBase):
         return ["--cluster-generic-submit-cmd", "qsub"]
 
 
-def test_format_cli_arg():
+def test_format_cli_arg_single_quote():
     fmt = format_cli_arg("--default-resources", {"slurm_extra": "'--gres=gpu:1'"})
     assert fmt == "--default-resources \"slurm_extra='--gres=gpu:1'\""
+
+
+def test_format_cli_arg_double_quote():
+    fmt = format_cli_arg("--default-resources", {"slurm_extra": '"--gres=gpu:1"'})
+    assert fmt == "--default-resources 'slurm_extra=\"--gres=gpu:1\"'"
