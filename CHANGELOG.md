@@ -1,5 +1,12 @@
 # Changelog
 
+## [9.0.1](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v9.0.0...v9.0.1) (2024-03-21)
+
+
+### Bug Fixes
+
+* fix quoting of string arguments that are passed to spawned jobs ([#60](https://github.com/snakemake/snakemake-interface-executor-plugins/issues/60)) ([d3d55a3](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/d3d55a32dbd78be679727c3f95cd42308a9597ab))
+
 ## [9.0.0](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v8.2.0...v9.0.0) (2024-03-11)
 
 
