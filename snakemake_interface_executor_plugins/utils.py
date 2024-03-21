@@ -50,7 +50,7 @@ def format_cli_value(value: Any) -> str:
         return shlex.quote(str(value))
     elif isinstance(value, str):
         # if the value is already quoted, do not quote again
-        # otherwise, also not quoting is necessary because it interpreted as a python 
+        # otherwise, also not quoting is necessary because it interpreted as a python
         # expression
         return value
     else:
