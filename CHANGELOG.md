@@ -1,5 +1,12 @@
 # Changelog
 
+## [9.0.2](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v9.0.1...v9.0.2) (2024-03-22)
+
+
+### Bug Fixes
+
+* quote list of args ([#62](https://github.com/snakemake/snakemake-interface-executor-plugins/issues/62)) ([656ba0a](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/656ba0afb867301ccb48b24837fda1793e3281dc))
+
 ## [9.0.1](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v9.0.0...v9.0.1) (2024-03-21)
 
 
