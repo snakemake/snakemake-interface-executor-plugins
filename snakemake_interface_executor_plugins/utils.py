@@ -4,6 +4,7 @@ __email__ = "johannes.koester@uni-due.de"
 __license__ = "MIT"
 
 import asyncio
+import base64
 from collections import UserDict
 from pathlib import Path
 import re
@@ -22,7 +23,7 @@ from snakemake_interface_common.utils import not_iterable
 TargetSpec = namedtuple("TargetSpec", ["rulename", "wildcards_dict"])
 
 
-def format_cli_arg(flag, value, quote=True, skip=False):
+def format_cli_arg(flag, value, quote=True, skip=False, base64_encode: bool = False):
     if not skip and value:
         if isinstance(value, bool):
             value = ""
@@ -32,18 +33,29 @@ def format_cli_arg(flag, value, quote=True, skip=False):
     return ""
 
 
-def format_cli_pos_arg(value, quote=True):
+def format_cli_pos_arg(value, quote=True, base64_encode: bool = False):
     if isinstance(value, (dict, UserDict)):
+        def fmt_item(key, value):
+            expr = f"{key}={format_cli_value(value)}"
+            return encode_as_base64(expr) if base64_encode else repr(expr)
+
         return join_cli_args(
-            repr(f"{key}={format_cli_value(val)}") for key, val in value.items()
+            fmt_item(key, val) for key, val in value.items()
         )
     elif not_iterable(value):
-        return format_cli_value(value)
+        return format_cli_value(value, base64_encode=base64_encode)
     else:
-        return join_cli_args(format_cli_value(v, quote=True) for v in value)
+        return join_cli_args(format_cli_value(v, quote=True, base64_encode=base64_encode) for v in value)
 
 
-def format_cli_value(value: Any, quote: bool = False) -> str:
+def format_cli_value(value: Any, quote: bool = False, base64_encode: bool = False) -> str:
+    """Format a given value for passing it to CLI.
+
+    If base64_encode is True, str values are encoded and flagged as being base64 encoded.
+    """
+    def maybe_encode(value):
+        return encode_as_base64(value) if base64_encode else value
+
     if isinstance(value, SettingsEnumBase):
         return value.item_to_choice()
     elif isinstance(value, Path):
@@ -51,11 +63,11 @@ def format_cli_value(value: Any, quote: bool = False) -> str:
     elif isinstance(value, str):
         if is_quoted(value):
             # the value is already quoted, do not quote again
-            return value
+            return maybe_encode(value)
         elif quote:
-            return repr(value)
+            return maybe_encode(repr(value))
         else:
-            return value
+            return maybe_encode(value)
     else:
         return repr(value)
 
@@ -113,3 +125,37 @@ _is_quoted_re = re.compile(r"^['\"].+['\"]")
 
 def is_quoted(value: str) -> bool:
     return _is_quoted_re.match(value) is not None
+
+
+base64_prefix = "base64//"
+
+
+def maybe_base64(parser_func):
+    """Parse optionally base64 encoded CLI args, applying parser_func if not None."""
+    def inner(args):
+        def is_base64(arg):
+            return arg.startswith(base64_prefix)
+        
+        def decode(arg):
+            if is_base64(arg):
+                return base64.b64decode(arg[len(base64_prefix):])
+            else:
+                return arg
+            
+        def apply_parser(args):
+            if parser_func is not None:
+                return parser_func(args)
+            else:
+                return args
+
+        if isinstance(args, str):
+            return apply_parser(decode(args))
+        elif isinstance(args, list):
+            return apply_parser([decode(arg) for arg in args])
+        else:
+            raise NotImplementedError()
+    return inner
+
+
+def encode_as_base64(arg: str):
+    return f"{base64_prefix}{base64.b64encode(arg)}"
