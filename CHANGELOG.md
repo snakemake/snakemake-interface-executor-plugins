@@ -1,5 +1,12 @@
 # Changelog
 
+## [9.1.0](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v9.0.2...v9.1.0) (2024-03-26)
+
+
+### Features
+
+* add utils for encoding CLI args as base64 ([#64](https://github.com/snakemake/snakemake-interface-executor-plugins/issues/64)) ([38a53ec](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/38a53ecec3af3fc45d2f962972460fa50258b2b1))
+
 ## [9.0.2](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v9.0.1...v9.0.2) (2024-03-22)
 
 
