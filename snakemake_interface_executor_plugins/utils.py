@@ -28,7 +28,7 @@ def format_cli_arg(flag, value, quote=True, skip=False, base64_encode: bool = Fa
         if isinstance(value, bool):
             value = ""
         else:
-            value = format_cli_pos_arg(value, quote=quote)
+            value = format_cli_pos_arg(value, quote=quote, base64_encode=base64_encode)
         return f"{flag} {value}"
     return ""
 
@@ -61,10 +61,10 @@ def format_cli_value(value: Any, quote: bool = False, base64_encode: bool = Fals
     elif isinstance(value, Path):
         return shlex.quote(str(value))
     elif isinstance(value, str):
-        if is_quoted(value):
+        if is_quoted(value) and not base64_encode:
             # the value is already quoted, do not quote again
             return maybe_encode(value)
-        elif quote:
+        elif quote and not base64_encode:
             return maybe_encode(repr(value))
         else:
             return maybe_encode(value)
@@ -75,10 +75,10 @@ def format_cli_value(value: Any, quote: bool = False, base64_encode: bool = Fals
 def join_cli_args(args):
     try:
         return " ".join(arg for arg in args if arg)
-    except TypeError:
+    except TypeError as e:
         raise TypeError(
             f"bug: join_cli_args expects iterable of strings. Given: {args}"
-        )
+        ) from e
 
 
 def url_can_parse(url: str) -> bool:
@@ -138,7 +138,7 @@ def maybe_base64(parser_func):
         
         def decode(arg):
             if is_base64(arg):
-                return base64.b64decode(arg[len(base64_prefix):])
+                return base64.b64decode(arg[len(base64_prefix):]).decode()
             else:
                 return arg
             
@@ -151,11 +151,12 @@ def maybe_base64(parser_func):
         if isinstance(args, str):
             return apply_parser(decode(args))
         elif isinstance(args, list):
-            return apply_parser([decode(arg) for arg in args])
+            decoded = [decode(arg) for arg in args]
+            return apply_parser(decoded)
         else:
             raise NotImplementedError()
     return inner
 
 
 def encode_as_base64(arg: str):
-    return f"{base64_prefix}{base64.b64encode(arg)}"
+    return f"{base64_prefix}{base64.b64encode(arg.encode()).decode()}"
