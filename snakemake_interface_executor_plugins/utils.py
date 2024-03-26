@@ -35,24 +35,28 @@ def format_cli_arg(flag, value, quote=True, skip=False, base64_encode: bool = Fa
 
 def format_cli_pos_arg(value, quote=True, base64_encode: bool = False):
     if isinstance(value, (dict, UserDict)):
+
         def fmt_item(key, value):
             expr = f"{key}={format_cli_value(value)}"
             return encode_as_base64(expr) if base64_encode else repr(expr)
 
-        return join_cli_args(
-            fmt_item(key, val) for key, val in value.items()
-        )
+        return join_cli_args(fmt_item(key, val) for key, val in value.items())
     elif not_iterable(value):
         return format_cli_value(value, base64_encode=base64_encode)
     else:
-        return join_cli_args(format_cli_value(v, quote=True, base64_encode=base64_encode) for v in value)
+        return join_cli_args(
+            format_cli_value(v, quote=True, base64_encode=base64_encode) for v in value
+        )
 
 
-def format_cli_value(value: Any, quote: bool = False, base64_encode: bool = False) -> str:
+def format_cli_value(
+    value: Any, quote: bool = False, base64_encode: bool = False
+) -> str:
     """Format a given value for passing it to CLI.
 
     If base64_encode is True, str values are encoded and flagged as being base64 encoded.
     """
+
     def maybe_encode(value):
         return encode_as_base64(value) if base64_encode else value
 
@@ -132,16 +136,17 @@ base64_prefix = "base64//"
 
 def maybe_base64(parser_func):
     """Parse optionally base64 encoded CLI args, applying parser_func if not None."""
+
     def inner(args):
         def is_base64(arg):
             return arg.startswith(base64_prefix)
-        
+
         def decode(arg):
             if is_base64(arg):
-                return base64.b64decode(arg[len(base64_prefix):]).decode()
+                return base64.b64decode(arg[len(base64_prefix) :]).decode()
             else:
                 return arg
-            
+
         def apply_parser(args):
             if parser_func is not None:
                 return parser_func(args)
@@ -155,6 +160,7 @@ def maybe_base64(parser_func):
             return apply_parser(decoded)
         else:
             raise NotImplementedError()
+
     return inner
 
 
