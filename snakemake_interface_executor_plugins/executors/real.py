@@ -4,13 +4,13 @@ __email__ = "johannes.koester@uni-due.de"
 __license__ = "MIT"
 
 from abc import abstractmethod
-from typing import Dict
+from typing import Dict, Mapping, Optional, Union
 from snakemake_interface_executor_plugins.executors.base import (
     AbstractExecutor,
     SubmittedJobInfo,
 )
 from snakemake_interface_executor_plugins.logging import LoggerExecutorInterface
-from snakemake_interface_executor_plugins.settings import ExecMode
+from snakemake_interface_executor_plugins.settings import ExecMode, ExecutorSettingsBase
 from snakemake_interface_executor_plugins.utils import (
     encode_target_jobs_cli_args,
     format_cli_arg,
@@ -25,13 +25,16 @@ class RealExecutor(AbstractExecutor):
         self,
         workflow: WorkflowExecutorInterface,
         logger: LoggerExecutorInterface,
+        executor_settings: Optional[
+            Union[ExecutorSettingsBase, Mapping[str, ExecutorSettingsBase]]
+        ] = None,
         post_init: bool = True,
     ):
         super().__init__(
             workflow,
             logger,
         )
-        self.executor_settings = self.workflow.executor_settings
+        self.executor_settings = executor_settings
         self.snakefile = workflow.main_snakefile
         if post_init:
             self.__post_init__()
