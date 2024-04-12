@@ -96,6 +96,11 @@ class RemoteExecutor(RealExecutor, ABC):
 
     @property
     def cores(self):
+        cores = self.workflow.resource_settings.cores
+        # if constrained, pass this info to the job
+        if cores is not None and cores != sys.maxsize:
+            return cores
+        # otherwise, use whatever the node provides
         return "all"
 
     def cancel(self):
