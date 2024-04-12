@@ -1,5 +1,12 @@
 # Changelog
 
+## [9.1.1](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v9.1.0...v9.1.1) (2024-04-12)
+
+
+### Bug Fixes
+
+* pass cores to remote jobs if they are set ([395af5e](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/395af5e05c8b09d107415159819d0e3cef58717f))
+
 ## [9.1.0](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v9.0.2...v9.1.0) (2024-03-26)
 
 
