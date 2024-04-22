@@ -97,9 +97,15 @@ def encode_target_jobs_cli_args(
     target_jobs: List[TargetSpec],
 ) -> List[str]:
     items = []
+    def add_quotes_if_contains_comma(s):
+        if isinstance(s, str):
+            if "," in s:
+                return f'"{s}"'
+        return s
+
     for spec in target_jobs:
         wildcards = ",".join(
-            f"{key}={value}" for key, value in spec.wildcards_dict.items()
+            f'{key}={add_quotes_if_contains_comma(value)}' for key, value in spec.wildcards_dict.items()
         )
         items.append(f"{spec.rulename}:{wildcards}")
     return items
