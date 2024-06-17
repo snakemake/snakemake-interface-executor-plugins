@@ -53,6 +53,10 @@ class CommonSettings:
         of the user provided settings. This should be True if the executor spawns
         another non-local executor that runs jobs on the same node.
         For example, it is used in snakemake-executor-plugin-slurm-jobstep.
+    can_transfer_local_files: bool
+        Indicates whether the plugin can transfer local files to the remote executor when
+        run without a shared FS. If true, it's the plugin's responsibility and not
+        Snakemake's to manage file transfers.
     """
 
     non_local_exec: bool
@@ -68,6 +72,7 @@ class CommonSettings:
     init_seconds_before_status_checks: int = 0
     pass_group_args: bool = False
     spawned_jobs_assume_shared_fs: bool = False
+    can_transfer_local_files: bool = False
 
     @property
     def local_exec(self):
