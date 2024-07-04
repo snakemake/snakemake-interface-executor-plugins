@@ -96,12 +96,10 @@ class AbstractExecutor(ABC):
         self.workflow.scheduler.submit_callback(job_info.job)
 
     @abstractmethod
-    def shutdown(self):
-        ...
+    def shutdown(self): ...
 
     @abstractmethod
-    def cancel(self):
-        ...
+    def cancel(self): ...
 
     def rule_prefix(self, job: JobExecutorInterface):
         return "local " if job.is_local else ""
@@ -113,9 +111,7 @@ class AbstractExecutor(ABC):
         job_info.job.log_error(msg, **kwargs)
 
     @abstractmethod
-    def handle_job_success(self, job: JobExecutorInterface):
-        ...
+    def handle_job_success(self, job: JobExecutorInterface): ...
 
     @abstractmethod
-    def handle_job_error(self, job: JobExecutorInterface):
-        ...
+    def handle_job_error(self, job: JobExecutorInterface): ...

@@ -95,33 +95,27 @@ class ExecutorSettingsBase(
 class RemoteExecutionSettingsExecutorInterface(ABC):
     @property
     @abstractmethod
-    def jobname(self) -> str:
-        ...
+    def jobname(self) -> str: ...
 
     @property
     @abstractmethod
-    def jobscript(self) -> str:
-        ...
+    def jobscript(self) -> str: ...
 
     @property
     @abstractmethod
-    def immediate_submit(self) -> bool:
-        ...
+    def immediate_submit(self) -> bool: ...
 
     @property
     @abstractmethod
-    def envvars(self) -> Sequence[str]:
-        ...
+    def envvars(self) -> Sequence[str]: ...
 
     @property
     @abstractmethod
-    def max_status_checks_per_second(self) -> float:
-        ...
+    def max_status_checks_per_second(self) -> float: ...
 
     @property
     @abstractmethod
-    def seconds_between_status_checks(self) -> int:
-        ...
+    def seconds_between_status_checks(self) -> int: ...
 
 
 class ExecMode(SettingsEnumBase):
@@ -138,8 +132,7 @@ class ExecMode(SettingsEnumBase):
 class ExecutionSettingsExecutorInterface(ABC):
     @property
     @abstractmethod
-    def keep_incomplete(self) -> bool:
-        ...
+    def keep_incomplete(self) -> bool: ...
 
 
 class SharedFSUsage(SettingsEnumBase):
@@ -169,8 +162,7 @@ class SharedFSUsage(SettingsEnumBase):
 class StorageSettingsExecutorInterface(ABC):
     @property
     @abstractmethod
-    def shared_fs_usage(self) -> Set[SharedFSUsage]:
-        ...
+    def shared_fs_usage(self) -> Set[SharedFSUsage]: ...
 
     @property
     def assume_common_workdir(self) -> bool:
@@ -193,12 +185,10 @@ class DeploymentMethod(SettingsEnumBase):
 class DeploymentSettingsExecutorInterface(ABC):
     @property
     @abstractmethod
-    def deployment_method(self) -> Set[DeploymentMethod]:
-        ...
+    def deployment_method(self) -> Set[DeploymentMethod]: ...
 
 
 class GroupSettingsExecutorInterface(ABC):
     @property
     @abstractmethod
-    def local_groupid(self) -> str:
-        ...
+    def local_groupid(self) -> str: ...

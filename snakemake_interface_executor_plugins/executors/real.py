@@ -115,12 +115,10 @@ class RealExecutor(AbstractExecutor):
         return self.snakefile
 
     @abstractmethod
-    def get_python_executable(self):
-        ...
+    def get_python_executable(self): ...
 
     @abstractmethod
-    def get_exec_mode(self) -> ExecMode:
-        ...
+    def get_exec_mode(self) -> ExecMode: ...
 
     @property
     def common_settings(self):
