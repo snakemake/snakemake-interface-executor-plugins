@@ -1,5 +1,13 @@
 # Changelog
 
+## [9.2.0](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v9.1.1...v9.2.0) (2024-07-04)
+
+
+### Features
+
+* add a default for the `can_transfer_local_files` interface ([#67](https://github.com/snakemake/snakemake-interface-executor-plugins/issues/67)) ([793df28](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/793df28ba733eb462fba7824f46729af65a58dc4))
+* support for commas in wildcards ([#56](https://github.com/snakemake/snakemake-interface-executor-plugins/issues/56)) ([0e8ed82](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/0e8ed82c2dc8338b402e646dde7ca48e02075922))
+
 ## [9.1.1](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v9.1.0...v9.1.1) (2024-04-12)
 
 
