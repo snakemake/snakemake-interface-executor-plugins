@@ -57,3 +57,18 @@ class ExecutorPluginRegistry(PluginRegistryBase):
                 kind=AttributeKind.CLASS,
             ),
         }
+
+    def collect_plugins(self):
+        """Collect plugins and call register_plugin for each."""
+        super().collect_plugins()
+
+        try:
+            from snakemake.executors import local as local_executor
+            from snakemake.executors import dryrun as dryrun_executor
+            from snakemake.executors import touch as touch_executor
+        except ImportError:
+            # snakemake not present, proceed without adding these plugins
+            return
+
+        for executor in [local_executor, dryrun_executor, touch_executor]:
+            self.register_plugin(executor.__name__, executor)
