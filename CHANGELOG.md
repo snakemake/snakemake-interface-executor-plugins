@@ -1,5 +1,12 @@
 # Changelog
 
+## [9.3.1](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v9.3.0...v9.3.1) (2024-10-04)
+
+
+### Bug Fixes
+
+* use correct names when collecting builtin plugins ([#75](https://github.com/snakemake/snakemake-interface-executor-plugins/issues/75)) ([359e8ed](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/359e8ed32990cbccbfeda7fe746ece19d12e75bf))
+
 ## [9.3.0](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v9.2.0...v9.3.0) (2024-10-04)
 
 
