@@ -1,5 +1,12 @@
 # Changelog
 
+## [9.3.0](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v9.2.0...v9.3.0) (2024-10-04)
+
+
+### Features
+
+* load builtin snakemake executor plugins ([#73](https://github.com/snakemake/snakemake-interface-executor-plugins/issues/73)) ([03ee96b](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/03ee96be5047d68f7d9de951ab75458e7c79d3e3))
+
 ## [9.2.0](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v9.1.1...v9.2.0) (2024-07-04)
 
 
