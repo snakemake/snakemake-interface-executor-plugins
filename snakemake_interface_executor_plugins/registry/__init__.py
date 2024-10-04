@@ -70,5 +70,6 @@ class ExecutorPluginRegistry(PluginRegistryBase):
             # snakemake not present, proceed without adding these plugins
             return
 
-        for executor in [local_executor, dryrun_executor, touch_executor]:
-            self.register_plugin(executor.__name__, executor)
+        self.register_plugin("local", local_executor)
+        self.register_plugin("dryrun", dryrun_executor)
+        self.register_plugin("touch", touch_executor)
