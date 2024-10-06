@@ -1,5 +1,12 @@
 # Changelog
 
+## [9.3.2](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v9.3.1...v9.3.2) (2024-10-06)
+
+
+### Bug Fixes
+
+* iteration over env vars ([#77](https://github.com/snakemake/snakemake-interface-executor-plugins/issues/77)) ([07135e5](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/07135e5d712344c53b6f99b3824fb97ea03c801b))
+
 ## [9.3.1](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v9.3.0...v9.3.1) (2024-10-04)
 
 
