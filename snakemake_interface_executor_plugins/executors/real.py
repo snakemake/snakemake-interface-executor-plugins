@@ -128,7 +128,7 @@ class RealExecutor(AbstractExecutor):
         declaration = ""
         envars = self.envvars()
         if self.common_settings.pass_envvar_declarations_to_cmd and envars:
-            defs = " ".join(f"{var}={value!r}" for var, value in envars)
+            defs = " ".join(f"{var}={value!r}" for var, value in envars.items())
             declaration = f"export {defs} &&"
         return declaration
 
