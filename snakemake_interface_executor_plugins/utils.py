@@ -42,10 +42,10 @@ def format_cli_pos_arg(value, quote=True, base64_encode: bool = False):
 
         return join_cli_args(fmt_item(key, val) for key, val in value.items())
     elif not_iterable(value):
-        return format_cli_value(value, base64_encode=base64_encode)
+        return format_cli_value(value, quote=quote, base64_encode=base64_encode)
     else:
         return join_cli_args(
-            format_cli_value(v, quote=True, base64_encode=base64_encode) for v in value
+            format_cli_value(v, quote=quote, base64_encode=base64_encode) for v in value
         )
 
 
