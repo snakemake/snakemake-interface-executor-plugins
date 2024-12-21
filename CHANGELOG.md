@@ -1,5 +1,12 @@
 # Changelog
 
+## [9.3.3](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v9.3.2...v9.3.3) (2024-12-21)
+
+
+### Bug Fixes
+
+* problem with spaces in path (by quoting CLI args) ([#79](https://github.com/snakemake/snakemake-interface-executor-plugins/issues/79)) ([404cd30](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/404cd302c3427f0c92b252f9e5800160051731b4))
+
 ## [9.3.2](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v9.3.1...v9.3.2) (2024-10-06)
 
 
