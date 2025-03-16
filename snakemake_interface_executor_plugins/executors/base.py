@@ -21,13 +21,16 @@ class SubmittedJobInfo:
 
 
 class AbstractExecutor(ABC):
+    workflow: WorkflowExecutorInterface
+    logger: LoggerExecutorInterface
+
     def __init__(
         self,
         workflow: WorkflowExecutorInterface,
         logger: LoggerExecutorInterface,
     ):
         self.workflow = workflow
-        self.dag = workflow.dag
+        self.dag = workflow.dag # we cant type annotate this because dag type is in snakemake
         self.logger = logger
 
     def get_resource_declarations_dict(self, job: JobExecutorInterface):
