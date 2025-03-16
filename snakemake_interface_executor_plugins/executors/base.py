@@ -30,7 +30,9 @@ class AbstractExecutor(ABC):
         logger: LoggerExecutorInterface,
     ):
         self.workflow = workflow
-        self.dag = workflow.dag # we cant type annotate this because dag type is in snakemake
+        self.dag = (
+            workflow.dag
+        )  # we cant type annotate this because dag type is in snakemake
         self.logger = logger
 
     def get_resource_declarations_dict(self, job: JobExecutorInterface):
