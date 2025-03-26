@@ -1,6 +1,6 @@
 # Stable interfaces and functionality for Snakemake executor plugins
 
-This package provides a stable interface for interactions between Snakemake and its executor plugins (WIP).
+This package provides a stable interface for interactions between Snakemake and its executor plugins.
 
 Plugins should implement the following skeleton to comply with this interface.
 It is recommended to use Snakemake's poetry plugin to set up this skeleton (and automated testing) within a python package, see https://github.com/snakemake/poetry-snakemake-plugin.

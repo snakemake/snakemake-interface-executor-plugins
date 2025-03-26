@@ -37,7 +37,6 @@ publish = { features = ["publish"] }
 [tool.pixi.feature.dev.pypi-dependencies]
 snakemake-interface-executor-plugins = { path = ".", editable = true }
 snakemake = { git = "https://github.com/snakemake/snakemake.git" }
-snakemake-interface-common = { git = "https://github.com/snakemake/snakemake-interface-common.git" }
 snakemake-executor-plugin-cluster-generic = { git = "https://github.com/snakemake/snakemake-executor-plugin-cluster-generic.git" }
 
 [tool.pixi.feature.dev.tasks.test]

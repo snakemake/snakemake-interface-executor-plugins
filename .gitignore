@@ -163,3 +163,4 @@ poetry.lock
 # pixi environments
 .pixi
 *.egg-info
+pixi.lock
