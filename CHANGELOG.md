@@ -1,5 +1,12 @@
 # Changelog
 
+## [9.3.4](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v9.3.3...v9.3.4) (2025-03-26)
+
+
+### Bug Fixes
+
+* if requested, properly encode Path types as base64 ([#84](https://github.com/snakemake/snakemake-interface-executor-plugins/issues/84)) ([8518425](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/8518425006e31376a4ac775574848a4ea510e76d))
+
 ## [9.3.3](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v9.3.2...v9.3.3) (2024-12-21)
 
 
