@@ -160,3 +160,7 @@ cython_debug/
 #.idea/
 
 poetry.lock
+# pixi environments
+.pixi
+*.egg-info
+pixi.lock

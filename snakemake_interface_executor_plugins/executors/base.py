@@ -46,7 +46,8 @@ class AbstractExecutor(ABC):
             for resource, value in job.resources.items()
             if isinstance(value, int)
             # need to check bool seperately because bool is a subclass of int
-            and isdigit(value) and resource not in excluded_resources
+            and isdigit(value)
+            and resource not in excluded_resources
         }
 
     def get_resource_declarations(self, job: JobExecutorInterface):
