@@ -12,7 +12,7 @@ import stat
 import sys
 import tempfile
 import threading
-from typing import Generator, List
+from typing import Generator, List, Optional
 from snakemake_interface_common.exceptions import WorkflowError
 from snakemake_interface_executor_plugins.executors.base import SubmittedJobInfo
 from snakemake_interface_executor_plugins.executors.real import RealExecutor
@@ -36,7 +36,20 @@ class RemoteExecutor(RealExecutor, ABC):
     also for the cloud.
     """
 
-    default_jobscript = "jobscript.sh"
+    # Class attributes with type annotations
+    default_jobscript: str = "jobscript.sh"
+    _next_seconds_between_status_checks: Optional[int]
+    max_status_checks_per_second: float
+    jobname: str
+    snakefile: str
+    is_default_jobscript: bool
+    jobscript: str
+    _tmpdir: Optional[str]
+    active_jobs: List[SubmittedJobInfo]
+    lock: threading.Lock
+    wait: bool
+    wait_thread: threading.Thread
+    status_rate_limiter: Throttler
 
     def __init__(
         self,
@@ -118,7 +131,7 @@ class RemoteExecutor(RealExecutor, ABC):
         ...
 
     def get_exec_mode(self) -> ExecMode:
-        return ExecMode.REMOTE
+        return ExecMode.REMOTE  # type: ignore
 
     def get_python_executable(self):
         return (
@@ -128,7 +141,7 @@ class RemoteExecutor(RealExecutor, ABC):
             else "python"
         )
 
-    def get_job_args(self, job: JobExecutorInterface):
+    def get_job_args(self, job: JobExecutorInterface, **kwargs):
         waitfiles_parameter = ""
         if SharedFSUsage.INPUT_OUTPUT in self.workflow.storage_settings.shared_fs_usage:
             wait_for_files = []
