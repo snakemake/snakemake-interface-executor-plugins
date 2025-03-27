@@ -12,7 +12,7 @@
 
 ### Bug Fixes
 
-* if requested, properly encode Path types as base64 ([#84](https://github.com/snakemake/snakemake-interface-executor-plugins/issues/84)) ([8518425](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/8518425006e31376a4ac775574848a4ea510e76d))
+* if requested, properly encode Path types as base64 ([#84](https://github.com/snakemake/snakemake-interface-executor-plugins/issues/84)) ([8518425](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/8518425006e31376a4ac775574848a4ea510e76d)). **Important** in case you use the setting `remote-job-local-storage-prefix`, you now no longer should escape environment variables that will be evaluated in the remote job with a leading backslash, see https://snakemake.github.io/snakemake-plugin-catalog/plugins/storage/fs.html#further-details.
 
 ## [9.3.3](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v9.3.2...v9.3.3) (2024-12-21)
 
