@@ -1,5 +1,12 @@
 # Changelog
 
+## [9.3.5](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v9.3.4...v9.3.5) (2025-03-27)
+
+
+### Bug Fixes
+
+* adapt CI job permissions to trusted publishing workflow ([47464a2](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/47464a24f859afca2393c81b057d285abd41418f))
+
 ## [9.3.4](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v9.3.3...v9.3.4) (2025-03-26)
 
 
