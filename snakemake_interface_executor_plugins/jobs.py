@@ -5,9 +5,10 @@ __license__ = "MIT"
 
 from abc import ABC, abstractmethod
 import sys
-from typing import Any, Iterable, Mapping, Optional, Sequence, Union
+from typing import Any, Iterable, Mapping, Optional, Sequence, Union, List
 
 from snakemake_interface_common.rules import RuleInterface
+from snakemake_interface_executor_plugins.utils import TargetSpec
 
 
 class JobExecutorInterface(ABC):
@@ -58,7 +59,7 @@ class JobExecutorInterface(ABC):
     def register(self, external_jobid: Optional[str] = None) -> None: ...
 
     @abstractmethod
-    def get_target_spec(self) -> str: ...
+    def get_target_spec(self) -> List[TargetSpec]: ...
 
     @abstractmethod
     def rules(self) -> Iterable[RuleInterface]: ...
