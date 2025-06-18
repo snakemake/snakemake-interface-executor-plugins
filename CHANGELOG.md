@@ -1,5 +1,12 @@
 # Changelog
 
+## [9.3.6](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v9.3.5...v9.3.6) (2025-06-18)
+
+
+### Bug Fixes
+
+* do not constrain resources in remote jobs ([#87](https://github.com/snakemake/snakemake-interface-executor-plugins/issues/87)) ([fd5edf5](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/fd5edf597a4bdf26df1ac4d89cb5c34d10bf8c13))
+
 ## [9.3.5](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v9.3.4...v9.3.5) (2025-03-27)
 
 
