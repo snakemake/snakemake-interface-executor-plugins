@@ -103,7 +103,6 @@ class RealExecutor(AbstractExecutor):
                     unneeded_temp_files,
                     skip=not unneeded_temp_files,
                 ),
-                self.get_resource_declarations(job),
             ]
         )
 
