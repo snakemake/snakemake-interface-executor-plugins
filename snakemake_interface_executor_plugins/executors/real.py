@@ -5,6 +5,8 @@ __license__ = "MIT"
 
 from abc import abstractmethod
 from typing import Dict
+
+from snakemake_interface_common import at_least_snakemake_version
 from snakemake_interface_executor_plugins.executors.base import (
     AbstractExecutor,
     SubmittedJobInfo,
@@ -79,32 +81,34 @@ class RealExecutor(AbstractExecutor):
 
     def get_job_args(self, job: JobExecutorInterface, **kwargs):
         unneeded_temp_files = list(self.workflow.dag.get_unneeded_temp_files(job))
-        return join_cli_args(
-            [
-                format_cli_arg(
-                    "--target-jobs", encode_target_jobs_cli_args(job.get_target_spec())
-                ),
-                # Restrict considered rules for faster DAG computation.
-                # This does not work for updated jobs because they need
-                # to be updated in the spawned process as well.
-                format_cli_arg(
-                    "--allowed-rules",
-                    job.rules,
-                    quote=False,
-                    skip=job.is_updated,
-                ),
-                # Ensure that a group uses its proper local groupid.
-                format_cli_arg("--local-groupid", job.jobid, skip=not job.is_group()),
-                format_cli_arg("--cores", kwargs.get("cores", self.cores)),
-                format_cli_arg("--attempt", job.attempt),
-                format_cli_arg("--force-use-threads", not job.is_group()),
-                format_cli_arg(
-                    "--unneeded-temp-files",
-                    unneeded_temp_files,
-                    skip=not unneeded_temp_files,
-                ),
-            ]
-        )
+        arg_list = [
+            format_cli_arg(
+                "--target-jobs", encode_target_jobs_cli_args(job.get_target_spec())
+            ),
+            # Restrict considered rules for faster DAG computation.
+            format_cli_arg(
+                "--allowed-rules",
+                job.rules,
+                quote=False,
+                # Via this fix: https://github.com/snakemake/snakemake/pull/3640
+                # --allowed-rules can be always used. The fix is released in
+                # snakemake 9.6.2. Before, --allowed-rules had to be skipped
+                # for jobs that have been updated after checkpoint evaluation.
+                skip=job.is_updated and not at_least_snakemake_version("9.6.2"),
+            ),
+            # Ensure that a group uses its proper local groupid.
+            format_cli_arg("--local-groupid", job.jobid, skip=not job.is_group()),
+            format_cli_arg("--cores", kwargs.get("cores", self.cores)),
+            format_cli_arg("--attempt", job.attempt),
+            format_cli_arg("--force-use-threads", not job.is_group()),
+            format_cli_arg(
+                "--unneeded-temp-files",
+                unneeded_temp_files,
+                skip=not unneeded_temp_files,
+            ),
+        ]
+
+        return join_cli_args(arg_list)
 
     @property
     def job_specific_local_groupid(self):

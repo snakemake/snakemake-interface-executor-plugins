@@ -7,7 +7,7 @@ license = { text = "MIT" }
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
-  "snakemake-interface-common>=1.17.4",
+  "snakemake-interface-common>=1.19.0",
   "throttler>=1.2.2",
   "argparse-dataclass>=2.0.0",
 ]
