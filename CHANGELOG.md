@@ -1,5 +1,12 @@
 # Changelog
 
+## [9.3.7](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v9.3.6...v9.3.7) (2025-06-23)
+
+
+### Bug Fixes
+
+* better handling of allowed rules in combination with snakemake &gt;=9.6.2 ([#89](https://github.com/snakemake/snakemake-interface-executor-plugins/issues/89)) ([6232764](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/623276464736841f770a0bd6a1576bff5af6d38e))
+
 ## [9.3.6](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v9.3.5...v9.3.6) (2025-06-18)
 
 
