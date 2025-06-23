@@ -80,9 +80,6 @@ class RealExecutor(AbstractExecutor):
         return []
 
     def get_job_args(self, job: JobExecutorInterface, **kwargs):
-
-
-
         unneeded_temp_files = list(self.workflow.dag.get_unneeded_temp_files(job))
         arg_list = [
             format_cli_arg(
@@ -94,8 +91,8 @@ class RealExecutor(AbstractExecutor):
                 job.rules,
                 quote=False,
                 # Via this fix: https://github.com/snakemake/snakemake/pull/3640
-                # --allowed-rules can be always used. The fix is released in 
-                # snakemake 9.6.2. Before, --allowed-rules had to be skipped 
+                # --allowed-rules can be always used. The fix is released in
+                # snakemake 9.6.2. Before, --allowed-rules had to be skipped
                 # for jobs that have been updated after checkpoint evaluation.
                 skip=job.is_updated and not at_least_snakemake_version("9.6.2"),
             ),
@@ -111,9 +108,7 @@ class RealExecutor(AbstractExecutor):
             ),
         ]
 
-        return join_cli_args(
-            arg_list
-        )
+        return join_cli_args(arg_list)
 
     @property
     def job_specific_local_groupid(self):
