@@ -1,5 +1,12 @@
 # Changelog
 
+## [9.3.8](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v9.3.7...v9.3.8) (2025-07-11)
+
+
+### Bug Fixes
+
+* add missing types for interface methods ([#91](https://github.com/snakemake/snakemake-interface-executor-plugins/issues/91)) ([119829d](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/119829d51984cd2a1282033f4941866befbfde2b))
+
 ## [9.3.7](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v9.3.6...v9.3.7) (2025-06-23)
 
 
