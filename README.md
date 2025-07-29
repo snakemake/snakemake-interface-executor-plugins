@@ -3,7 +3,7 @@
 This package provides a stable interface for interactions between Snakemake and its executor plugins.
 
 Plugins should implement the following skeleton to comply with this interface.
-It is recommended to use [Snakedeploy](https://snakedeploy.readthedocs.io) to set up the skeleton (and automated testing) within a python package, see https://snakedeploy.readthedocs.io/en/stable/snakemake_developers/scaffold_snakemake_plugins.html.
+It is recommended to use [Snakedeploy to set up the skeleton](https://snakedeploy.readthedocs.io/en/stable/snakemake_developers/scaffold_snakemake_plugins.html) (and automated testing) within a python package.
 
 ```python
 from dataclasses import dataclass, field
