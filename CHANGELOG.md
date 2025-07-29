@@ -1,5 +1,12 @@
 # Changelog
 
+## [9.3.9](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v9.3.8...v9.3.9) (2025-07-29)
+
+
+### Documentation
+
+* use snakedeploy ([8d5d1b1](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/8d5d1b1d7878c83f32113eeeff3e87ea97ee9e13))
+
 ## [9.3.8](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v9.3.7...v9.3.8) (2025-07-11)
 
 
