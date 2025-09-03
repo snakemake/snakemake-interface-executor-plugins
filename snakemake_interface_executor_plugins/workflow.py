@@ -9,6 +9,7 @@ from typing import Optional
 from snakemake_interface_executor_plugins.cli import (
     SpawnedJobArgsFactoryExecutorInterface,
 )
+from snakemake_interface_executor_plugins.dag import DAGExecutorInterface
 from snakemake_interface_executor_plugins.persistence import (
     PersistenceExecutorInterface,
 )
@@ -25,6 +26,10 @@ from snakemake_interface_executor_plugins.settings import (
 
 
 class WorkflowExecutorInterface(ABC):
+    @property
+    @abstractmethod
+    def dag(self) -> DAGExecutorInterface: ...
+
     @property
     @abstractmethod
     def spawned_job_args_factory(self) -> SpawnedJobArgsFactoryExecutorInterface: ...

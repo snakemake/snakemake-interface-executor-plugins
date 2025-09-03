@@ -9,6 +9,7 @@ from typing import Any, Dict, List, Optional
 
 from snakemake_interface_executor_plugins.jobs import JobExecutorInterface
 from snakemake_interface_executor_plugins.logging import LoggerExecutorInterface
+from snakemake_interface_executor_plugins.settings import ExecutorSettingsBase
 from snakemake_interface_executor_plugins.utils import format_cli_arg
 from snakemake_interface_executor_plugins.workflow import WorkflowExecutorInterface
 
@@ -25,9 +26,11 @@ class AbstractExecutor(ABC):
         self,
         workflow: WorkflowExecutorInterface,
         logger: LoggerExecutorInterface,
+        executor_settings: Optional[ExecutorSettingsBase],
     ):
         self.workflow = workflow
         self.dag = workflow.dag
+        self.executor_settings = executor_settings
         self.logger = logger
 
     def get_resource_declarations_dict(self, job: JobExecutorInterface):
