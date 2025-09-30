@@ -176,16 +176,10 @@ class StorageSettingsExecutorInterface(ABC):
         )
 
 
-class DeploymentMethod(SettingsEnumBase):
-    CONDA = 0
-    APPTAINER = 1
-    ENV_MODULES = 2
-
-
 class DeploymentSettingsExecutorInterface(ABC):
     @property
     @abstractmethod
-    def deployment_method(self) -> Set[DeploymentMethod]: ...
+    def deployment_method(self) -> Set[str]: ...
 
 
 class GroupSettingsExecutorInterface(ABC):
