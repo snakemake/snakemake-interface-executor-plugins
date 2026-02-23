@@ -142,6 +142,7 @@ class SharedFSUsage(SettingsEnumBase):
     SOURCES = 3
     STORAGE_LOCAL_COPIES = 4
     SOURCE_CACHE = 5
+    SOFTWARE_DEPLOYMENT_CACHE = 6
 
     @classmethod
     def choices(cls) -> List[str]:
@@ -176,16 +177,10 @@ class StorageSettingsExecutorInterface(ABC):
         )
 
 
-class DeploymentMethod(SettingsEnumBase):
-    CONDA = 0
-    APPTAINER = 1
-    ENV_MODULES = 2
-
-
 class DeploymentSettingsExecutorInterface(ABC):
     @property
     @abstractmethod
-    def deployment_method(self) -> Set[DeploymentMethod]: ...
+    def deployment_method(self) -> Set[str]: ...
 
 
 class GroupSettingsExecutorInterface(ABC):
