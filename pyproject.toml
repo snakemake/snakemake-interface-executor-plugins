@@ -50,7 +50,7 @@ cmd = [
 description = "Run tests and generate coverage report"
 
 
-[tool.pixi.feature.dev.dependencies]
+[tool.pixi.feature.dev.pypi-dependencies]
 pytest = ">=8.3.5,<9"
 ruff = ">=0.10.0,<0.11"
 mypy = ">=1.15.0,<2"
@@ -66,9 +66,9 @@ qc = { depends-on = ["format", "lint", "type-check"] }
 ignore_missing_imports = true
 
 # Publish
-[tool.pixi.feature.publish.dependencies]
+[tool.pixi.feature.publish.pypi-dependencies]
 twine = ">=6.1.0,<7"
-python-build = ">=1.2.2,<2"
+build = ">=1.2.2,<2"
 
 [tool.pixi.feature.publish.tasks]
 build = { cmd = "python -m build", description = "Build the package into the dist/ directory" }
