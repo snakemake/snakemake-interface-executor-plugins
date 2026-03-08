@@ -38,6 +38,10 @@ publish = { features = ["publish"] }
 snakemake-interface-executor-plugins = { path = ".", editable = true }
 snakemake = { git = "https://github.com/snakemake/snakemake.git" }
 snakemake-executor-plugin-cluster-generic = { git = "https://github.com/snakemake/snakemake-executor-plugin-cluster-generic.git" }
+pytest = ">=8.3.5,<9"
+ruff = ">=0.10.0,<0.11"
+mypy = ">=1.15.0,<2"
+pytest-cov = ">=6.0.0,<7"
 
 [tool.pixi.feature.dev.tasks.test]
 cmd = [
@@ -48,13 +52,6 @@ cmd = [
   "tests/tests.py"
 ]
 description = "Run tests and generate coverage report"
-
-
-[tool.pixi.feature.dev.pypi-dependencies]
-pytest = ">=8.3.5,<9"
-ruff = ">=0.10.0,<0.11"
-mypy = ">=1.15.0,<2"
-pytest-cov = ">=6.0.0,<7"
 
 [tool.pixi.feature.dev.tasks]
 format = "ruff format snakemake_interface_executor_plugins"
