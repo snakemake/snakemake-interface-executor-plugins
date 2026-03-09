@@ -22,13 +22,9 @@ fail_under = 60
 build-backend = "poetry.core.masonry.api"
 requires = ["poetry-core"]
 
-[tool.pixi.project]
+[tool.pixi.workspace]
 channels = ["conda-forge"]
 platforms = ["osx-arm64", "linux-64"]
-
-[tool.pixi.pypi-dependencies]
-
-[tool.pixi.tasks]
 
 [tool.pixi.environments]
 dev = { features = ["dev"] }
