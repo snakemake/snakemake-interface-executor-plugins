@@ -1,5 +1,16 @@
 # Changelog
 
+## [10.0.0](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v9.4.0...v10.0.0) (2026-03-09)
+
+
+### ⚠ BREAKING CHANGES
+
+* rename DeploymentSettingsExecutorInterface.deployment_method to deployment_methods, and let it return a set of str.
+
+### Bug Fixes
+
+* rename DeploymentSettingsExecutorInterface.deployment_method to deployment_methods, and let it return a set of str. ([965c74f](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/965c74fafe016b9cbf1b57557911ad218b247d1c))
+
 ## [9.4.0](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v9.3.9...v9.4.0) (2026-03-08)
 
 
