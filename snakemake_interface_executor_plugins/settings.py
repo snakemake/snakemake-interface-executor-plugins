@@ -173,6 +173,7 @@ class StorageSettingsExecutorInterface(ABC):
                 SharedFSUsage.PERSISTENCE,
                 SharedFSUsage.INPUT_OUTPUT,
                 SharedFSUsage.SOFTWARE_DEPLOYMENT,
+                SharedFSUsage.SOFTWARE_DEPLOYMENT_CACHE,
             )
         )
 
@@ -180,7 +181,7 @@ class StorageSettingsExecutorInterface(ABC):
 class DeploymentSettingsExecutorInterface(ABC):
     @property
     @abstractmethod
-    def deployment_method(self) -> Set[str]: ...
+    def deployment_methods(self) -> Set[str]: ...
 
 
 class GroupSettingsExecutorInterface(ABC):
