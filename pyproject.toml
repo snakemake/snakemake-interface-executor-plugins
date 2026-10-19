@@ -1,6 +1,6 @@
 [project]
 name = "snakemake-interface-executor-plugins"
-version = "9.3.9"
+version = "9.4.0"
 description = "This package provides a stable interface for interactions between Snakemake and its executor plugins."
 authors = [{ name = "Johannes Köster", email = "johannes.koester@uni-due.de" }]
 license = { text = "MIT" }
@@ -22,13 +22,9 @@ fail_under = 60
 build-backend = "poetry.core.masonry.api"
 requires = ["poetry-core"]
 
-[tool.pixi.project]
+[tool.pixi.workspace]
 channels = ["conda-forge"]
 platforms = ["osx-arm64", "linux-64"]
-
-[tool.pixi.pypi-dependencies]
-
-[tool.pixi.tasks]
 
 [tool.pixi.environments]
 dev = { features = ["dev"] }
@@ -38,6 +34,10 @@ publish = { features = ["publish"] }
 snakemake-interface-executor-plugins = { path = ".", editable = true }
 snakemake = { git = "https://github.com/snakemake/snakemake.git" }
 snakemake-executor-plugin-cluster-generic = { git = "https://github.com/snakemake/snakemake-executor-plugin-cluster-generic.git" }
+pytest = ">=8.3.5,<9"
+ruff = ">=0.10.0,<0.11"
+mypy = ">=1.15.0,<2"
+pytest-cov = ">=6.0.0,<7"
 
 [tool.pixi.feature.dev.tasks.test]
 cmd = [
@@ -49,13 +49,6 @@ cmd = [
 ]
 description = "Run tests and generate coverage report"
 
-
-[tool.pixi.feature.dev.dependencies]
-pytest = ">=8.3.5,<9"
-ruff = ">=0.10.0,<0.11"
-mypy = ">=1.15.0,<2"
-pytest-cov = ">=6.0.0,<7"
-
 [tool.pixi.feature.dev.tasks]
 format = "ruff format snakemake_interface_executor_plugins"
 lint = "ruff check"
@@ -66,9 +59,9 @@ qc = { depends-on = ["format", "lint", "type-check"] }
 ignore_missing_imports = true
 
 # Publish
-[tool.pixi.feature.publish.dependencies]
+[tool.pixi.feature.publish.pypi-dependencies]
 twine = ">=6.1.0,<7"
-python-build = ">=1.2.2,<2"
+build = ">=1.2.2,<2"
 
 [tool.pixi.feature.publish.tasks]
 build = { cmd = "python -m build", description = "Build the package into the dist/ directory" }

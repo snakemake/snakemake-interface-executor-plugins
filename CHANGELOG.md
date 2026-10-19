@@ -1,5 +1,12 @@
 # Changelog
 
+## [9.4.0](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v9.3.9...v9.4.0) (2026-03-08)
+
+
+### Features
+
+* add software deployment cache as item for shared fs usage ([#99](https://github.com/snakemake/snakemake-interface-executor-plugins/issues/99)) ([899de94](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/899de94f1cdf1f539b590675ebc8085a221ad4ca))
+
 ## [9.3.9](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v9.3.8...v9.3.9) (2025-07-29)
 
 
