@@ -161,7 +161,7 @@ class RemoteExecutor(RealExecutor, ABC):
             else:
                 waitfiles_parameter = format_cli_arg("--wait-for-files", wait_for_files)
 
-        return f"{super().get_job_args(job)} {waitfiles_parameter}"
+        return f"{super().get_job_args(job, **kwargs)} {waitfiles_parameter}"
 
     def report_job_submission(
         self, job_info: SubmittedJobInfo, register_job: bool = True

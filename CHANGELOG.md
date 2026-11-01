@@ -1,5 +1,54 @@
 # Changelog
 
+## [9.4.0](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v9.3.9...v9.4.0) (2026-03-08)
+
+
+### Features
+
+* add software deployment cache as item for shared fs usage ([#99](https://github.com/snakemake/snakemake-interface-executor-plugins/issues/99)) ([899de94](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/899de94f1cdf1f539b590675ebc8085a221ad4ca))
+
+## [9.3.9](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v9.3.8...v9.3.9) (2025-07-29)
+
+
+### Documentation
+
+* use snakedeploy ([8d5d1b1](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/8d5d1b1d7878c83f32113eeeff3e87ea97ee9e13))
+
+## [9.3.8](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v9.3.7...v9.3.8) (2025-07-11)
+
+
+### Bug Fixes
+
+* add missing types for interface methods ([#91](https://github.com/snakemake/snakemake-interface-executor-plugins/issues/91)) ([119829d](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/119829d51984cd2a1282033f4941866befbfde2b))
+
+## [9.3.7](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v9.3.6...v9.3.7) (2025-06-23)
+
+
+### Bug Fixes
+
+* better handling of allowed rules in combination with snakemake &gt;=9.6.2 ([#89](https://github.com/snakemake/snakemake-interface-executor-plugins/issues/89)) ([6232764](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/623276464736841f770a0bd6a1576bff5af6d38e))
+
+## [9.3.6](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v9.3.5...v9.3.6) (2025-06-18)
+
+
+### Bug Fixes
+
+* do not constrain resources in remote jobs ([#87](https://github.com/snakemake/snakemake-interface-executor-plugins/issues/87)) ([fd5edf5](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/fd5edf597a4bdf26df1ac4d89cb5c34d10bf8c13))
+
+## [9.3.5](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v9.3.4...v9.3.5) (2025-03-27)
+
+
+### Bug Fixes
+
+* adapt CI job permissions to trusted publishing workflow ([47464a2](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/47464a24f859afca2393c81b057d285abd41418f))
+
+## [9.3.4](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v9.3.3...v9.3.4) (2025-03-26)
+
+
+### Bug Fixes
+
+* if requested, properly encode Path types as base64 ([#84](https://github.com/snakemake/snakemake-interface-executor-plugins/issues/84)) ([8518425](https://github.com/snakemake/snakemake-interface-executor-plugins/commit/8518425006e31376a4ac775574848a4ea510e76d)). **Important** in case you use the setting `remote-job-local-storage-prefix`, you now no longer should escape environment variables that will be evaluated in the remote job with a leading backslash, see https://snakemake.github.io/snakemake-plugin-catalog/plugins/storage/fs.html#further-details.
+
 ## [9.3.3](https://github.com/snakemake/snakemake-interface-executor-plugins/compare/v9.3.2...v9.3.3) (2024-12-21)
 
 

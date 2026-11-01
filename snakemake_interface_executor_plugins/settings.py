@@ -1,8 +1,12 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import List, Sequence, Set
+from typing import Callable, Iterable, List, Sequence, Set
 
-from snakemake_interface_common.settings import SettingsEnumBase, TSettingsEnumBase
+from snakemake_interface_common.settings import (
+    SettingsEnumBase,
+    TContainer,
+    TSettingsEnumBase,
+)
 
 
 import snakemake_interface_common.plugin_registry.plugin
@@ -142,21 +146,25 @@ class SharedFSUsage(SettingsEnumBase):
     SOURCES = 3
     STORAGE_LOCAL_COPIES = 4
     SOURCE_CACHE = 5
+    SOFTWARE_DEPLOYMENT_CACHE = 6
 
     @classmethod
     def choices(cls) -> List[str]:
         return super().choices() + ["none"]
 
     @classmethod
-    def _parse_choices_into(cls, choices: str, container) -> List[TSettingsEnumBase]:
+    def _parse_choices_into(
+        cls,
+        choices: List[str],
+        container: Callable[[Iterable[TSettingsEnumBase]], TContainer],
+    ) -> TContainer:
         if "none" in choices:
             if len(choices) > 1:
                 raise ValueError(
                     "Cannot specify 'none' together with other shared filesystem usages."
                 )
             return container([])
-        else:
-            return container(cls.parse_choice(choice) for choice in choices)
+        return super()._parse_choices_into(choices, container)
 
 
 class StorageSettingsExecutorInterface(ABC):
@@ -172,20 +180,15 @@ class StorageSettingsExecutorInterface(ABC):
                 SharedFSUsage.PERSISTENCE,
                 SharedFSUsage.INPUT_OUTPUT,
                 SharedFSUsage.SOFTWARE_DEPLOYMENT,
+                SharedFSUsage.SOFTWARE_DEPLOYMENT_CACHE,
             )
         )
-
-
-class DeploymentMethod(SettingsEnumBase):
-    CONDA = 0
-    APPTAINER = 1
-    ENV_MODULES = 2
 
 
 class DeploymentSettingsExecutorInterface(ABC):
     @property
     @abstractmethod
-    def deployment_method(self) -> Set[DeploymentMethod]: ...
+    def deployment_methods(self) -> Set[str]: ...
 
 
 class GroupSettingsExecutorInterface(ABC):

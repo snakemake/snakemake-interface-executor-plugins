@@ -63,7 +63,10 @@ def format_cli_value(
     if isinstance(value, SettingsEnumBase):
         return value.item_to_choice()
     elif isinstance(value, Path):
-        return shlex.quote(str(value))
+        if base64_encode:
+            return encode_as_base64(str(value))
+        else:
+            return shlex.quote(str(value))
     elif isinstance(value, str):
         if is_quoted(value) and not base64_encode:
             # the value is already quoted, do not quote again
