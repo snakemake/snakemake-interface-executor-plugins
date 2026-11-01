@@ -4,7 +4,7 @@ __email__ = "johannes.koester@uni-due.de"
 __license__ = "MIT"
 
 from abc import abstractmethod
-from typing import Dict
+from typing import Mapping
 
 from snakemake_interface_common import at_least_snakemake_version
 from snakemake_interface_executor_plugins.executors.base import (
@@ -12,7 +12,7 @@ from snakemake_interface_executor_plugins.executors.base import (
     SubmittedJobInfo,
 )
 from snakemake_interface_executor_plugins.logging import LoggerExecutorInterface
-from snakemake_interface_executor_plugins.settings import ExecMode
+from snakemake_interface_executor_plugins.settings import ExecMode, ExecutorSettingsBase
 from snakemake_interface_executor_plugins.utils import (
     encode_target_jobs_cli_args,
     format_cli_arg,
@@ -23,6 +23,12 @@ from snakemake_interface_executor_plugins.workflow import WorkflowExecutorInterf
 
 
 class RealExecutor(AbstractExecutor):
+    # Class attributes with type annotations
+    workflow: WorkflowExecutorInterface
+    logger: LoggerExecutorInterface
+    executor_settings: ExecutorSettingsBase
+    snakefile: str
+
     def __init__(
         self,
         workflow: WorkflowExecutorInterface,
@@ -179,5 +185,5 @@ class RealExecutor(AbstractExecutor):
         )
         return args
 
-    def envvars(self) -> Dict[str, str]:
+    def envvars(self) -> Mapping[str, str]:
         return self.workflow.spawned_job_args_factory.envvars()

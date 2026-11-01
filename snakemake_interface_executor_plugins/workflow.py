@@ -21,6 +21,7 @@ from snakemake_interface_executor_plugins.settings import (
     GroupSettingsExecutorInterface,
     RemoteExecutionSettingsExecutorInterface,
     StorageSettingsExecutorInterface,
+    ExecutorSettingsBase,
 )
 
 
@@ -55,6 +56,10 @@ class WorkflowExecutorInterface(ABC):
 
     @property
     @abstractmethod
+    def executor_settings(self) -> ExecutorSettingsBase: ...
+
+    @property
+    @abstractmethod
     def resource_scopes(self): ...
 
     @property
@@ -72,3 +77,7 @@ class WorkflowExecutorInterface(ABC):
     @property
     @abstractmethod
     def scheduler(self) -> JobSchedulerExecutorInterface: ...
+
+    @property
+    @abstractmethod
+    def dag(self): ...
